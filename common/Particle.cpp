@@ -1,6 +1,6 @@
 #include "Particle.hpp"
 #include "Utils.hpp"
-#include "../Vector3D.hpp"
+#include "Vector3D.hpp"
 
 Particle::Particle()
 {
