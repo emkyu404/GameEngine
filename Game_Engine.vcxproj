@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\jade8\source\repos\GameEngine2\Libraries\include;D:\Game_Engine\Game_Engine\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\jade8\source\repos\GameEngine2\Libraries\lib;D:\Game_Engine\Game_Engine\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Documents\Enzo Dossiers\Chicoutimi\Cours UQAC\Trimestre Automne 2022\Maths Phyique JV\New GameEngine\GameEngine\Libraries\include;C:\Users\jade8\source\repos\GameEngine2\Libraries\include;D:\Game_Engine\Game_Engine\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Documents\Enzo Dossiers\Chicoutimi\Cours UQAC\Trimestre Automne 2022\Maths Phyique JV\New GameEngine\GameEngine\Libraries\lib;C:\Users\jade8\source\repos\GameEngine2\Libraries\lib;D:\Game_Engine\Game_Engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
