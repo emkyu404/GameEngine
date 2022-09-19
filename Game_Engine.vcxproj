@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Game_Engine\Game_Engine\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Game_Engine\Game_Engine\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\jade8\source\repos\GameEngine2\Libraries\include;D:\Game_Engine\Game_Engine\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\jade8\source\repos\GameEngine2\Libraries\lib;D:\Game_Engine\Game_Engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

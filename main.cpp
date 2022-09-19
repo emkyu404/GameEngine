@@ -6,11 +6,10 @@
 #include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Vector3D.hpp"
 
 int main() 
 {
-	/*
+	
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -48,7 +47,7 @@ int main()
 
 	} // Vérifie si on a appuyé sur la touche échap (ESC) ou si la fenêtre a été fermée
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		glfwWindowShouldClose(window) == 0);*/
+		glfwWindowShouldClose(window) == 0);
 
 	return 0;
 }

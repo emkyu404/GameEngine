@@ -38,22 +38,22 @@ public:
 
 	/*-------------- OPERATORS --------------*/
 
-	Vector3D* operator + (Vector3D* vector);
-	Vector3D* operator - (Vector3D* vector);
-	Vector3D* operator * (float scalar);
-	Vector3D* operator / (float scalar);
-	void operator = (Vector3D* Vector);
-	Vector3D* operator ^ (Vector3D* vector);
+	Vector3D operator + (Vector3D vector);
+	Vector3D operator - (Vector3D vector);
+	Vector3D operator * (float scalar);
+	Vector3D operator / (float scalar);
+	void operator = (Vector3D Vector);
+	Vector3D operator ^ (Vector3D vector);
 	float operator & (Vector3D vector);
 
 	/*-------------- METHODES --------------*/
 
 	void invert();
-	bool isEquals(Vector3D* vector);
+	bool isEquals(Vector3D vector);
 	float norm();
-	Vector3D* normalize();
+	Vector3D normalize();
 
-	/*-------------- AFFICHAGE --------------*/
+	/*-------------- PRINTS --------------*/
 
 	void print();
 

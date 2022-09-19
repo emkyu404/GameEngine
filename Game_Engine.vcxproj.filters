@@ -19,6 +19,12 @@
     <Filter Include="Fichiers d%27en-tête\imgui">
       <UniqueIdentifier>{70f6bca3-c10c-4e9d-a8b4-5407eced4e23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\common">
+      <UniqueIdentifier>{42d7f8a4-e7d8-4a25-bc84-e85b05028dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\common">
+      <UniqueIdentifier>{d46629a0-32c3-4ab9-b7f6-b6b5481b179f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
