@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <../Vector3D.hpp>
+#include <Vector3D.hpp>
 
 #define DEFAULT_DAMPING_VALUE 1
 
