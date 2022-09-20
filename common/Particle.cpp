@@ -44,8 +44,7 @@ void Particle::Integrate(float _deltaTime, Vector3D _sumForces) {
 	position = newPosition; 
 
 	// Update acceleration 
-	Utils _utils = *(new Utils()); 
-	Vector3D newAcceleration = _sumForces* GetInverseWeight() + *_utils.accelerationGravity;
+	// Vector3D newAcceleration = _sumForces* GetInverseWeight() + .accelerationGravity;
 
 	// Update velocity 
 	Vector3D newVelocity = velocity + acceleration * _deltaTime; 

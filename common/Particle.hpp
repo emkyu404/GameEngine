@@ -1,7 +1,7 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include <Vector3D.hpp>
+#include "common/Vector3D.hpp"
 
 #define DEFAULT_VALUE_WEIGHT 1
 #define DEFAULT_VALUE_DAMPING 0
@@ -47,6 +47,5 @@ public:
 	void SetWeight(float);
 	void SetInverseWeight(); 
 	void SetDamping(float); 
-
 }; 
 #endif
