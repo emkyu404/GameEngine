@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/Particle.hpp"
+#include "Particle.hpp"
 
 class ParticleForceGenerator
 {

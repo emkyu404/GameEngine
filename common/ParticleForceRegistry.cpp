@@ -1,4 +1,4 @@
-#include "common/Particle.hpp"
+#include "Particle.hpp"
 #include "ParticleForceGenerator.h"
 #include "ParticleForceRegistry.h"
 

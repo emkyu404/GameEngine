@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ParticleForceGenerator.h"
-#include "common/Vector3D.hpp"
+#include "Vector3D.hpp"
 
 class ParticleGravity : public ParticleForceGenerator
 {

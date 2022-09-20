@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ParticleForceGenerator.h"
-#include "common/Particle.hpp"
-#include "common/Vector3D.hpp"
+#include "Particle.hpp"
+#include "Vector3D.hpp"
 
 class ParticleForceRegistry
 {
