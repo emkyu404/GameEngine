@@ -7,6 +7,7 @@
 class ParticleForceRegistry
 {
 private:
+
 	struct ParticleForceEntry
 	{
 		Particle* particle; 
