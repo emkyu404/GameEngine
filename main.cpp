@@ -12,9 +12,6 @@ int main()
 	
 	if (!glfwInit())
 	{
-		fprintf(stderr, "Failed to initialize GLFW\n");
-		return -1;
-	}
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 
