@@ -9,10 +9,16 @@
 
 // Inclut GLM
 #include <GLM/glm.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
+#include <GLM/gtx/transform.hpp>
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+GLFWwindow* window;
+
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -27,9 +33,19 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
 
-unsigned int shaderProgram = 0;
-unsigned int VBO, VAO, EBO;
 
+
+void display() {
+	int display_w, display_h;
+	glfwGetFramebufferSize(window, &display_w, &display_h);
+	glViewport(0, 0, display_w, display_h);
+	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	
+	glDisableVertexAttribArray(0);
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 	/* ImGUI setup */
@@ -85,7 +101,7 @@ int main()
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 
 	// Ouvre une fenêtre et crée son contexte OpenGl
-	GLFWwindow* window; // (Dans le code source qui accompagne, cette variable est globale)
+	
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Tutorial 01", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
@@ -106,11 +122,13 @@ int main()
 	glBindVertexArray(VertexArrayID);
 
 	/* Tableau de vertices qui représentent les sommets de notre triangle */
-	static const GLfloat g_vertex_buffer_data[] = {
+	static GLfloat g_vertex_buffer_data[] = {
 	   -1.0f, -1.0f, 0.0f,
 	   1.0f, -1.0f, 0.0f,
 	   0.0f,  1.0f, 0.0f,
 	};
+
+	
 
 	/* -- Gestion du buffer (on fournit à OpenGL les informations du triangle) */
 	// This will identify our vertex buffer
@@ -129,12 +147,38 @@ int main()
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	setupImGUI(window, glsl_version);
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	
 
 
 	// Chargement des shaders
-
 	GLuint programID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
+
+	/* -- Matrice de projection -- */
+	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+
+	// Or, for an ortho camera :
+	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
+
+	// Camera matrix
+	glm::mat4 View = glm::lookAt(
+		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+		glm::vec3(0, 0, 0), // and looks at the origin
+		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+	);
+
+	// Model matrix : an identity matrix (model will be at the origin)
+	glm::mat4 Model = glm::mat4(1.0f);
+	// Our ModelViewProjection : multiplication of our 3 matrices
+	glm::mat4 mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
+
+	// Get a handle for our "MVP" uniform
+	// Only during the initialisation
+	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+
+
+	
+
 
 	do {
 
@@ -171,7 +215,7 @@ int main()
 
 
 
-		/*  On dessinge le triangle */
+		/*  On dessine le triangle */
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -183,21 +227,12 @@ int main()
 			0,                  // stride
 			(void*)0            // array buffer offset
 		);
-		
+		// Send our transformation to the currently bound shader, in the "MVP" uniform
+		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+		glUseProgram(programID); // precise which shader to use, define earlier in the code
 
-
-		int display_w, display_h;
-		glfwGetFramebufferSize(window, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
-
-		
-		glClearColor(clear_color.x* clear_color.w, clear_color.y* clear_color.w, clear_color.z* clear_color.w, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT);
-		glUseProgram(programID);
-		glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		glDisableVertexAttribArray(0);
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+		display();
 
 		glfwSwapBuffers(window);
 
