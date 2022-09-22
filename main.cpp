@@ -3,6 +3,7 @@
 #include "imgui_impl_glfw.h"
 
 #include <iostream>
+#include <vector>
 #include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
 #include "LoadShader.h"
@@ -12,39 +13,28 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtx/transform.hpp>
 
+// Moteur
+#include <Particle.hpp>
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 GLFWwindow* window;
+std::vector<Particle> particles;
+float gravity = 0.0f;
+Vector3D otherForce = Vector3D(0.0f, 0.0f, 0.0);
+bool gravityEnabled = false;
+bool otherForceEnabled = false;
+int particleCount = 10;
 
-
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
-
-
-
-void display() {
-	int display_w, display_h;
-	glfwGetFramebufferSize(window, &display_w, &display_h);
-	glViewport(0, 0, display_w, display_h);
-	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-	
-	glDisableVertexAttribArray(0);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+void spawnParticles() {
+	for (int i = 0; i < particleCount; ++i)
+	{
+		particles.push_back(Particle(Vector3D((-particleCount + i + 3.0f) * 2.5f, 0.0f, 0.0f)));
+		particles[i].SetMass(i*10); 
+	}
 }
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {
@@ -67,7 +57,6 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 
 int main() 
 {
-
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -115,6 +104,9 @@ int main()
 		return -1;
 	}
 
+	// Enbale GL functions
+	glEnable(GL_DEPTH_TEST);
+
 	/* --- Création du triangle --- */
 	/* Création du Vertex Array Object */
 	GLuint VertexArrayID;
@@ -139,8 +131,17 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	// Give our vertices to OpenGL.
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexAttribPointer(
+		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
 
 
 	// Assure que l'on peut capturer la touche d'échappement enfoncée ci-dessous
@@ -178,7 +179,8 @@ int main()
 
 
 	
-
+	// Initialisation
+	spawnParticles();
 
 	do {
 
@@ -189,50 +191,72 @@ int main()
 				// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 		glfwPollEvents();
 
+		// Clear and setup viewport
+		int display_w, display_h;
+		glfwGetFramebufferSize(window, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Time
+		float dt = ImGui::GetIO().DeltaTime;
+
+		// Update logic
+		for (auto&& particle : particles)
+		{
+			Vector3D sumForces = Vector3D(0.0f, 0.0f, 0.0f);
+
+			if (gravityEnabled)
+				sumForces = sumForces + Vector3D(0.0f, gravity * particle.GetMass(), 0.0f);
+
+			if (otherForceEnabled)
+				sumForces = sumForces + otherForce;
+
+			particle.Integrate(dt, sumForces);
+		}
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		static float f = 0.0f;
-		static int counter = 0;
-
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
+		ImGui::Begin("Engine");
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+		ImGui::Checkbox("Gravity enbale", &gravityEnabled);
+		ImGui::DragFloat("Gravity", &gravity, 0.1f, -10.f, 10.f);
+
+		ImGui::Checkbox("Other force enbale", &otherForceEnabled);
+		ImGui::DragFloat3("Other force", (float*)(&otherForce), 0.1f, -10.f, 10.f);
+
+		if (ImGui::Button("Reset particle"))
+		{
+			particles.clear();
+			spawnParticles();
+		}
 		ImGui::End();
 
-
-		// Rendering
 		ImGui::Render();
 
-
-
-		/*  On dessine le triangle */
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-		// Send our transformation to the currently bound shader, in the "MVP" uniform
-		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+		// Rendering
 		glUseProgram(programID); // precise which shader to use, define earlier in the code
 
-		display();
+		// Update des matrices
+		glm::mat4 viewProjection = Projection * View;
+
+		for (auto&& particle : particles)
+		{
+			Model = glm::translate(glm::vec3(particle.GetPosition().getX(), particle.GetPosition().getY(), particle.GetPosition().getZ()));
+			mvp = viewProjection * Model;
+
+			// Send our transformation to the currently bound shader, in the "MVP" uniform
+			// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+			glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+			glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		}
+
+		// Real draw for ImGui in foreground 
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(window);
 

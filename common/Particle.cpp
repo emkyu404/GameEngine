@@ -5,49 +5,46 @@
 /*-------------- CONSTRUCTORS --------------*/
 
 // Default constructor
-Particle::Particle() {
-	Particle(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),
-		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING); 
+Particle::Particle()
+	: Particle(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),
+		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+{
 }
 
 // Default constructor with position
-Particle::Particle(Vector3D _position) {
-	Particle(_position, Vector3D(0, 0, 0), Vector3D(0, 0, 0),
-		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING);
+Particle::Particle(Vector3D _position)
+	: Particle(_position, Vector3D(0, 0, 0), Vector3D(0, 0, 0),
+		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+{
 }
 
 // Default constructor with basic vectors 
-Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration) {
-	Particle(_position, _velocity, _acceleration, DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING);
+Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration)
+	: Particle(_position, _velocity, _acceleration, DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+{
 }
 
 // Default constructor with basic vectors and weight 
-Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _weight) {
-	Particle(_position, _velocity, _acceleration, _weight, DEFAULT_VALUE_DAMPING);
+Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass)
+	: Particle(_position, _velocity, _acceleration, _inverseMass, DEFAULT_VALUE_DAMPING)
+{
 }
 
 // Full customization constructor
-Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _weight, float _damping) {
+Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass, float _damping) {
 	position = _position;
 	velocity = _velocity;
 	acceleration = _acceleration;
-	weight = _weight;
+	inverseMass = _inverseMass;
 	damping = _damping; 
 }
 
 /*-------------- METHODES --------------*/
 
 void Particle::Integrate(float _deltaTime, Vector3D _sumForces) {
-	// Calculate new positon 
-	Vector3D newPosition = position + velocity * _deltaTime + (( acceleration * pow(_deltaTime, 2)) / 2);
-	position = newPosition; 
-
-	// Update acceleration 
-	// Vector3D newAcceleration = _sumForces* GetInverseWeight() + .accelerationGravity;
-
-	// Update velocity 
-	Vector3D newVelocity = velocity + acceleration * _deltaTime; 
-	velocity = newVelocity; 
+	acceleration = _sumForces * inverseMass;
+	velocity = velocity * damping + acceleration * _deltaTime;
+	position = position + velocity * _deltaTime;
 }
 
 /*-------------- GETTERS --------------*/
@@ -68,13 +65,13 @@ Vector3D Particle::GetAcceleration() {
 }
 
 // Return weight 
-float Particle::GetWeight() {
-	return weight;
+float Particle::GetMass() {
+	return 1.0f / inverseMass;
 }
 
 // Return inverse weight 
-float Particle::GetInverseWeight() {
-	return 1 / weight; 
+float Particle::GetInverseMass() {
+	return inverseMass; 
 }
 
 // Return damping
@@ -100,13 +97,13 @@ void Particle::SetAcceleration(Vector3D _acceleration) {
 }
 
 // Set weight
-void Particle::SetWeight(float _weight) {
-	weight = _weight; 
+void Particle::SetMass(float _mass) {
+	inverseMass = 1.0f / _mass;
 }
 
 // Change weight to inverse weight 
-void Particle::SetInverseWeight() {
-	weight = 1/weight; 
+void Particle::SetInverseMass(float _inverseMass) {
+	inverseMass = _inverseMass;
 }
 
 // Set damping 
