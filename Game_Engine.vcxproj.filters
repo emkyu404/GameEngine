@@ -25,6 +25,12 @@
     <Filter Include="Fichiers sources\common">
       <UniqueIdentifier>{d46629a0-32c3-4ab9-b7f6-b6b5481b179f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\shapes">
+      <UniqueIdentifier>{31bda780-bcfb-4ed3-b858-9f95d4f54d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\shapes">
+      <UniqueIdentifier>{79bfd1df-e61c-44ad-b50d-07db5ecce45d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="common\LoadShader.cpp">
       <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\Triangle.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\Sphere.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="common\LoadShader.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Shape.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Sphere.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Triangle.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
