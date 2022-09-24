@@ -10,10 +10,10 @@ Vector3D::Vector3D() {
 }
 
 // Parameter constructor
-Vector3D::Vector3D(float X, float Y, float Z) {
-	this->x = X;
-	this->y = Y;
-	this->z = Z;
+Vector3D::Vector3D(float _X, float _Y, float _Z) {
+	this->x = _X;
+	this->y = _Y;
+	this->z = _Z;
 }
 
 /*-------------- GETTERS --------------*/
@@ -41,74 +41,78 @@ float Vector3D::getZ() {
 /*-------------- SETTERS --------------*/
 
 // Set himself
-void Vector3D::setVector3D(float X, float Y, float Z) {
-	this->x = X;
-	this->y = Y;
-	this->z = Z;
+void Vector3D::setVector3D(float _X, float _Y, float _Z) {
+	this->x = _X;
+	this->y = _Y;
+	this->z = _Z;
 }
 
 // Set x
-void Vector3D::setX(float X) {
-	this->x = X;
+void Vector3D::setX(float _X) {
+	this->x = _X;
 }
 
 // Set y
-void Vector3D::setY(float Y) {
-	this->y = Y;
+void Vector3D::setY(float _Y) {
+	this->y = _Y;
 }
 
 // Set z
-void Vector3D::setZ(float Z) {
-	this->z = Z;
+void Vector3D::setZ(float _Z) {
+	this->z = _Z;
 }
 
 /*-------------- OPERATORS --------------*/
 
 // Addition two vectors
-Vector3D Vector3D::operator + (Vector3D vector) {
-	return Vector3D(vector.getX() + this->x, vector.getY() + this->y, vector.getZ() + this->z);
+Vector3D Vector3D::operator + (Vector3D _vector) {
+	return Vector3D(_vector.getX() + this->x, _vector.getY() + this->y, _vector.getZ() + this->z);
 }
 
 // Substract two vectors
-Vector3D Vector3D::operator - (Vector3D vector) {
-	return Vector3D(this->x - vector.getX(), this->y - vector.getY(), this->z - vector.getZ());
+Vector3D Vector3D::operator - (Vector3D _vector) {
+	return Vector3D(this->x - _vector.getX(), this->y - _vector.getY(), this->z - _vector.getZ());
 }
 
 // Product by a scalar
-Vector3D Vector3D::operator * (float scalar) {
-	return Vector3D(this->x * scalar, this->y * scalar, this->z * scalar);
+Vector3D Vector3D::operator * (float _scalar) {
+	return Vector3D(this->x * _scalar, this->y * _scalar, this->z * _scalar);
 }
 
 // Divide by a scalar
-Vector3D Vector3D::operator / (float scalar) {
-	if (scalar != 0) {
-		return Vector3D(this->x / scalar, this->y / scalar, this->z / scalar);
+Vector3D Vector3D::operator / (float _scalar) {
+	if (_scalar != 0) {
+		return Vector3D(this->x / _scalar, this->y / _scalar, this->z / _scalar);
 	}
 	return Vector3D();
 }
 
 // Equal 
-void Vector3D::operator = (Vector3D vector)
+void Vector3D::operator = (Vector3D _vector)
 {
-	this->x = vector.getX();
-	this->y = vector.getY();
-	this->z = vector.getZ();
+	this->x = _vector.getX();
+	this->y = _vector.getY();
+	this->z = _vector.getZ();
 }
 
 // Vectorial product
-Vector3D Vector3D::operator ^ (Vector3D vector) {
+Vector3D Vector3D::operator ^ (Vector3D _vector) {
 	Vector3D newVector = Vector3D();
 
-	newVector.setX((this->y * vector.getZ()) - (this->z * vector.getY()));
-	newVector.setY((this->z * vector.getX()) - (this->x * vector.getZ()));
-	newVector.setX((this->x * vector.getY()) - (this->y * vector.getX()));
+	newVector.setX((this->y * _vector.getZ()) - (this->z * _vector.getY()));
+	newVector.setY((this->z * _vector.getX()) - (this->x * _vector.getZ()));
+	newVector.setX((this->x * _vector.getY()) - (this->y * _vector.getX()));
 
 	return newVector;
 }
 
 // Scalar product
-float Vector3D::operator & (Vector3D vector) {
-	return (this->x * vector.getX() + this->y * vector.getY() + this->z * vector.getZ());
+float Vector3D::operator & (Vector3D _vector) {
+	return (this->x * _vector.getX() + this->y * _vector.getY() + this->z * _vector.getZ());
+}
+
+Vector3D Vector3D::operator += (Vector3D _vector) {
+	return Vector3D(this->x + _vector.getX(), this->y + _vector.getY(), this->z + _vector.getZ());
 }
 
 /*-------------- METHODES --------------*/
@@ -121,8 +125,8 @@ void Vector3D::invert() {
 }
 
 // Compare two vectors
-bool Vector3D::isEquals(Vector3D vector) {
-	if (this->x == vector.getX() && this->y == vector.getY() && this->z == vector.getZ()) {
+bool Vector3D::isEquals(Vector3D _vector) {
+	if (this->x == _vector.getX() && this->y == _vector.getY() && this->z == _vector.getZ()) {
 		return true;
 	}
 	return false;
