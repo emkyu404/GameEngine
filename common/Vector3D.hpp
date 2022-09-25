@@ -20,7 +20,7 @@ public:
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Vector3D();
-	Vector3D(float X, float Y, float Z);
+	Vector3D(float _X, float _Y, float _Z);
 
 	/*-------------- GETTERS --------------*/
 
@@ -31,25 +31,26 @@ public:
 
 	/*-------------- SETTERS --------------*/
 
-	void setVector3D(float X, float Y, float Z);
-	void setX(float X);
-	void setY(float Y);
-	void setZ(float Z);
+	void setVector3D(float _X, float _Y, float _Z);
+	void setX(float _X);
+	void setY(float _Y);
+	void setZ(float _Z);
 
 	/*-------------- OPERATORS --------------*/
 
-	Vector3D operator + (Vector3D vector);
-	Vector3D operator - (Vector3D vector);
-	Vector3D operator * (float scalar);
-	Vector3D operator / (float scalar);
-	void operator = (Vector3D Vector);
-	Vector3D operator ^ (Vector3D vector);
-	float operator & (Vector3D vector);
+	Vector3D operator + (Vector3D _vector);
+	Vector3D operator - (Vector3D _vector);
+	Vector3D operator * (float _scalar);
+	Vector3D operator / (float _scalar);
+	void operator = (Vector3D _vector);
+	Vector3D operator ^ (Vector3D _vector);
+	float operator & (Vector3D _vector);
+	Vector3D operator += (Vector3D _vector);
 
 	/*-------------- METHODES --------------*/
 
 	void invert();
-	bool isEquals(Vector3D vector);
+	bool isEquals(Vector3D _vector);
 	float norm();
 	Vector3D normalize();
 
