@@ -16,7 +16,6 @@
 // Moteur
 #include <Particle.hpp>
 
-
 //Shapes
 #include "shapes/Triangle.h"
 
@@ -30,18 +29,101 @@ static GLFWwindow* window; //GLFW window context
 
 std::vector<Particle> particles; // list of particles 
 
-static float gravity = 0.0f;
+static float gravity = -10.0f;
 static Vector3D otherForce = Vector3D(0.0f, 0.0f, 0.0);
 static bool gravityEnabled = false;
 static bool otherForceEnabled = false;
-static int particleCount = 5;
+static int particleCount = 1;
 
 static GLuint m_triangleProgramID, MatrixID;
 static Triangle triangle;
 
 static mat4 View,Projection ,mvp, Model;
 
-void initializeGL() {
+void initGL();
+void paintGL();
+void spawnParticles(int numberOfParticle);
+void setupImGUI(GLFWwindow* window, const char* glsl_version);
+void renderImGUIFrame();
+void initProjectionMatrix();
+void mainLoop();
+
+int main()
+{
+	if (!glfwInit())
+	{
+		fprintf(stderr, "Failed to initialize GLFW\n");
+		return -1;
+	}
+
+	/* Code from ImGUI example */
+	// Decide GL+GLSL versions (for ImGUI)
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+	// GL ES 2.0 + GLSL 100
+	const char* glsl_version = "#version 100";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+#elif defined(__APPLE__)
+	// GL 3.2 + GLSL 150
+	const char* glsl_version = "#version 150";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+#else
+	// GL 3.0 + GLSL 130
+	const char* glsl_version = "#version 130";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
+#endif
+
+	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+
+	// Open OpenGL Window and create context
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
+	if (window == NULL) {
+		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window); // Initialise GLEW
+	glewExperimental = true;
+
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		return -1;
+	}
+
+	// Enable GL functions
+	glEnable(GL_DEPTH_TEST);
+
+	// Make sure we can capture keys
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+	setupImGUI(window, glsl_version); // Setup ImGUI
+
+	initGL(); // Initialize shapes to be rendered
+
+	initProjectionMatrix(); // Initialize projection matrix
+
+	spawnParticles(particleCount); // Set particles to be spawn
+
+	mainLoop(); // Main render loop
+
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
+	glfwDestroyWindow(window);
+	glfwTerminate();
+	return 0;
+}
+
+void initGL() {
 	// Chargement des shaders
 	m_triangleProgramID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 	GLuint vertexPosition_modelspaceID = glGetAttribLocation(m_triangleProgramID, "vertexPosition_modelspace");
@@ -64,7 +146,7 @@ void spawnParticles(int numberOfParticle) {
 	for (int i = 0; i < numberOfParticle; i++)
 	{
 		particles.push_back(Particle(Vector3D((-numberOfParticle + i + 3.0f) * 2.5f, 0.0f, 0.0f)));
-		particles[i].SetMass(i*10); 
+		particles[i].SetMass(10); 
 	}
 }
 
@@ -95,7 +177,7 @@ void renderImGUIFrame() {
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-	ImGui::Checkbox("Gravity enbale", &gravityEnabled);
+	ImGui::Checkbox("enable Gravity", &gravityEnabled);
 	ImGui::DragFloat("Gravity", &gravity, 0.1f, -10.f, 10.f);
 
 	ImGui::Checkbox("Other force enbale", &otherForceEnabled);
@@ -129,7 +211,7 @@ void renderImGUIFrame() {
 void initProjectionMatrix() {
 	/* -- Matrice de projection -- */
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	Projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	Projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 100.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
@@ -155,11 +237,6 @@ void initProjectionMatrix() {
 void mainLoop() {
 	do {
 
-		// Poll and handle events (inputs, window resize, etc.)
-				// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-				// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-				// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-				// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 		glfwPollEvents();
 
 		// Clear and setup viewport
@@ -169,10 +246,9 @@ void mainLoop() {
 		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Time
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
-		// Update logic
+		// Update logic with our Vector3D class
 		for (auto&& particle : particles)
 		{
 			Vector3D sumForces = Vector3D(0.0f, 0.0f, 0.0f);
@@ -189,7 +265,7 @@ void mainLoop() {
 		renderImGUIFrame(); //Create the ImGUI Frame
 
 
-		// Update des matrices
+		// Update matrix
 		glm::mat4 viewProjection = Projection * View;
 
 		for (auto&& particle : particles)
@@ -205,81 +281,8 @@ void mainLoop() {
 		glfwSwapBuffers(window);
 
 
-	} // Vérifie si on a appuyé sur la touche échap (ESC) ou si la fenêtre a été fermée
+	} // Check if escape is pressed to close the window
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
 }
 
-int main() 
-{
-	if (!glfwInit())
-	{
-		fprintf(stderr, "Failed to initialize GLFW\n");
-		return -1;
-	}
-
-	// Decide GL+GLSL versions (for ImGUI)
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-	// GL ES 2.0 + GLSL 100
-	const char* glsl_version = "#version 100";
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-#elif defined(__APPLE__)
-	// GL 3.2 + GLSL 150
-	const char* glsl_version = "#version 150";
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-#else
-	// GL 3.0 + GLSL 130
-	const char* glsl_version = "#version 130";
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
-#endif
-
-	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-
-	// Ouvre une fenêtre et crée son contexte OpenGl
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
-	if (window == NULL) {
-		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window); // Initialise GLEW
-	glewExperimental = true; // Nécessaire dans le profil de base
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		return -1;
-	}
-
-	// Enable GL functions
-	glEnable(GL_DEPTH_TEST);
-
-	// Assure que l'on peut capturer la touche d'échappement enfoncée ci-dessous
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-
-	setupImGUI(window, glsl_version);
-	
-	initializeGL();
-
-	initProjectionMatrix();
-
-	// Initialisation
-	spawnParticles(particleCount);
-
-	mainLoop(); // Boucle de rendu
-	
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-
-	glfwDestroyWindow(window);
-	glfwTerminate();
-	return 0;
-}

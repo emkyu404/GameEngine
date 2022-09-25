@@ -8,6 +8,7 @@
 
 
 // Source code from : https://gist.github.com/zwzmzd/0195733fa1210346b00d#file-usage-cpp
+// not tested yet
 
 Sphere::Sphere()
 {
