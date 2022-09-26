@@ -115,6 +115,10 @@ Vector3D Vector3D::operator += (Vector3D _vector) {
 	return Vector3D(this->x + _vector.getX(), this->y + _vector.getY(), this->z + _vector.getZ());
 }
 
+Vector3D Vector3D::operator -= (Vector3D _vector) {
+	return Vector3D(this->x - _vector.getX(), this->y - _vector.getY(), this->z - _vector.getZ());
+}
+
 /*-------------- METHODES --------------*/
 
 // Invert coordinates of the vector

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -134,7 +134,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\LoadShader.cpp" />
+    <ClCompile Include="common\NaiveParticleContactGenerator.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\ParticleContact.cpp" />
+    <ClCompile Include="common\ParticleContactGenerator.cpp" />
+    <ClCompile Include="common\ParticleContactResolver.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
@@ -150,7 +154,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\LoadShader.h" />
+    <ClInclude Include="common\NaiveParticleContactGenerator.h" />
     <ClInclude Include="common\Particle.hpp" />
+    <ClInclude Include="common\ParticleContact.h" />
+    <ClInclude Include="common\ParticleContactGenerator.h" />
+    <ClInclude Include="common\ParticleContactResolver.h" />
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
