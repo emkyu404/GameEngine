@@ -24,5 +24,5 @@ public:
 
 	/*-------------- METHODES --------------*/
 
-	void UpdateForce(float duration); 
+	void UpdateForce(float _duration); 
 };
