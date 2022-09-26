@@ -75,6 +75,12 @@
     <ClCompile Include="shapes\Triangle.cpp">
       <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
+    <ClCompile Include="common\ParticleDrag.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleSpring.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
     <ClCompile Include="common\PhysicWorld.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
@@ -130,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="shapes\Triangle.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleSpring.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\PhysicWorld.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
