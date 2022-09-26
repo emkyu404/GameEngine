@@ -37,14 +37,16 @@ Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleratio
 	acceleration = _acceleration;
 	inverseMass = _inverseMass;
 	damping = _damping; 
+	forceAccumulator = Vector3D();
 }
 
 /*-------------- METHODES --------------*/
 
-void Particle::Integrate(float _deltaTime, Vector3D _sumForces) {
-	acceleration = _sumForces * inverseMass;
+void Particle::Integrate(float _deltaTime) {
+	acceleration = forceAccumulator * inverseMass;
 	velocity = velocity * damping + acceleration * _deltaTime;
 	position = position + velocity * _deltaTime;
+	ClearForce();
 }
 
 /*-------------- GETTERS --------------*/
@@ -109,4 +111,13 @@ void Particle::SetInverseMass(float _inverseMass) {
 // Set damping 
 void Particle::SetDamping(float _damping) {
 	damping = _damping; 
+}
+
+//
+void Particle::AddForce(Vector3D _newForce) {
+	forceAccumulator = forceAccumulator + _newForce;
+}
+
+void Particle::ClearForce() {
+	forceAccumulator = Vector3D();
 }
