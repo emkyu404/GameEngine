@@ -4,5 +4,5 @@
 void ParticleGravity::UpdateForce(Particle* _particle, float _duration)
 {
 	Vector3D F = m_gravity * _particle->GetMass();
-	_particle->Integrate(_duration, F);
+	_particle->AddForce(F);
 }

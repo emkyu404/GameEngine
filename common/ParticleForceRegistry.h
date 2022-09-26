@@ -17,7 +17,7 @@ private:
 		ParticleForceGenerator* forceGenerator; 
 	};
 
-	using Registry = vector<ParticleForceGenerator>;
+	using Registry = vector<ParticleForceEntry>;
 	Registry m_registry;
 
 public:
