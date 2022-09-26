@@ -136,11 +136,14 @@
     <ClCompile Include="common\LoadShader.cpp" />
     <ClCompile Include="common\NaiveParticleContactGenerator.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\ParticleDrag.cpp" />
     <ClCompile Include="common\ParticleContact.cpp" />
     <ClCompile Include="common\ParticleContactGenerator.cpp" />
     <ClCompile Include="common\ParticleContactResolver.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
+    <ClCompile Include="common\PhysicWorld.cpp" />
+    <ClCompile Include="common\ParticleSpring.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -159,9 +162,12 @@
     <ClInclude Include="common\ParticleContact.h" />
     <ClInclude Include="common\ParticleContactGenerator.h" />
     <ClInclude Include="common\ParticleContactResolver.h" />
+    <ClInclude Include="common\ParticleDrag.h" />
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
+    <ClInclude Include="common\PhysicWorld.h" />
+    <ClInclude Include="common\ParticleSpring.h" />
     <ClInclude Include="common\Vector3D.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

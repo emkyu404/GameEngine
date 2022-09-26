@@ -19,6 +19,9 @@
 //Shapes
 #include "shapes/Triangle.h"
 
+//PhysicWorld
+#include "PhysicWorld.h"
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
@@ -26,19 +29,13 @@ const unsigned int SCR_HEIGHT = 600;
 const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
-
-std::vector<Particle> particles; // list of particles 
-
-static float gravity = -10.0f;
-static Vector3D otherForce = Vector3D(0.0f, 0.0f, 0.0);
-static bool gravityEnabled = false;
-static bool otherForceEnabled = false;
-static int particleCount = 1;
-
 static GLuint m_triangleProgramID, MatrixID;
 static Triangle triangle;
 
 static mat4 View,Projection ,mvp, Model;
+
+static PhysicWorld physicWorld = PhysicWorld();
+static int particleCount = 1;
 
 void initGL();
 void paintGL();
@@ -57,29 +54,11 @@ int main()
 	}
 
 	/* Code from ImGUI example */
-	// Decide GL+GLSL versions (for ImGUI)
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-	// GL ES 2.0 + GLSL 100
-	const char* glsl_version = "#version 100";
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-#elif defined(__APPLE__)
-	// GL 3.2 + GLSL 150
-	const char* glsl_version = "#version 150";
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-#else
 	// GL 3.0 + GLSL 130
 	const char* glsl_version = "#version 130";
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
-#endif
-
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 
 	// Open OpenGL Window and create context
@@ -109,7 +88,7 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	spawnParticles(particleCount); // Set particles to be spawn
+	spawnParticles(physicWorld.numberOfParticles()); // Set particles to be spawn
 
 	mainLoop(); // Main render loop
 
@@ -145,8 +124,9 @@ void paintGL() {
 void spawnParticles(int numberOfParticle) {
 	for (int i = 0; i < numberOfParticle; i++)
 	{
-		particles.push_back(Particle(Vector3D((-numberOfParticle + i + 3.0f) * 2.5f, 0.0f, 0.0f)));
-		particles[i].SetMass(10); 
+		Particle p = Particle(Vector3D((-numberOfParticle + i + 3.0f) * 2.5f, 0.0f, 0.0f));
+		p.SetMass(1);
+		PhysicWorld::getInstance()->addParticle(p);
 	}
 }
 
@@ -177,30 +157,33 @@ void renderImGUIFrame() {
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
+	/*
 	ImGui::Checkbox("enable Gravity", &gravityEnabled);
 	ImGui::DragFloat("Gravity", &gravity, 0.1f, -10.f, 10.f);
 
 	ImGui::Checkbox("Other force enbale", &otherForceEnabled);
 	ImGui::DragFloat3("Other force", (float*)(&otherForce), 0.1f, -10.f, 10.f);
+	*/
 
 	if (ImGui::Button("Reset particle"))
 	{
-		particles.clear();
+		PhysicWorld::getInstance()->clear();
 		spawnParticles(particleCount);
 	}
 
 	if (ImGui::Button("Add Particle") && particleCount < 10)
 	{
 		particleCount++;
-		particles.clear();
-		spawnParticles(particleCount);
+		//TODO handle offset
+		Particle p = Particle(Vector3D((PhysicWorld::getInstance()->numberOfParticles() + 3.0f) * 2.5f, 0.0f, 0.0f));
+		p.SetMass(1);
+		PhysicWorld::getInstance()->addParticle(p);
 	}
 
 	if (ImGui::Button("RemoveParticle") && particleCount > 1) 
 	{
 		particleCount--;
-		particles.clear();
-		spawnParticles(particleCount);
+		PhysicWorld::getInstance()->removeParticle();
 	}
 
 	ImGui::End();
@@ -249,18 +232,7 @@ void mainLoop() {
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
 		// Update logic with our Vector3D class
-		for (auto&& particle : particles)
-		{
-			Vector3D sumForces = Vector3D(0.0f, 0.0f, 0.0f);
-
-			if (gravityEnabled)
-				sumForces = sumForces + Vector3D(0.0f, gravity * particle.GetMass(), 0.0f);
-
-			if (otherForceEnabled)
-				sumForces = sumForces + otherForce;
-
-			particle.Integrate(dt, sumForces);
-		}
+		PhysicWorld::getInstance()->applyForces(dt);
 
 		renderImGUIFrame(); //Create the ImGUI Frame
 
@@ -268,7 +240,7 @@ void mainLoop() {
 		// Update matrix
 		glm::mat4 viewProjection = Projection * View;
 
-		for (auto&& particle : particles)
+		for (auto&& particle : PhysicWorld::getInstance()->getParticles())
 		{
 			Model = glm::translate(glm::vec3(particle.GetPosition().getX(), particle.GetPosition().getY(), particle.GetPosition().getZ()));
 			mvp = viewProjection * Model;

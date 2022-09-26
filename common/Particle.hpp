@@ -16,6 +16,8 @@ private:
 	float inverseMass;
 	float damping;
 
+	Vector3D forceAccumulator;
+
 public:
 
 	/*-------------- CONSTRUCTORS --------------*/
@@ -28,7 +30,7 @@ public:
 
 	/*-------------- METHODES --------------*/
 
-	void Integrate(float deltaTime, Vector3D _sumForces);
+	void Integrate(float deltaTime);
 
 	/*-------------- GETTERS --------------*/
 		
@@ -47,5 +49,8 @@ public:
 	void SetMass(float);
 	void SetInverseMass(float); 
 	void SetDamping(float); 
+
+	void AddForce(Vector3D);
+	void ClearForce();
 }; 
 #endif

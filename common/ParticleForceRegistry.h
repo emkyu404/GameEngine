@@ -1,8 +1,11 @@
 #pragma once
 
+#include <vector>
 #include "ParticleForceGenerator.h"
 #include "Particle.hpp"
 #include "Vector3D.hpp"
+
+using namespace std;
 
 class ParticleForceRegistry
 {
@@ -14,9 +17,12 @@ private:
 		ParticleForceGenerator* forceGenerator; 
 	};
 
+	using Registry = vector<ParticleForceEntry>;
+	Registry m_registry;
+
 public:
 
 	/*-------------- METHODES --------------*/
 
-	void UpdateForce(float duration); 
+	void UpdateForce(float _duration); 
 };
