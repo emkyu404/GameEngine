@@ -1,2 +1,1 @@
 #include "ParticleContactGenerator.h"
-s
