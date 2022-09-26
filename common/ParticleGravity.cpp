@@ -3,7 +3,8 @@
 
 /*-------------- CONSTRUCTORS --------------*/
 
-ParticleGravity::ParticleGravity() : ParticleGravity(EARTH_GRAVITY)
+ParticleGravity::ParticleGravity() 
+	: ParticleGravity(EARTH_GRAVITY)
 {
 }
 

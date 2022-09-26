@@ -78,6 +78,9 @@
     <ClCompile Include="common\ParticleDrag.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\ParticleSpring.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -132,6 +135,9 @@
       <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
     <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleSpring.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>

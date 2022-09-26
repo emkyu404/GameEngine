@@ -138,6 +138,7 @@
     <ClCompile Include="common\ParticleDrag.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
+    <ClCompile Include="common\ParticleSpring.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
+    <ClInclude Include="common\ParticleSpring.h" />
     <ClInclude Include="common\Vector3D.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
