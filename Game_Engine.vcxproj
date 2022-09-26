@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="common\LoadShader.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\ParticleDrag.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="common\LoadShader.h" />
     <ClInclude Include="common\Particle.hpp" />
+    <ClInclude Include="common\ParticleDrag.h" />
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
