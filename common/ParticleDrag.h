@@ -3,6 +3,9 @@
 #include "ParticleForceGenerator.h"
 #include "Vector3D.hpp"
 
+#define DEFAULT_VALUE_K1 1 
+#define DEFAULT_VALUE_K2 2
+
 class ParticleDrag : public ParticleForceGenerator
 {
 private:
@@ -11,6 +14,13 @@ private:
 	float m_k2; 
 
 public:
+
+	/*-------------- CONSTRUCTORS --------------*/
+
+	ParticleDrag(); 
+	ParticleDrag(float, float); 
+
+	/*-------------- METHODES --------------*/
 
 	void UpdateForce(Particle* particle, float duration);
 
