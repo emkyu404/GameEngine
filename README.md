@@ -15,3 +15,15 @@ If it's not working
 + Then click on "regenerate"
 + Execute the main.cpp
 
+
+# Phase 1 - Guide
+
++ A window is displayed with a triangle
++ Triangles represents particles
++ User is able to add up to 10 particles, with the same mass
++ User is able to enable gravity to be applied
++ User is able to enable another force to be applied (X, Y & Z values can be changed)
++ User is able to reset the initial position of particles
+
+![image](https://user-images.githubusercontent.com/55577930/192173999-031dc309-1ec7-45a4-b9fa-180e8ec56033.png)
+
