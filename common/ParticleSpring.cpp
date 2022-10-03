@@ -20,6 +20,6 @@ ParticleSpring::ParticleSpring(Particle* _m_other, float _k, float _restLength)
 void ParticleSpring::UpdateForce(Particle* _particle, float _duration)
 {
 	Vector3D d = _particle->GetPosition() - m_other->GetPosition(); 
-	Vector3D F = d.Normalize() * m_k * -1 * (d.Norm() - m_restLength);
+	Vector3D F = d.Normalize() * -1 * m_k * abs((d.Norm() - m_restLength));
 	_particle->AddForce(F);
 }
