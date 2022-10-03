@@ -11,7 +11,7 @@ class PhysicWorld
 {
 private:
 	static PhysicWorld* singleton; // singleton design pattern
-	vector<Particle> particles; // list of particles 
+	vector<Particle*> particles; // list of particles 
 	ParticleForceRegistry particleForceRegistry;
 
 
@@ -19,14 +19,16 @@ public:
 
 	PhysicWorld();
 	/* Methods */
-	void applyForces(float _duration);
-	void addParticle(Particle _newParticle);
-	void removeParticle();
-	void clear();
-	int numberOfParticles();
+	void ApplyForces(float _duration);
+	void AddParticle(Particle* _newParticle);
+	void RemoveParticle();
+	void Clear();
+	int NumberOfParticles();
 
-	vector<Particle> getParticles();
+	vector<Particle*> getParticles();
 
 	static PhysicWorld* getInstance();
 
+	void AddForceEntry(Particle* _newParticle, ParticleForceGenerator* _forceGenerator);
+	void RemoveForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator);
 };

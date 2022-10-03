@@ -11,6 +11,7 @@ class Particle
 {
 private:
 	Vector3D position;
+	Vector3D initialPosition; // useful for simulation to place the particle where it is;
 	Vector3D velocity;
 	Vector3D acceleration;
 	float inverseMass;
@@ -31,6 +32,7 @@ public:
 	/*-------------- METHODES --------------*/
 
 	void Integrate(float deltaTime);
+	void Reset();
 
 	/*-------------- GETTERS --------------*/
 		

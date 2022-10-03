@@ -22,6 +22,9 @@
 //PhysicWorld
 #include "PhysicWorld.h"
 
+//Forces
+#include "ParticleGravity.h"
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
@@ -35,6 +38,7 @@ static Triangle triangle;
 static mat4 View,Projection ,mvp, Model;
 
 static PhysicWorld physicWorld = PhysicWorld();
+static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
 static int particleCount = 1;
 
 void initGL();
@@ -88,7 +92,9 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	spawnParticles(physicWorld.numberOfParticles()); // Set particles to be spawn
+	Particle p = Particle();
+	p.SetMass(1);
+	PhysicWorld::getInstance()->AddParticle(&p);
 
 	mainLoop(); // Main render loop
 
@@ -126,7 +132,7 @@ void spawnParticles(int numberOfParticle) {
 	{
 		Particle p = Particle(Vector3D((-numberOfParticle + i + 3.0f) * 2.5f, 0.0f, 0.0f));
 		p.SetMass(1);
-		PhysicWorld::getInstance()->addParticle(p);
+		PhysicWorld::getInstance()->AddParticle(&p);
 	}
 }
 
@@ -165,12 +171,36 @@ void renderImGUIFrame() {
 	ImGui::DragFloat3("Other force", (float*)(&otherForce), 0.1f, -10.f, 10.f);
 	*/
 
-	if (ImGui::Button("Reset particle"))
+	if (ImGui::Button("Apply Gravity particle"))
 	{
-		PhysicWorld::getInstance()->clear();
-		spawnParticles(particleCount);
+		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+		{
+			PhysicWorld::getInstance()->AddForceEntry(particle, gravity);
+		}
 	}
 
+	if (ImGui::Button("Disable Gravity particle"))
+	{
+		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+		{
+
+			// Clear Velocity and Acceleration
+			particle->SetAcceleration(Vector3D());
+			particle->SetVelocity(Vector3D());
+
+			PhysicWorld::getInstance()->RemoveForceEntry(particle, gravity);
+		}
+	}
+
+	if (ImGui::Button("Reset"))
+	{
+		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+		{
+			particle->Reset();
+		}
+	}
+
+	/* TO CHANGE 
 	if (ImGui::Button("Add Particle") && particleCount < 10)
 	{
 		particleCount++;
@@ -185,6 +215,7 @@ void renderImGUIFrame() {
 		particleCount--;
 		PhysicWorld::getInstance()->removeParticle();
 	}
+	*/
 
 	ImGui::End();
 
@@ -232,7 +263,7 @@ void mainLoop() {
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
 		// Update logic with our Vector3D class
-		PhysicWorld::getInstance()->applyForces(dt);
+		PhysicWorld::getInstance()->ApplyForces(dt);
 
 		renderImGUIFrame(); //Create the ImGUI Frame
 
@@ -240,9 +271,9 @@ void mainLoop() {
 		// Update matrix
 		glm::mat4 viewProjection = Projection * View;
 
-		for (auto&& particle : PhysicWorld::getInstance()->getParticles())
+		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 		{
-			Model = glm::translate(glm::vec3(particle.GetPosition().getX(), particle.GetPosition().getY(), particle.GetPosition().getZ()));
+			Model = glm::translate(glm::vec3(particle->GetPosition().getX(), particle->GetPosition().getY(), particle->GetPosition().getZ()));
 			mvp = viewProjection * Model;
 			paintGL();
 		}

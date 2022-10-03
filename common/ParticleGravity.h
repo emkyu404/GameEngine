@@ -4,7 +4,7 @@
 #include "Vector3D.hpp"
 
 
-Vector3D EARTH_GRAVITY = Vector3D(0, -10.0f, 0); 
+const Vector3D EARTH_GRAVITY = Vector3D(0, -10.0f, 0); 
 
 class ParticleGravity : public ParticleForceGenerator
 {

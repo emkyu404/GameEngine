@@ -1,6 +1,6 @@
 #include "PhysicWorld.h"
 #include "Particle.hpp"
-
+#include "ParticleGravity.h"
 
 PhysicWorld::PhysicWorld()
 {
@@ -11,36 +11,51 @@ PhysicWorld* PhysicWorld::singleton = nullptr;;
 
 /*-------------- METHODS --------------*/
 
-void PhysicWorld::applyForces(float _duration) 
+void PhysicWorld::ApplyForces(float _duration) 
 {
-	// if no particle in the World
 	if (particles.size() <= 0) {
+		printf("No particle \n");
 		return;
 	}
+	
+	
 	particleForceRegistry.UpdateForce(_duration);
+	for (Particle* particle : particles) {
+		particle->Integrate(_duration);
+	}
 }
 
-void PhysicWorld::addParticle(Particle _newParticule) 
+void PhysicWorld::AddParticle(Particle* _newParticule) 
 {
 	particles.push_back(_newParticule);
-	printf("Add Particle");
 }
 
-void PhysicWorld::removeParticle() {
-	particles.pop_back();
+
+void PhysicWorld::AddForceEntry(Particle* _newParticule, ParticleForceGenerator* fg) {
+	particleForceRegistry.AddForceEntry(_newParticule, fg);
 }
 
-void PhysicWorld::clear() {
-	particles.clear();
+void PhysicWorld::RemoveForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator)
+{
+	particleForceRegistry.RemoveForceEntry(_targetParticle, _targetForceGenerator);
+}
+
+void PhysicWorld::RemoveParticle() {
+	//TODO 
+	//particles.pop_back();
+}
+
+void PhysicWorld::Clear() {
+	particleForceRegistry.Clear();
 }
 
 /* return size of vector particles */
-int PhysicWorld::numberOfParticles()
+int PhysicWorld::NumberOfParticles()
 {
 	return particles.size();
 }
 
-vector<Particle> PhysicWorld::getParticles() 
+vector<Particle*> PhysicWorld::getParticles() 
 {
 	return particles;
 }

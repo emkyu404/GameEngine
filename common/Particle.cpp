@@ -33,6 +33,7 @@ Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleratio
 // Full customization constructor
 Particle::Particle(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass, float _damping) {
 	position = _position;
+	initialPosition = position;
 	velocity = _velocity;
 	acceleration = _acceleration;
 	inverseMass = _inverseMass;
@@ -47,6 +48,14 @@ void Particle::Integrate(float _deltaTime) {
 	velocity = velocity * damping + acceleration * _deltaTime;
 	position = position + velocity * _deltaTime;
 	ClearForce();
+}
+
+void Particle::Reset()
+{
+	position = initialPosition;
+	velocity = Vector3D();
+	acceleration = Vector3D();
+	forceAccumulator = Vector3D();
 }
 
 /*-------------- GETTERS --------------*/

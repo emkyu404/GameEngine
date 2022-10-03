@@ -78,4 +78,4 @@ void Triangle::draw() {
         std::cout << "please call init() before draw()" << std::endl;
     }
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-}
+} 
