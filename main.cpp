@@ -1,6 +1,7 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
+#include <string>
 
 #include <iostream>
 #include <vector>
@@ -24,6 +25,10 @@
 
 //Forces
 #include "ParticleGravity.h"
+#include "ParticleDrag.h"
+#include "ParticleSpring.h"
+#include "ParticleAnchoredSpring.h"
+#include "ParticleBuoyancy.h"
 
 using namespace glm;
 
@@ -39,6 +44,11 @@ static mat4 View,Projection ,mvp, Model;
 
 static PhysicWorld physicWorld = PhysicWorld();
 static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
+static ParticleForceGenerator* drag = new ParticleDrag(); 
+//static ParticleForceGenerator* spring = new ParticleSpring();
+//static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
+static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
+
 static int particleCount = 1;
 
 void initGL();
@@ -96,6 +106,14 @@ int main()
 	p.SetMass(1);
 	PhysicWorld::getInstance()->AddParticle(&p);
 
+	Particle p2 = Particle();
+	p2.SetMass(3);
+	PhysicWorld::getInstance()->AddParticle(&p2);
+
+	Particle p3 = Particle();
+	p3.SetMass(4);
+	PhysicWorld::getInstance()->AddParticle(&p3);
+
 	mainLoop(); // Main render loop
 
 
@@ -151,6 +169,59 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
+}
+
+void rendererImGUIParticlesList()
+{
+	ImGui::ShowDemoWindow(); 
+
+	ImGui::Begin("Particles");
+
+	float particleIndex = 0.0f; 
+
+	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	{
+		particleIndex++;
+		ImGui::Text("Particle %.0f", particleIndex); 
+
+		string text_mass = std::string("Set inverse mass##") + std::to_string(particleIndex);
+		string text_gravity = std::string("Apply Gravity##") + std::to_string(particleIndex);
+		string text_drag = std::string("Apply Drag##") + std::to_string(particleIndex);
+		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(particleIndex);
+
+		if (ImGui::CollapsingHeader("Customization particle"))
+		{
+			Vector3D position = particle->GetPosition(); 
+			Vector3D velocity = particle->GetAcceleration(); 
+			Vector3D acceleration = particle->GetAcceleration(); 
+
+			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
+			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
+			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
+
+			if (ImGui::Button(text_mass.c_str()))
+			{
+				printf("%f", particle->GetInverseMass());
+			}
+
+			if (ImGui::Button(text_gravity.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, gravity);
+			}
+
+			if (ImGui::Button(text_drag.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, drag);
+			}
+
+			if (ImGui::Button(text_buoyancy.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, buoyancy);
+			}
+		}
+	}
+
+	ImGui::End();
 }
 
 void renderImGUIFrame() {
@@ -218,6 +289,9 @@ void renderImGUIFrame() {
 	*/
 
 	ImGui::End();
+
+	rendererImGUIParticlesList(); 
+
 
 	ImGui::Render();
 }

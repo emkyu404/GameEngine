@@ -87,6 +87,21 @@
     <ClCompile Include="common\ParticleContactResolver.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\ParticleDrag.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="common\PhysicWorld.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleSpring.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleAnchoredSpring.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleBuoyancy.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -139,7 +154,7 @@
     </ClInclude>
     <ClInclude Include="shapes\Triangle.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
-    </ClInclude> 
+    </ClInclude>
     <ClInclude Include="common\ParticleContactResolver.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
@@ -150,6 +165,21 @@
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\ParticleContact.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PhysicWorld.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleSpring.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleBuoyancy.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleAnchoredSpring.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>
