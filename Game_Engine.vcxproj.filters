@@ -139,9 +139,7 @@
     </ClInclude>
     <ClInclude Include="shapes\Triangle.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
-    <ClInclude Include="shapes\Triangle.h">
-      <Filter>Fichiers d%27en-tête\shapes</Filter>
-    </ClInclude>
+    </ClInclude> 
     <ClInclude Include="common\ParticleContactResolver.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
