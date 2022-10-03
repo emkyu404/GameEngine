@@ -153,6 +153,8 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleAnchoredSpring.cpp" />
+    <ClCompile Include="ParticleBuoyancy.cpp" />
     <ClCompile Include="shapes\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +180,8 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="ParticleAnchoredSpring.h" />
+    <ClInclude Include="ParticleBuoyancy.h" />
     <ClInclude Include="shapes\Shape.h" />
     <ClInclude Include="shapes\Triangle.h" />
   </ItemGroup>
