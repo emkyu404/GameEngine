@@ -136,12 +136,17 @@
     <ClCompile Include="common\LoadShader.cpp" />
     <ClCompile Include="common\NaiveParticleContactGenerator.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\ParticleAnchoredSpring.cpp" />
+    <ClCompile Include="common\ParticleBuoyancy.cpp" />
+    <ClCompile Include="common\ParticleCable.cpp" />
     <ClCompile Include="common\ParticleDrag.cpp" />
     <ClCompile Include="common\ParticleContact.cpp" />
     <ClCompile Include="common\ParticleContactGenerator.cpp" />
     <ClCompile Include="common\ParticleContactResolver.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
+    <ClCompile Include="common\ParticleLink.cpp" />
+    <ClCompile Include="common\ParticleRod.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\ParticleSpring.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
@@ -153,14 +158,15 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ParticleAnchoredSpring.cpp" />
-    <ClCompile Include="ParticleBuoyancy.cpp" />
     <ClCompile Include="shapes\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\LoadShader.h" />
     <ClInclude Include="common\NaiveParticleContactGenerator.h" />
     <ClInclude Include="common\Particle.hpp" />
+    <ClInclude Include="common\ParticleAnchoredSpring.h" />
+    <ClInclude Include="common\ParticleBuoyancy.h" />
+    <ClInclude Include="common\ParticleCable.h" />
     <ClInclude Include="common\ParticleContact.h" />
     <ClInclude Include="common\ParticleContactGenerator.h" />
     <ClInclude Include="common\ParticleContactResolver.h" />
@@ -168,6 +174,8 @@
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
+    <ClInclude Include="common\ParticleLink.h" />
+    <ClInclude Include="common\ParticleRod.h" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\ParticleSpring.h" />
     <ClInclude Include="common\Vector3D.hpp" />
@@ -180,8 +188,6 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="ParticleAnchoredSpring.h" />
-    <ClInclude Include="ParticleBuoyancy.h" />
     <ClInclude Include="shapes\Shape.h" />
     <ClInclude Include="shapes\Triangle.h" />
   </ItemGroup>

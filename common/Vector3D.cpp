@@ -147,6 +147,13 @@ Vector3D Vector3D::Normalize() {
 	return (*this / Norm());
 }
 
+// Clear the Vector
+void Vector3D::clear() {
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
+}
+
 /*-------------- AFFICHAGE --------------*/
 
 void Vector3D::print() {
