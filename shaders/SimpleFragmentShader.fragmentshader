@@ -1,7 +1,8 @@
-#version 330 core
+#version 120
 
-out vec3 color;
+uniform vec3 my_color;
 
 void main(){
-  color = vec3(1,0,0);
+  gl_FragColor.rgb = my_color;
+  gl_FragColor.a = 1; // the alpha component
 }

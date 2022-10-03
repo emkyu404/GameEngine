@@ -1,15 +1,15 @@
 #pragma once
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef CUBE_H
+#define CUBE_H
 
 #include <GLEW/glew.h>
 #include "Shape.h"
 
-class Triangle : public Shape
+class Cube : public Shape
 {
 public:
-    Triangle();
-    ~Triangle();
+    Cube();
+    ~Cube();
     void init();
     void cleanup();
     void draw();
@@ -19,4 +19,4 @@ private:
     GLuint m_vao, m_vboVertex, m_vboIndex;
 };
 
-#endif // TRIANGLE_H
+#endif // CUBE_H

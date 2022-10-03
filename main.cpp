@@ -17,6 +17,8 @@
 #include <Particle.hpp>
 
 //Shapes
+#include "shapes/Cube.h"
+#include "shapes/Grid.h"
 #include "shapes/Triangle.h"
 
 //PhysicWorld
@@ -32,14 +34,17 @@ const unsigned int SCR_HEIGHT = 600;
 const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
-static GLuint m_triangleProgramID, MatrixID;
-static Triangle triangle;
+static GLuint m_ProgramID, MatrixID;
+static Shape* particleShape;
+static Shape* grid;
 
 static mat4 View,Projection ,mvp, Model;
 
 static PhysicWorld physicWorld = PhysicWorld();
 static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
 static int particleCount = 1;
+
+const static GLuint vao, vbo, ibo;
 
 void initGL();
 void paintGL();
@@ -110,21 +115,39 @@ int main()
 
 void initGL() {
 	// Chargement des shaders
-	m_triangleProgramID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
-	GLuint vertexPosition_modelspaceID = glGetAttribLocation(m_triangleProgramID, "vertexPosition_modelspace");
+	m_ProgramID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 
 	//Chargement OpenGL
-	triangle.init(vertexPosition_modelspaceID);
+	particleShape = new Cube();
+	particleShape->init();
+	//grid->init();
 }
 
 void paintGL() {
-	// Précision du shader à utiliser
-	glUseProgram(m_triangleProgramID);
+	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Send our transformation to the currently bound shader, in the "MVP" uniform
-	// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-	triangle.draw();
+	// Update matrix
+	glm::mat4 viewProjection = Projection * View;
+	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	{
+		Model = glm::translate(glm::vec3(particle->GetPosition().getX(), particle->GetPosition().getY(), particle->GetPosition().getZ()));
+		mvp = viewProjection * Model;
+		// Précision du shader à utiliser
+		glUseProgram(m_ProgramID);
+
+		// Send our transformation to the currently bound shader, in the "MVP" uniform
+		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+
+		GLint color_location = glGetUniformLocation(m_ProgramID, "my_color");
+		float color[3] = { 0.0f, 1.0f, 0.0f };
+		glUniform3fv(color_location, 1, color);
+
+		//Color test
+		particleShape->draw();
+	}
+	
 }
 
 void spawnParticles(int numberOfParticle) {
@@ -245,7 +268,7 @@ void initProjectionMatrix() {
 
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
-	MatrixID = glGetUniformLocation(m_triangleProgramID, "MVP");
+	MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
 }
 
 void mainLoop() {
@@ -253,30 +276,19 @@ void mainLoop() {
 
 		glfwPollEvents();
 
-		// Clear and setup viewport
-		int display_w, display_h;
-		glfwGetFramebufferSize(window, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
-		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
 		// Update logic with our Vector3D class
 		PhysicWorld::getInstance()->ApplyForces(dt);
 
 		renderImGUIFrame(); //Create the ImGUI Frame
+		// Clear and setup viewport
+		int display_w, display_h;
+		glfwGetFramebufferSize(window, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
+		
 
-
-		// Update matrix
-		glm::mat4 viewProjection = Projection * View;
-
-		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
-		{
-			Model = glm::translate(glm::vec3(particle->GetPosition().getX(), particle->GetPosition().getY(), particle->GetPosition().getZ()));
-			mvp = viewProjection * Model;
-			paintGL();
-		}
+		paintGL();
 
 		// Real draw for ImGui in foreground 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

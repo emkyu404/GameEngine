@@ -9,19 +9,16 @@
 
 Triangle::Triangle() {
 	isInited = false;
-	m_vao = 0;
-	m_vboVertex = 0;
-	m_vboIndex = 0;
 }
 
 Triangle::~Triangle() {
 
 }
 
-void Triangle::init(GLuint vertexPositionID) {
+void Triangle::init() {
     //init Triangle
-	glGenVertexArrays(1, &vertexPositionID);
-	glBindVertexArray(vertexPositionID);
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
 
 	/* Tableau de vertices qui représentent les sommets de notre triangle */
 	static GLfloat g_vertex_buffer_data[] = {

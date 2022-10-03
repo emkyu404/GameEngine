@@ -1,15 +1,17 @@
 #pragma once
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef GRID_H
+#define GRID_H
 
 #include <GLEW/glew.h>
 #include "Shape.h"
 
-class Triangle : public Shape
+const int SLICES = 10;
+
+class Grid : public Shape
 {
 public:
-    Triangle();
-    ~Triangle();
+    Grid();
+    ~Grid();
     void init();
     void cleanup();
     void draw();
@@ -17,6 +19,7 @@ public:
 private:
     bool isInited;
     GLuint m_vao, m_vboVertex, m_vboIndex;
+    int slices, length;
 };
 
-#endif // TRIANGLE_H
+#endif // CUBE_H

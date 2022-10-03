@@ -1,11 +1,11 @@
 #pragma once
 #ifndef SHAPE_H
-#define SPHERE_H
+#define SHAPE_H
 #include <GLEW/glew.h>
 
 class Shape {
 	public:
-		virtual void init(GLuint vertexPositionID) = 0;
+		virtual void init() = 0;
 		virtual void cleanup() = 0;
 		virtual void draw() = 0;
 };

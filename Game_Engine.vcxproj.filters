@@ -31,6 +31,9 @@
     <Filter Include="Fichiers d%27en-tête\shapes">
       <UniqueIdentifier>{79bfd1df-e61c-44ad-b50d-07db5ecce45d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\shaders">
+      <UniqueIdentifier>{64e1aa8f-ac19-4b41-be4c-014e3df1f19c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +90,21 @@
     <ClCompile Include="common\ParticleContactResolver.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\PhysicWorld.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleAnchoredSpring.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleBuoyancy.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\Cube.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\Grid.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -139,7 +157,7 @@
     </ClInclude>
     <ClInclude Include="shapes\Triangle.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
-    </ClInclude> 
+    </ClInclude>
     <ClInclude Include="common\ParticleContactResolver.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
@@ -152,5 +170,40 @@
     <ClInclude Include="common\ParticleContact.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
+    <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PhysicWorld.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleSpring.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleAnchoredSpring.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleBuoyancy.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Cube.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Grid.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\DiscFragmentShader.fragmentshader">
+      <Filter>Fichiers sources\shaders</Filter>
+    </None>
+    <None Include="shaders\DiscVertexShader.vertexshader">
+      <Filter>Fichiers sources\shaders</Filter>
+    </None>
+    <None Include="shaders\SimpleFragmentShader.fragmentshader">
+      <Filter>Fichiers sources\shaders</Filter>
+    </None>
+    <None Include="shaders\SimpleVertexShader.vertexshader">
+      <Filter>Fichiers sources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
