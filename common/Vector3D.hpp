@@ -46,6 +46,7 @@ public:
 	Vector3D operator ^ (Vector3D _vector);
 	float operator & (Vector3D _vector);
 	Vector3D operator += (Vector3D _vector);
+	Vector3D operator -= (Vector3D _vector);
 
 	/*-------------- METHODES --------------*/
 
