@@ -138,12 +138,15 @@
     <ClCompile Include="common\Particle.cpp" />
     <ClCompile Include="common\ParticleAnchoredSpring.cpp" />
     <ClCompile Include="common\ParticleBuoyancy.cpp" />
+    <ClCompile Include="common\ParticleCable.cpp" />
     <ClCompile Include="common\ParticleDrag.cpp" />
     <ClCompile Include="common\ParticleContact.cpp" />
     <ClCompile Include="common\ParticleContactGenerator.cpp" />
     <ClCompile Include="common\ParticleContactResolver.cpp" />
     <ClCompile Include="common\ParticleForceRegistry.cpp" />
     <ClCompile Include="common\ParticleGravity.cpp" />
+    <ClCompile Include="common\ParticleLink.cpp" />
+    <ClCompile Include="common\ParticleRod.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\ParticleSpring.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
@@ -163,6 +166,7 @@
     <ClInclude Include="common\Particle.hpp" />
     <ClInclude Include="common\ParticleAnchoredSpring.h" />
     <ClInclude Include="common\ParticleBuoyancy.h" />
+    <ClInclude Include="common\ParticleCable.h" />
     <ClInclude Include="common\ParticleContact.h" />
     <ClInclude Include="common\ParticleContactGenerator.h" />
     <ClInclude Include="common\ParticleContactResolver.h" />
@@ -170,6 +174,8 @@
     <ClInclude Include="common\ParticleForceGenerator.h" />
     <ClInclude Include="common\ParticleForceRegistry.h" />
     <ClInclude Include="common\ParticleGravity.h" />
+    <ClInclude Include="common\ParticleLink.h" />
+    <ClInclude Include="common\ParticleRod.h" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\ParticleSpring.h" />
     <ClInclude Include="common\Vector3D.hpp" />
