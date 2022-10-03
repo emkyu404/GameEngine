@@ -20,9 +20,11 @@ public:
 	PhysicWorld();
 	/* Methods */
 	void ApplyForces(float _duration);
-	void AddParticle(Particle* _newParticle);
-	void RemoveParticle();
-	void Clear();
+
+	void AddParticle(); 
+	void RemoveParticle(Particle* _targetParticle);
+
+	void Clear(); // Remove all particle
 	int NumberOfParticles();
 
 	vector<Particle*> getParticles();

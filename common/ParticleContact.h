@@ -8,14 +8,13 @@ public :
 	float restitution;
 	float penetration;
 	Vector3D contactNormal;
+	Vector3D particleMovement[2];
 
-protected :
-
-	void resolve(float duration);
+	void resolve(float _duration);
 	float calculateSeparatingVelocity() const;
 
 private :
 
-	void resolveVelocity();
+	void resolveVelocity(float _duration);
 	void resolveInterpenetration();
 };

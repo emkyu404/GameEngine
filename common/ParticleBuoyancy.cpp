@@ -3,6 +3,11 @@
 
 /*-------------- CONSTRUCTORS --------------*/
 
+ParticleBuoyancy::ParticleBuoyancy()
+	: ParticleBuoyancy(DEFAULT_MAX_DEPTH, DEFAULT_VOLUME, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY)
+{
+}
+
 ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume)
 	: ParticleBuoyancy(_m_maxDepth, _m_volume, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY)
 {

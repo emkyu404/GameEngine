@@ -90,7 +90,13 @@
     <ClCompile Include="common\ParticleContactResolver.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
-    <ClCompile Include="common\PhysicWorld.cpp">
+    <ClCompile Include="common\ParticleRod.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleLink.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleCable.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="common\ParticleAnchoredSpring.cpp">
@@ -104,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="shapes\Grid.cpp">
       <Filter>Fichiers sources\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="common\PhysicWorld.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ParticleDrag.cpp">
+      <Filter>Fichiers sources\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,14 +182,23 @@
     <ClInclude Include="common\ParticleContact.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
-    <ClInclude Include="common\ParticleDrag.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="common\ParticleRod.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
-    <ClInclude Include="common\PhysicWorld.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="common\ParticleLink.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleCable.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\ParticleSpring.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PhysicWorld.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\ParticleAnchoredSpring.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
@@ -190,6 +211,15 @@
     </ClInclude>
     <ClInclude Include="shapes\Grid.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ParticleSpring.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PhysicWorld.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

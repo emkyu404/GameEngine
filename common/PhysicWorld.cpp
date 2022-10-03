@@ -14,7 +14,6 @@ PhysicWorld* PhysicWorld::singleton = nullptr;;
 void PhysicWorld::ApplyForces(float _duration) 
 {
 	if (particles.size() <= 0) {
-		printf("No particle \n");
 		return;
 	}
 	
@@ -25,24 +24,34 @@ void PhysicWorld::ApplyForces(float _duration)
 	}
 }
 
-void PhysicWorld::AddParticle(Particle* _newParticule) 
+void PhysicWorld::AddParticle() 
 {
-	particles.push_back(_newParticule);
+	Particle* _newParticle = new Particle();
+	_newParticle->SetMass(1);
+	particles.push_back(_newParticle);
+}
+
+void PhysicWorld::RemoveParticle(Particle* _targetParticle)
+{
+	particles.erase(
+		remove_if(
+			particles.begin(),
+			particles.end(),
+			[&](const Particle* p)
+			{ return p == _targetParticle;
+			}),
+		particles.end()
+	);
 }
 
 
-void PhysicWorld::AddForceEntry(Particle* _newParticule, ParticleForceGenerator* fg) {
-	particleForceRegistry.AddForceEntry(_newParticule, fg);
+void PhysicWorld::AddForceEntry(Particle* _newParticle, ParticleForceGenerator* fg) {
+	particleForceRegistry.AddForceEntry(_newParticle, fg);
 }
 
 void PhysicWorld::RemoveForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator)
 {
 	particleForceRegistry.RemoveForceEntry(_targetParticle, _targetForceGenerator);
-}
-
-void PhysicWorld::RemoveParticle() {
-	//TODO 
-	//particles.pop_back();
 }
 
 void PhysicWorld::Clear() {

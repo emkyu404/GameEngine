@@ -54,6 +54,7 @@ public:
 	bool isEquals(Vector3D _vector);
 	float Norm();
 	Vector3D Normalize();
+	void clear();
 
 	/*-------------- PRINTS --------------*/
 

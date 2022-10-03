@@ -1,6 +1,7 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
+#include <string>
 
 #include <iostream>
 #include <vector>
@@ -26,6 +27,10 @@
 
 //Forces
 #include "ParticleGravity.h"
+#include "ParticleDrag.h"
+#include "ParticleSpring.h"
+#include "ParticleAnchoredSpring.h"
+#include "ParticleBuoyancy.h"
 
 using namespace glm;
 
@@ -42,15 +47,20 @@ static mat4 View,Projection ,mvp, Model;
 
 static PhysicWorld physicWorld = PhysicWorld();
 static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
+static ParticleForceGenerator* drag = new ParticleDrag(); 
+//static ParticleForceGenerator* spring = new ParticleSpring();
+//static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
+static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
+
 static int particleCount = 1;
 
 const static GLuint vao, vbo, ibo;
 
 void initGL();
 void paintGL();
-void spawnParticles(int numberOfParticle);
+void initParticles();
 void setupImGUI(GLFWwindow* window, const char* glsl_version);
-void renderImGUIFrame();
+void renderImGUIMainFrame();
 void initProjectionMatrix();
 void mainLoop();
 
@@ -97,12 +107,9 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	Particle p = Particle();
-	p.SetMass(1);
-	PhysicWorld::getInstance()->AddParticle(&p);
+	initParticles();
 
 	mainLoop(); // Main render loop
-
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
@@ -124,6 +131,7 @@ void initGL() {
 }
 
 void paintGL() {
+	//Clear screen
 	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -141,7 +149,7 @@ void paintGL() {
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
 		GLint color_location = glGetUniformLocation(m_ProgramID, "my_color");
-		float color[3] = { 0.0f, 1.0f, 0.0f };
+		float color[3] = { 1.0f, 0.8f, 0.2f };
 		glUniform3fv(color_location, 1, color);
 
 		//Color test
@@ -150,12 +158,11 @@ void paintGL() {
 	
 }
 
-void spawnParticles(int numberOfParticle) {
-	for (int i = 0; i < numberOfParticle; i++)
+void initParticles() 
+{
+	for (int i = 0; i < particleCount; ++i)
 	{
-		Particle p = Particle(Vector3D((-numberOfParticle + i + 3.0f) * 2.5f, 0.0f, 0.0f));
-		p.SetMass(1);
-		PhysicWorld::getInstance()->AddParticle(&p);
+		PhysicWorld::getInstance()->AddParticle();
 	}
 }
 
@@ -176,23 +183,71 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 }
 
-void renderImGUIFrame() {
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+void renderImGUIParticlesList()
+{
+	ImGui::Begin("Particles");
+
+	float particleIndex = 0.0f; 
+
+	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	{
+		particleIndex++;
+		ImGui::Text("Particle %.0f", particleIndex); 
+
+		string text_mass = std::string("Set inverse mass##") + std::to_string(particleIndex);
+		string text_gravity = std::string("Apply Gravity##") + std::to_string(particleIndex);
+		string text_drag = std::string("Apply Drag##") + std::to_string(particleIndex);
+		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(particleIndex);
+		string text_remove = std::string("Remove Particle##") + std::to_string(particleIndex);
+
+		if (ImGui::CollapsingHeader("Customization particle"))
+		{
+			Vector3D position = particle->GetPosition(); 
+			Vector3D velocity = particle->GetAcceleration(); 
+			Vector3D acceleration = particle->GetAcceleration(); 
+
+			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
+			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
+			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
+
+			if (ImGui::Button(text_mass.c_str()))
+			{
+				printf("%f", particle->GetInverseMass());
+			}
+
+			if (ImGui::Button(text_gravity.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, gravity);
+			}
+
+			if (ImGui::Button(text_drag.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, drag);
+			}
+
+			if (ImGui::Button(text_buoyancy.c_str()))
+			{
+				PhysicWorld::getInstance()->AddForceEntry(particle, buoyancy);
+			}
+
+			if (ImGui::Button(text_remove.c_str()))
+			{
+				PhysicWorld::getInstance()->RemoveParticle(particle);
+			}
+		}
+	}
+
+	ImGui::End();
+}
+
+
+
+void renderImGUIMainFrame() {
+	
 
 	ImGui::Begin("Engine");
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-	/*
-	ImGui::Checkbox("enable Gravity", &gravityEnabled);
-	ImGui::DragFloat("Gravity", &gravity, 0.1f, -10.f, 10.f);
-
-	ImGui::Checkbox("Other force enbale", &otherForceEnabled);
-	ImGui::DragFloat3("Other force", (float*)(&otherForce), 0.1f, -10.f, 10.f);
-	*/
 
 	if (ImGui::Button("Apply Gravity particle"))
 	{
@@ -223,25 +278,22 @@ void renderImGUIFrame() {
 		}
 	}
 
-	/* TO CHANGE 
-	if (ImGui::Button("Add Particle") && particleCount < 10)
+	if (ImGui::Button("Add Particle"))
 	{
-		particleCount++;
-		//TODO handle offset
-		Particle p = Particle(Vector3D((PhysicWorld::getInstance()->numberOfParticles() + 3.0f) * 2.5f, 0.0f, 0.0f));
-		p.SetMass(1);
-		PhysicWorld::getInstance()->addParticle(p);
+		PhysicWorld::getInstance()->AddParticle();
 	}
-
-	if (ImGui::Button("RemoveParticle") && particleCount > 1) 
-	{
-		particleCount--;
-		PhysicWorld::getInstance()->removeParticle();
-	}
-	*/
 
 	ImGui::End();
+}
 
+void renderImGUI()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+	renderImGUIMainFrame();
+	renderImGUIParticlesList();
 	ImGui::Render();
 }
 
@@ -281,7 +333,7 @@ void mainLoop() {
 		// Update logic with our Vector3D class
 		PhysicWorld::getInstance()->ApplyForces(dt);
 
-		renderImGUIFrame(); //Create the ImGUI Frame
+		renderImGUI(); //Create the ImGUI Frame
 		// Clear and setup viewport
 		int display_w, display_h;
 		glfwGetFramebufferSize(window, &display_w, &display_h);
