@@ -65,6 +65,11 @@ Vector3D Particle::GetPosition() {
 	return position; 
 }
 
+// Return initial positon 
+Vector3D Particle::GetInitialPosition() {
+	return initialPosition; 
+}
+
 // Return velocity 
 Vector3D Particle::GetVelocity() {
 	return velocity;
@@ -95,6 +100,11 @@ float Particle::GetDamping() {
 // Set Vector3 position 
 void Particle::SetPosition(Vector3D _position) {
 	position = _position; 
+}
+
+void Particle::InitializePosition(Vector3D _initialPosition) {
+	position = _initialPosition; 
+	initialPosition = _initialPosition; 
 }
 
 // Set Vector3 velocity
