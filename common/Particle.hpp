@@ -37,6 +37,7 @@ public:
 	/*-------------- GETTERS --------------*/
 		
 	Vector3D GetPosition(); 
+	Vector3D GetInitialPosition(); 
 	Vector3D GetVelocity(); 
 	Vector3D GetAcceleration(); 
 	float GetMass(); 
@@ -46,6 +47,7 @@ public:
 	/*-------------- SETTERS --------------*/
 
 	void SetPosition(Vector3D); 
+	void InitializePosition(Vector3D); 
 	void SetVelocity(Vector3D);
 	void SetAcceleration(Vector3D);
 	void SetMass(float);
