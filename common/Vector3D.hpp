@@ -1,6 +1,4 @@
-#ifndef VECTOR3D_H
-#define VECTOR3D_H
-
+#pragma once
 
 #include <stdlib.h>
 #include <math.h>
@@ -62,4 +60,3 @@ public:
 	void print();
 
 };
-#endif
