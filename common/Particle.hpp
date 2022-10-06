@@ -31,30 +31,30 @@ public:
 
 	/*-------------- METHODES --------------*/
 
-	void Integrate(float deltaTime);
-	void Reset();
+	void integrate(float deltaTime);
+	void reset();
 
 	/*-------------- GETTERS --------------*/
 		
-	Vector3D GetPosition(); 
-	Vector3D GetInitialPosition(); 
-	Vector3D GetVelocity(); 
-	Vector3D GetAcceleration(); 
-	float GetMass(); 
-	float GetInverseMass(); 
-	float GetDamping(); 
+	Vector3D getPosition(); 
+	Vector3D getInitialPosition();
+	Vector3D getVelocity();
+	Vector3D getAcceleration();
+	float getMass();
+	float getInverseMass();
+	float getDamping();
 
 	/*-------------- SETTERS --------------*/
 
-	void SetPosition(Vector3D); 
-	void InitializePosition(Vector3D); 
-	void SetVelocity(Vector3D);
-	void SetAcceleration(Vector3D);
-	void SetMass(float);
-	void SetInverseMass(float); 
-	void SetDamping(float); 
+	void setPosition(Vector3D); 
+	void initializePosition(Vector3D); 
+	void setVelocity(Vector3D);
+	void setAcceleration(Vector3D);
+	void setMass(float);
+	void setInverseMass(float); 
+	void setDamping(float); 
 
-	void AddForce(Vector3D);
-	void ClearForce();
+	void addForce(Vector3D);
+	void clearForce();
 }; 
 #endif

@@ -137,14 +137,14 @@ bool Vector3D::isEquals(Vector3D _vector) {
 }
 
 // Norme
-float Vector3D::Norm() {
+float Vector3D::norm() {
 	// Norme = sqrt(x² + y² + z²)
 	return (float)sqrt(*this & *this);
 }
 
 // Normalize
-Vector3D Vector3D::Normalize() {
-	return (*this / Norm());
+Vector3D Vector3D::normalize() {
+	return (*this / norm());
 }
 
 // Clear the Vector

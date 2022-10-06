@@ -8,15 +8,13 @@ ParticleGravity::ParticleGravity()
 {
 }
 
-ParticleGravity::ParticleGravity(Vector3D _gravity)
-{
+ParticleGravity::ParticleGravity(Vector3D _gravity) {
 	m_gravity = _gravity; 
 }
 
 /*-------------- METHODES --------------*/
 
-void ParticleGravity::UpdateForce(Particle* _particle, float _duration)
-{
-	Vector3D F = m_gravity * _particle->GetMass();
-	_particle->AddForce(F);
+void ParticleGravity::updateForce(Particle* _particle, float _duration) {
+	Vector3D F = m_gravity * _particle->getMass();
+	_particle->addForce(F);
 }
