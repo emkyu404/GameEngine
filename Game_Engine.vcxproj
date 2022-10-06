@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>imgui;common;utilities;shaders;shapes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>imgui;common;utilities;shaders;shapes;common/contacts;common/forces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,19 +133,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="common\NaiveParticleContactGenerator.cpp" />
+    <ClCompile Include="common\contacts\NaiveParticleContactGenerator.cpp" />
+    <ClCompile Include="common\contacts\ParticleCable.cpp" />
+    <ClCompile Include="common\contacts\ParticleContact.cpp" />
+    <ClCompile Include="common\contacts\ParticleContactGenerator.cpp" />
+    <ClCompile Include="common\contacts\ParticleContactResolver.cpp" />
+    <ClCompile Include="common\contacts\ParticleLink.cpp" />
+    <ClCompile Include="common\contacts\ParticleRod.cpp" />
+    <ClCompile Include="common\forces\ParticleAnchoredSpring.cpp" />
+    <ClCompile Include="common\forces\ParticleBuoyancy.cpp" />
+    <ClCompile Include="common\forces\ParticleDrag.cpp" />
+    <ClCompile Include="common\forces\ParticleForceRegistry.cpp" />
+    <ClCompile Include="common\forces\ParticleGravity.cpp" />
+    <ClCompile Include="common\forces\ParticleSpring.cpp" />
     <ClCompile Include="common\Particle.cpp" />
-    <ClCompile Include="common\ParticleAnchoredSpring.cpp" />
-    <ClCompile Include="common\ParticleBuoyancy.cpp" />
-    <ClCompile Include="common\ParticleCable.cpp" />
-    <ClCompile Include="common\ParticleDrag.cpp" />
-    <ClCompile Include="common\ParticleContact.cpp" />
-    <ClCompile Include="common\ParticleContactGenerator.cpp" />
-    <ClCompile Include="common\ParticleContactResolver.cpp" />
-    <ClCompile Include="common\ParticleForceRegistry.cpp" />
-    <ClCompile Include="common\ParticleGravity.cpp" />
-    <ClCompile Include="common\ParticleLink.cpp" />
-    <ClCompile Include="common\ParticleRod.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -166,22 +167,22 @@
     <ClCompile Include="utilities\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common\NaiveParticleContactGenerator.h" />
+    <ClInclude Include="common\contacts\NaiveParticleContactGenerator.h" />
+    <ClInclude Include="common\contacts\ParticleCable.h" />
+    <ClInclude Include="common\contacts\ParticleContact.h" />
+    <ClInclude Include="common\contacts\ParticleContactGenerator.h" />
+    <ClInclude Include="common\contacts\ParticleContactResolver.h" />
+    <ClInclude Include="common\contacts\ParticleLink.h" />
+    <ClInclude Include="common\contacts\ParticleRod.h" />
+    <ClInclude Include="common\forces\ParticleAnchoredSpring.h" />
+    <ClInclude Include="common\forces\ParticleBuoyancy.h" />
+    <ClInclude Include="common\forces\ParticleDrag.h" />
+    <ClInclude Include="common\forces\ParticleForceGenerator.h" />
+    <ClInclude Include="common\forces\ParticleForceRegistry.h" />
+    <ClInclude Include="common\forces\ParticleGravity.h" />
+    <ClInclude Include="common\forces\ParticleSpring.h" />
     <ClInclude Include="common\Particle.hpp" />
-    <ClInclude Include="common\ParticleAnchoredSpring.h" />
-    <ClInclude Include="common\ParticleBuoyancy.h" />
-    <ClInclude Include="common\ParticleCable.h" />
-    <ClInclude Include="common\ParticleContact.h" />
-    <ClInclude Include="common\ParticleContactGenerator.h" />
-    <ClInclude Include="common\ParticleContactResolver.h" />
-    <ClInclude Include="common\ParticleDrag.h" />
-    <ClInclude Include="common\ParticleForceGenerator.h" />
-    <ClInclude Include="common\ParticleForceRegistry.h" />
-    <ClInclude Include="common\ParticleGravity.h" />
-    <ClInclude Include="common\ParticleLink.h" />
-    <ClInclude Include="common\ParticleRod.h" />
     <ClInclude Include="common\PhysicWorld.h" />
-    <ClInclude Include="common\ParticleSpring.h" />
     <ClInclude Include="common\Vector3D.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

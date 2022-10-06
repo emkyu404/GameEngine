@@ -43,6 +43,18 @@
     <Filter Include="Fichiers d%27en-tête\utilities">
       <UniqueIdentifier>{b8597f2f-f323-4d51-87a8-439c26d4fc05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\common\forces">
+      <UniqueIdentifier>{7c616026-bdb6-4f5c-b63a-917658417acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\common\contacts">
+      <UniqueIdentifier>{a6219421-2c66-4aa6-b3c8-331b754ef1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\common\forces">
+      <UniqueIdentifier>{762aa2f7-0676-4952-a71e-f4da72183d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\common\contacts">
+      <UniqueIdentifier>{1e88343b-5abf-459d-858c-e029e9d92f41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,44 +84,11 @@
     <ClCompile Include="common\Particle.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
-    <ClCompile Include="common\ParticleForceRegistry.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleGravity.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
     <ClCompile Include="common\Vector3D.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Triangle.cpp">
       <Filter>Fichiers sources\shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="common\NaiveParticleContactGenerator.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleContact.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleContactGenerator.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleContactResolver.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleRod.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleLink.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleCable.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleAnchoredSpring.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleBuoyancy.cpp">
-      <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Cube.cpp">
       <Filter>Fichiers sources\shapes</Filter>
@@ -118,9 +97,6 @@
       <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
     <ClCompile Include="common\PhysicWorld.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\ParticleDrag.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="utilities\Shader.cpp">
@@ -137,6 +113,45 @@
     </ClCompile>
     <ClCompile Include="utilities\IBO.cpp">
       <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleBuoyancy.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleSpring.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleForceRegistry.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleAnchoredSpring.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleGravity.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\ParticleDrag.cpp">
+      <Filter>Fichiers sources\common\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleCable.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleContactResolver.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleLink.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleRod.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\NaiveParticleContactGenerator.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleContact.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\ParticleContactGenerator.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,15 +185,6 @@
     <ClInclude Include="common\Particle.hpp">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
-    <ClInclude Include="common\ParticleForceGenerator.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleForceRegistry.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleGravity.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
     <ClInclude Include="common\Vector3D.hpp">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
@@ -188,40 +194,7 @@
     <ClInclude Include="shapes\Triangle.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="common\ParticleContactResolver.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleContactGenerator.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\NaiveParticleContactGenerator.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleContact.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleRod.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleLink.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleCable.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleDrag.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleSpring.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
     <ClInclude Include="common\PhysicWorld.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleAnchoredSpring.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleBuoyancy.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="shapes\Cube.h">
@@ -253,6 +226,48 @@
     </ClInclude>
     <ClInclude Include="utilities\IBO.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleBuoyancy.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleGravity.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleForceRegistry.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleAnchoredSpring.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleSpring.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleDrag.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleForceGenerator.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleCable.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleContactResolver.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleLink.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleRod.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\NaiveParticleContactGenerator.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleContact.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\ParticleContactGenerator.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
