@@ -3,6 +3,7 @@
 #include <vector>
 #include "Particle.hpp";
 #include "ParticleForceRegistry.h";
+#include <ParticleContact.h>
 
 
 using namespace std;
@@ -10,17 +11,18 @@ using namespace std;
 class PhysicWorld
 {
 private:
-	static PhysicWorld* singleton; // singleton design pattern
-	vector<Particle*> particles; // list of particles 
-	ParticleForceRegistry particleForceRegistry;
+	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be runnning
 
+	vector<Particle*> particles; // list of particles
+	vector<ParticleContact*> particlesContacts; // list of contacts
+	ParticleForceRegistry particleForceRegistry;
 
 public:
 
 	PhysicWorld();
 	/* Methods */
+	void handleContacts();
 	void ApplyForces(float _duration);
-
 	void AddParticle(); 
 	void RemoveParticle(Particle* _targetParticle);
 

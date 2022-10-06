@@ -52,8 +52,9 @@ public:
 
 	void invert();
 	bool isEquals(Vector3D _vector);
-	float Norm();
-	Vector3D Normalize();
+	float norm();
+	float norm(Vector3D _vector);
+	Vector3D normalize();
 	void clear();
 
 	/*-------------- PRINTS --------------*/

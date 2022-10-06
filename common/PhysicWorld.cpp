@@ -1,6 +1,7 @@
 #include "PhysicWorld.h"
 #include "Particle.hpp"
 #include "ParticleGravity.h"
+#include "NaiveParticleContactGenerator.h"
 
 PhysicWorld::PhysicWorld()
 {
@@ -11,8 +12,17 @@ PhysicWorld* PhysicWorld::singleton = nullptr;;
 
 /*-------------- METHODS --------------*/
 
-void PhysicWorld::ApplyForces(float _duration) 
-{
+
+void PhysicWorld::handleContacts(){
+	if (particles.size() <= 0) {
+		return;
+	}
+
+	NaiveParticleContactGenerator npcg = NaiveParticleContactGenerator();
+	
+}
+
+void PhysicWorld::ApplyForces(float _duration) {
 	if (particles.size() <= 0) {
 		return;
 	}
@@ -24,15 +34,13 @@ void PhysicWorld::ApplyForces(float _duration)
 	}
 }
 
-void PhysicWorld::AddParticle() 
-{
+void PhysicWorld::AddParticle() {
 	Particle* _newParticle = new Particle();
 	_newParticle->SetMass(1);
 	particles.push_back(_newParticle);
 }
 
-void PhysicWorld::RemoveParticle(Particle* _targetParticle)
-{
+void PhysicWorld::RemoveParticle(Particle* _targetParticle) {
 	particles.erase(
 		remove_if(
 			particles.begin(),

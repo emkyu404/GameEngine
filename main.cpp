@@ -316,6 +316,7 @@ void mainLoop() {
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
 		// Update logic with our Vector3D class
+		//PhysicWorld::getInstance()->HandleContacts();
 		PhysicWorld::getInstance()->ApplyForces(dt);
 
 		renderImGUI(); //Create the ImGUI Frame
