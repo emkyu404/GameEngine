@@ -3,8 +3,8 @@
 #include "ParticleForceGenerator.h"
 #include "Vector3D.hpp"
 
-#define DEFAULT_VALUE_K 1
-#define DEFAULT_VALUE_RESTLENGTH 2
+#define DEFAULT_VALUE_K 300
+#define DEFAULT_VALUE_RESTLENGTH 150
 
 class ParticleSpring : public ParticleForceGenerator
 {

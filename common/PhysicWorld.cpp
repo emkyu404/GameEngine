@@ -31,6 +31,13 @@ void PhysicWorld::AddParticle()
 	particles.push_back(_newParticle);
 }
 
+void PhysicWorld::AddParticle(Vector3D _initialPosition)
+{
+	Particle* _newParticle = new Particle(_initialPosition);
+	_newParticle->SetMass(1);
+	particles.push_back(_newParticle);
+}
+
 void PhysicWorld::RemoveParticle(Particle* _targetParticle)
 {
 	particles.erase(
@@ -62,6 +69,11 @@ void PhysicWorld::Clear() {
 int PhysicWorld::NumberOfParticles()
 {
 	return particles.size();
+}
+
+Particle* PhysicWorld::getParticle(int indexParticle)
+{
+	return particles[indexParticle]; 
 }
 
 vector<Particle*> PhysicWorld::getParticles() 

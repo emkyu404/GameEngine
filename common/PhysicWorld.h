@@ -22,7 +22,11 @@ public:
 	void ApplyForces(float _duration);
 
 	void AddParticle(); 
+	void AddParticle(Vector3D _initialPosition);
 	void RemoveParticle(Particle* _targetParticle);
+
+
+	Particle* getParticle(int indexParticle); 
 
 	void Clear(); // Remove all particle
 	int NumberOfParticles();

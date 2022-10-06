@@ -55,7 +55,7 @@ void Particle::Reset()
 	position = initialPosition;
 	velocity = Vector3D();
 	acceleration = Vector3D();
-	forceAccumulator = Vector3D();
+	ClearForce(); 
 }
 
 /*-------------- GETTERS --------------*/

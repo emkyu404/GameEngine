@@ -51,13 +51,15 @@ static Shader* particleShader;
 static mat4 View,Projection ,mvp, Model;
 
 static PhysicWorld physicWorld = PhysicWorld();
+static int particleCount = 5;
+static Vector3D offsetParticle = Vector3D(3, 0, 0); 
+
+// Forces
 static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
 static ParticleForceGenerator* drag = new ParticleDrag(); 
 //static ParticleForceGenerator* spring = new ParticleSpring();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
 static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
-
-static int particleCount = 1;
 
 const static GLuint vao, vbo, ibo;
 
@@ -168,7 +170,7 @@ void initParticles()
 {
 	for (int i = 0; i < particleCount; ++i)
 	{
-		PhysicWorld::getInstance()->AddParticle();
+		PhysicWorld::getInstance()->AddParticle(Vector3D() + Vector3D(3 * i, 0, 0));
 	}
 }
 
@@ -193,33 +195,63 @@ void renderImGUIParticlesList()
 {
 	ImGui::Begin("Particles");
 
+	PhysicWorld* instance = PhysicWorld::getInstance();
 	float particleIndex = 0.0f; 
+	int numberParticles = instance->NumberOfParticles(); 
 
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
 		particleIndex++;
 		ImGui::Text("Particle %.0f", particleIndex); 
 
+		// Declare string names with ID to make sure GUI is ok with the buttons
+		string text_customization_particle = std::string("Customization particle##") + std::to_string(particleIndex);
 		string text_mass = std::string("Set inverse mass##") + std::to_string(particleIndex);
 		string text_gravity = std::string("Apply Gravity##") + std::to_string(particleIndex);
 		string text_drag = std::string("Apply Drag##") + std::to_string(particleIndex);
 		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(particleIndex);
+		string text_spring = std::string("Apply Spring##") + std::to_string(particleIndex);
 		string text_remove = std::string("Remove Particle##") + std::to_string(particleIndex);
 
-		if (ImGui::CollapsingHeader("Customization particle"))
+		//char* particles = new char[numberParticles - 1]; 
+		//vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
+		//particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == particle; }), particlesVector.end());;
+
+		//for (int iParticle = 0; iParticle < numberParticles - 1; iParticle++)
+		//{
+		//	particles[iParticle] = iParticle.; 
+		//}
+
+		//int selectedItem = 0; 
+		//// 
+		//
+		//ImGui::ListBox("Listbox", &selectedItem, particles, particles.size()); 
+
+		//ImGui::ListBox()
+
+		if (ImGui::CollapsingHeader(text_customization_particle.c_str()))
 		{
 			Vector3D position = particle->GetPosition(); 
-			Vector3D velocity = particle->GetAcceleration(); 
+			Vector3D velocity = particle->GetVelocity(); 
 			Vector3D acceleration = particle->GetAcceleration(); 
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
 
-			if (ImGui::Button(text_mass.c_str()))
+			if (particleIndex == 2)
 			{
-				printf("%f", particle->GetInverseMass());
+				if (ImGui::Button(text_spring.c_str()))
+				{
+					ParticleForceGenerator* spring = new ParticleSpring(instance->getParticle(1));
+					PhysicWorld::getInstance()->AddForceEntry(particle, spring);
+				}
 			}
+
+			//if (ImGui::Button(text_mass.c_str()))
+			//{
+			//	printf("%f", particle->GetInverseMass());
+			//}
 
 			if (ImGui::Button(text_gravity.c_str()))
 			{
@@ -255,17 +287,75 @@ void renderImGUIMainFrame() {
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
+
+	if (ImGui::Button("Add Particle"))
+	{
+		instance->AddParticle(offsetParticle * instance->NumberOfParticles());
+	}
+
+	if (ImGui::Button("Apply Gravity"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->AddForceEntry(particle, gravity);
+		}
+	}
+
+	if (ImGui::Button("Disable Gravity"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->RemoveForceEntry(particle, gravity);
+		}
+	}
+
+	if (ImGui::Button("Apply Drag"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->AddForceEntry(particle, drag);
+		}
+	}
+
+	if (ImGui::Button("Disable Drag"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->RemoveForceEntry(particle, drag);
+		}
+	}
+
+	if (ImGui::Button("Apply Buoyancy"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->AddForceEntry(particle, buoyancy);
+		}
+	}
+
+	if (ImGui::Button("Disable Buoyancy"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->RemoveForceEntry(particle, buoyancy);
+		}
+	}
+
+
+	if (ImGui::Button("Remove all particles"))
+	{
+		for (Particle* particle : instance->getParticles())
+		{
+			instance->RemoveParticle(particle);
+		}
+	}
+
 	if (ImGui::Button("Reset"))
 	{
 		for (Particle* particle : instance->getParticles())
 		{
 			particle->Reset();
 		}
-	}
-
-	if (ImGui::Button("Add Particle"))
-	{
-		instance->AddParticle();
 	}
 
 	ImGui::End();
