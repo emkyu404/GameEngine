@@ -147,7 +147,7 @@ void paintGL() {
 
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
-		Model = glm::translate(glm::vec3(particle->GetPosition().getX(), particle->GetPosition().getY(), particle->GetPosition().getZ()));
+		Model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
 		mvp = viewProjection * Model;
 		// Précision du shader à utiliser
 		particleShader->Activate();
@@ -170,7 +170,7 @@ void initParticles()
 {
 	for (int i = 0; i < particleCount; ++i)
 	{
-		PhysicWorld::getInstance()->AddParticle(Vector3D() + Vector3D(3 * i, 0, 0));
+		PhysicWorld::getInstance()->addParticle(Vector3D() + Vector3D(3 * i, 0, 0));
 	}
 }
 
@@ -197,7 +197,7 @@ void renderImGUIParticlesList()
 
 	PhysicWorld* instance = PhysicWorld::getInstance();
 	float particleIndex = 0.0f; 
-	int numberParticles = instance->NumberOfParticles(); 
+	int numberParticles = instance->getNumberOfParticles(); 
 
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
@@ -231,9 +231,9 @@ void renderImGUIParticlesList()
 
 		if (ImGui::CollapsingHeader(text_customization_particle.c_str()))
 		{
-			Vector3D position = particle->GetPosition(); 
-			Vector3D velocity = particle->GetVelocity(); 
-			Vector3D acceleration = particle->GetAcceleration(); 
+			Vector3D position = particle->getPosition(); 
+			Vector3D velocity = particle->getVelocity(); 
+			Vector3D acceleration = particle->getAcceleration(); 
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
@@ -244,7 +244,7 @@ void renderImGUIParticlesList()
 				if (ImGui::Button(text_spring.c_str()))
 				{
 					ParticleForceGenerator* spring = new ParticleSpring(instance->getParticle(1));
-					PhysicWorld::getInstance()->AddForceEntry(particle, spring);
+					PhysicWorld::getInstance()->addForceEntry(particle, spring);
 				}
 			}
 
@@ -255,22 +255,22 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_gravity.c_str()))
 			{
-				PhysicWorld::getInstance()->AddForceEntry(particle, gravity);
+				PhysicWorld::getInstance()->addForceEntry(particle, gravity);
 			}
 
 			if (ImGui::Button(text_drag.c_str()))
 			{
-				PhysicWorld::getInstance()->AddForceEntry(particle, drag);
+				PhysicWorld::getInstance()->addForceEntry(particle, drag);
 			}
 
 			if (ImGui::Button(text_buoyancy.c_str()))
 			{
-				PhysicWorld::getInstance()->AddForceEntry(particle, buoyancy);
+				PhysicWorld::getInstance()->addForceEntry(particle, buoyancy);
 			}
 
 			if (ImGui::Button(text_remove.c_str()))
 			{
-				PhysicWorld::getInstance()->RemoveParticle(particle);
+				PhysicWorld::getInstance()->removeParticle(particle);
 			}
 		}
 	}
@@ -290,14 +290,14 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Add Particle"))
 	{
-		instance->AddParticle(offsetParticle * instance->NumberOfParticles());
+		instance->addParticle(offsetParticle * instance->getNumberOfParticles());
 	}
 
 	if (ImGui::Button("Apply Gravity"))
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->AddForceEntry(particle, gravity);
+			instance->addForceEntry(particle, gravity);
 		}
 	}
 
@@ -305,7 +305,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->RemoveForceEntry(particle, gravity);
+			instance->removeForceEntry(particle, gravity);
 		}
 	}
 
@@ -313,7 +313,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->AddForceEntry(particle, drag);
+			instance->addForceEntry(particle, drag);
 		}
 	}
 
@@ -321,7 +321,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->RemoveForceEntry(particle, drag);
+			instance->removeForceEntry(particle, drag);
 		}
 	}
 
@@ -329,7 +329,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->AddForceEntry(particle, buoyancy);
+			instance->addForceEntry(particle, buoyancy);
 		}
 	}
 
@@ -337,7 +337,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->RemoveForceEntry(particle, buoyancy);
+			instance->removeForceEntry(particle, buoyancy);
 		}
 	}
 
@@ -346,7 +346,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			instance->RemoveParticle(particle);
+			instance->removeParticle(particle);
 		}
 	}
 
@@ -354,7 +354,7 @@ void renderImGUIMainFrame() {
 	{
 		for (Particle* particle : instance->getParticles())
 		{
-			particle->Reset();
+			particle->reset();
 		}
 	}
 
@@ -406,7 +406,7 @@ void mainLoop() {
 		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
 
 		// Update logic with our Vector3D class
-		PhysicWorld::getInstance()->ApplyForces(dt);
+		PhysicWorld::getInstance()->applyForces(dt);
 
 		renderImGUI(); //Create the ImGUI Frame
 		// Clear and setup viewport
