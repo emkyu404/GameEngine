@@ -20,14 +20,14 @@ unsigned int NaiveParticleContactGenerator::addContact(ParticleContact* contact,
 {
 	for (int i = 0; i < particles.size() - 1; ++i) {
 		for (int j = i + 1; j < particles.size(); ++j) {
-			float distance = particles[i]->GetPosition().norm(particles[j]->GetPosition());
+			float distance = particles[i]->getPosition().norm(particles[j]->getPosition());
 			if (distance > 2 * radius) {
 				return 0;
 			}
 			contact->particle[0] = particles[i];
 			contact->particle[1] = particles[j];
 			//normal calculation
-			Vector3D normal = particles[j]->GetPosition() - particles[i]->GetPosition();
+			Vector3D normal = particles[j]->getPosition() - particles[i]->getPosition();
 			normal.normalize();
 			contact->contactNormal = normal;
 			//penetration calculation

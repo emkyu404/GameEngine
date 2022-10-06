@@ -4,22 +4,19 @@
 /*-------------- CONSTRUCTORS --------------*/
 
 ParticleBuoyancy::ParticleBuoyancy()
-	: ParticleBuoyancy(DEFAULT_MAX_DEPTH, DEFAULT_VOLUME, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY)
+	: ParticleBuoyancy(DEFAULT_MAX_DEPTH, DEFAULT_VOLUME, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY) 
 {
 }
 
 ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume)
-	: ParticleBuoyancy(_m_maxDepth, _m_volume, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY)
-{
+	: ParticleBuoyancy(_m_maxDepth, _m_volume, DEFAULT_WATER_HEIGHT, DEFAULT_LIQUID_DENSITY) {
 }
 
 ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume, float _m_waterHeight)
-	: ParticleBuoyancy(_m_maxDepth, _m_volume, _m_waterHeight, DEFAULT_LIQUID_DENSITY)
-{
+	: ParticleBuoyancy(_m_maxDepth, _m_volume, _m_waterHeight, DEFAULT_LIQUID_DENSITY) {
 }
 
-ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume, float _m_waterHeight, float _m_liquidDensity)
-{
+ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume, float _m_waterHeight, float _m_liquidDensity) {
 	m_maxDepth = _m_maxDepth; 
 	m_volume = _m_volume;
 	m_waterHeight = _m_waterHeight; 
@@ -28,9 +25,8 @@ ParticleBuoyancy::ParticleBuoyancy(float _m_maxDepth, float _m_volume, float _m_
 
 /*-------------- METHODES --------------*/
 
-void ParticleBuoyancy::UpdateForce(Particle* _particle, float _duration)
-{
-	float depth = _particle->GetPosition().getY();
+void ParticleBuoyancy::updateForce(Particle* _particle, float _duration) {
+	float depth = _particle->getPosition().getY();
 
 	// Check if we're out of water 
 	if (depth >= m_waterHeight + m_maxDepth)
@@ -49,5 +45,5 @@ void ParticleBuoyancy::UpdateForce(Particle* _particle, float _duration)
 		F.setY(forceCalculated); 
 	}
 
-	_particle->AddForce(F); 
+	_particle->addForce(F); 
 }

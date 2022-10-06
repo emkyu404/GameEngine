@@ -29,6 +29,6 @@ public:
 	void addForceEntry(Particle* _particule, ParticleForceGenerator* _forceGenerator);
 	void removeForceEntry(Particle* _particule, ParticleForceGenerator* _forceGenerator);
 	void removeAllForceEntryForParticle(Particle particle);
-	void Clear();
+	void clear();
 
 };

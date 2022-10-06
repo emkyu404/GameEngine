@@ -8,8 +8,7 @@ ParticleSpring::ParticleSpring(Particle* _m_other)
 {
 }
 
-ParticleSpring::ParticleSpring(Particle* _m_other, float _k, float _restLength)
-{
+ParticleSpring::ParticleSpring(Particle* _m_other, float _k, float _restLength) {
 	m_other = _m_other; 
 	m_k = _k; 
 	m_restLength = _restLength; 
@@ -17,9 +16,8 @@ ParticleSpring::ParticleSpring(Particle* _m_other, float _k, float _restLength)
 
 /*-------------- METHODES --------------*/
 
-void ParticleSpring::UpdateForce(Particle* _particle, float _duration)
-{
-	Vector3D d = _particle->GetPosition() - m_other->GetPosition(); 
-	Vector3D F = d.Normalize() * -1 * m_k * abs((d.Norm() - m_restLength));
-	_particle->AddForce(F);
+void ParticleSpring::updateForce(Particle* _particle, float _duration) {
+	Vector3D d = _particle->getPosition() - m_other->getPosition(); 
+	Vector3D F = d.normalize() * -1 * m_k * abs((d.norm() - m_restLength));
+	_particle->addForce(F);
 }

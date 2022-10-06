@@ -3,17 +3,23 @@
 #include "ParticleGravity.h"
 #include "NaiveParticleContactGenerator.h"
 
+/*-------------- CONSTRUCTORS --------------*/
+
 PhysicWorld::PhysicWorld()
 {
 }
 
-
 PhysicWorld* PhysicWorld::singleton = nullptr;;
 
-/*-------------- METHODS --------------*/
+PhysicWorld* PhysicWorld::getInstance() {
+	if (singleton == nullptr) {
+		singleton = new PhysicWorld();
+	}
+	return singleton;
+}
 
 
-void PhysicWorld::handleContacts(){
+void PhysicWorld::handleContacts() {
 	if (particles.size() <= 0) {
 		return;
 	}
@@ -22,25 +28,32 @@ void PhysicWorld::handleContacts(){
 	
 }
 
-void PhysicWorld::ApplyForces(float _duration) {
+void PhysicWorld::applyForces(float _duration) {
 	if (particles.size() <= 0) {
 		return;
 	}
-	
-	
-	particleForceRegistry.UpdateForce(_duration);
+
+	particleForceRegistry.updateForce(_duration);
 	for (Particle* particle : particles) {
-		particle->Integrate(_duration);
+		particle->integrate(_duration);
 	}
 }
 
-void PhysicWorld::AddParticle() {
+/*-------------- METHODS PARTICLES --------------*/
+
+void PhysicWorld::addParticle() {
 	Particle* _newParticle = new Particle();
-	_newParticle->SetMass(1);
+	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
 }
 
-void PhysicWorld::RemoveParticle(Particle* _targetParticle) {
+void PhysicWorld::addParticle(Vector3D _initialPosition) {
+	Particle* _newParticle = new Particle(_initialPosition);
+	_newParticle->setMass(1);
+	particles.push_back(_newParticle);
+}
+
+void PhysicWorld::removeParticle(Particle* _targetParticle) {
 	particles.erase(
 		remove_if(
 			particles.begin(),
@@ -49,37 +62,31 @@ void PhysicWorld::RemoveParticle(Particle* _targetParticle) {
 			{ return p == _targetParticle;
 			}),
 		particles.end()
-	);
+				);
 }
 
-
-void PhysicWorld::AddForceEntry(Particle* _newParticle, ParticleForceGenerator* fg) {
-	particleForceRegistry.AddForceEntry(_newParticle, fg);
+void PhysicWorld::clearParticles() {
+	particleForceRegistry.clear();
 }
 
-void PhysicWorld::RemoveForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator)
-{
-	particleForceRegistry.RemoveForceEntry(_targetParticle, _targetForceGenerator);
-}
-
-void PhysicWorld::Clear() {
-	particleForceRegistry.Clear();
-}
-
-/* return size of vector particles */
-int PhysicWorld::NumberOfParticles()
-{
-	return particles.size();
-}
-
-vector<Particle*> PhysicWorld::getParticles() 
-{
+vector<Particle*> PhysicWorld::getParticles() {
 	return particles;
 }
 
-PhysicWorld* PhysicWorld::getInstance() {
-	if (singleton == nullptr) {
-		singleton = new PhysicWorld();
-	}
-	return singleton;
+int PhysicWorld::getNumberOfParticles() {
+	return particles.size();
+}
+
+Particle* PhysicWorld::getParticle(int _index) {
+	return particles[_index];
+}
+
+/*-------------- METHODS FORCES --------------*/
+
+void PhysicWorld::addForceEntry(Particle* _newParticle, ParticleForceGenerator* fg) {
+	particleForceRegistry.addForceEntry(_newParticle, fg);
+}
+
+void PhysicWorld::removeForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator) {
+	particleForceRegistry.removeForceEntry(_targetParticle, _targetForceGenerator);
 }
