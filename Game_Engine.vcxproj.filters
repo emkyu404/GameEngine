@@ -34,6 +34,15 @@
     <Filter Include="Fichiers sources\shaders">
       <UniqueIdentifier>{64e1aa8f-ac19-4b41-be4c-014e3df1f19c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\shaders">
+      <UniqueIdentifier>{e4a66917-a9ce-43fb-a586-5dd0481999c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\utilities">
+      <UniqueIdentifier>{499153da-3bb3-43df-97c3-26ea4b6fdb79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\utilities">
+      <UniqueIdentifier>{b8597f2f-f323-4d51-87a8-439c26d4fc05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,9 +79,6 @@
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="common\Vector3D.cpp">
-      <Filter>Fichiers sources\common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\LoadShader.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Triangle.cpp">
@@ -117,6 +123,21 @@
     <ClCompile Include="common\ParticleDrag.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="utilities\Shader.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="utilities\LoadShader.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="utilities\VBO.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="utilities\VAO.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="utilities\IBO.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -159,9 +180,6 @@
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\Vector3D.hpp">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\LoadShader.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="shapes\Shape.h">
@@ -220,6 +238,21 @@
     </ClInclude>
     <ClInclude Include="common\PhysicWorld.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\Shader.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\LoadShader.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\VAO.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\VBO.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\IBO.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

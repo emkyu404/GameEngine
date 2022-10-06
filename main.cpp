@@ -14,13 +14,16 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtx/transform.hpp>
 
+//Utility class
+#include "Shader.h"
+
 // Moteur
 #include <Particle.hpp>
 
 //Shapes
-#include "shapes/Cube.h"
-#include "shapes/Grid.h"
-#include "shapes/Triangle.h"
+#include "Cube.h"
+#include "Grid.h"
+#include "Triangle.h"
 
 //PhysicWorld
 #include "PhysicWorld.h"
@@ -39,9 +42,11 @@ const unsigned int SCR_HEIGHT = 600;
 const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
-static GLuint m_ProgramID, MatrixID;
+static GLuint MatrixID;
 static Shape* particleShape;
 static Shape* grid;
+
+static Shader* particleShader;
 
 static mat4 View,Projection ,mvp, Model;
 
@@ -122,12 +127,11 @@ int main()
 
 void initGL() {
 	// Chargement des shaders
-	m_ProgramID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
+	particleShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 
 	//Chargement OpenGL
 	particleShape = new Cube();
 	particleShape->init();
-	//grid->init();
 }
 
 void paintGL() {
@@ -137,18 +141,20 @@ void paintGL() {
 
 	// Update matrix
 	glm::mat4 viewProjection = Projection * View;
+
+
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
 		Model = glm::translate(glm::vec3(particle->GetPosition().getX(), particle->GetPosition().getY(), particle->GetPosition().getZ()));
 		mvp = viewProjection * Model;
 		// Précision du shader à utiliser
-		glUseProgram(m_ProgramID);
+		particleShader->Activate();
 
 		// Send our transformation to the currently bound shader, in the "MVP" uniform
 		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
-		GLint color_location = glGetUniformLocation(m_ProgramID, "my_color");
+		GLint color_location = glGetUniformLocation(particleShader->programID, "my_color");
 		float color[3] = { 1.0f, 0.8f, 0.2f };
 		glUniform3fv(color_location, 1, color);
 
@@ -244,35 +250,14 @@ void renderImGUIParticlesList()
 
 void renderImGUIMainFrame() {
 	
-
+	PhysicWorld* instance = PhysicWorld::getInstance();
 	ImGui::Begin("Engine");
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-	if (ImGui::Button("Apply Gravity particle"))
-	{
-		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
-		{
-			PhysicWorld::getInstance()->AddForceEntry(particle, gravity);
-		}
-	}
-
-	if (ImGui::Button("Disable Gravity particle"))
-	{
-		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
-		{
-
-			// Clear Velocity and Acceleration
-			particle->SetAcceleration(Vector3D());
-			particle->SetVelocity(Vector3D());
-
-			PhysicWorld::getInstance()->RemoveForceEntry(particle, gravity);
-		}
-	}
-
 	if (ImGui::Button("Reset"))
 	{
-		for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+		for (Particle* particle : instance->getParticles())
 		{
 			particle->Reset();
 		}
@@ -280,7 +265,7 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Add Particle"))
 	{
-		PhysicWorld::getInstance()->AddParticle();
+		instance->AddParticle();
 	}
 
 	ImGui::End();
@@ -320,7 +305,7 @@ void initProjectionMatrix() {
 
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
-	MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
+	MatrixID = glGetUniformLocation(particleShader->programID, "MVP");
 }
 
 void mainLoop() {
