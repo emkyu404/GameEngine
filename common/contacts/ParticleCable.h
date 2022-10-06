@@ -1,3 +1,4 @@
+#pragma once
 #include <ParticleLink.h>
 
 class ParticleCable : public ParticleLink {

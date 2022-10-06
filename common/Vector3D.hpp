@@ -1,6 +1,4 @@
-#ifndef VECTOR3D_H
-#define VECTOR3D_H
-
+#pragma once
 
 #include <stdlib.h>
 #include <math.h>
@@ -53,6 +51,7 @@ public:
 	void invert();
 	bool isEquals(Vector3D _vector);
 	float norm();
+	float norm(Vector3D _vector);
 	Vector3D normalize();
 	void clear();
 
@@ -61,4 +60,3 @@ public:
 	void print();
 
 };
-#endif

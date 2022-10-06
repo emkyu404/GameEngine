@@ -1,6 +1,7 @@
 #include "PhysicWorld.h"
 #include "Particle.hpp"
 #include "ParticleGravity.h"
+#include "NaiveParticleContactGenerator.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 
@@ -17,21 +18,15 @@ PhysicWorld* PhysicWorld::getInstance() {
 	return singleton;
 }
 
-/*-------------- GETTERS --------------*/
 
-Particle* PhysicWorld::getParticle(int indexParticle) {
-	return particles[indexParticle];
+void PhysicWorld::handleContacts() {
+	if (particles.size() <= 0) {
+		return;
+	}
+
+	NaiveParticleContactGenerator npcg = NaiveParticleContactGenerator();
+	
 }
-
-vector<Particle*> PhysicWorld::getParticles() {
-	return particles;
-}
-
-int PhysicWorld::getNumberOfParticles() {
-	return particles.size();
-}
-
-/*-------------- GENERAL METHOD --------------*/
 
 void PhysicWorld::applyForces(float _duration) {
 	if (particles.size() <= 0) {
@@ -72,6 +67,18 @@ void PhysicWorld::removeParticle(Particle* _targetParticle) {
 
 void PhysicWorld::clearParticles() {
 	particleForceRegistry.clear();
+}
+
+vector<Particle*> PhysicWorld::getParticles() {
+	return particles;
+}
+
+int PhysicWorld::getNumberOfParticles() {
+	return particles.size();
+}
+
+Particle* PhysicWorld::getParticle(int _index) {
+	return particles[_index];
 }
 
 /*-------------- METHODS FORCES --------------*/

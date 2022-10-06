@@ -142,6 +142,10 @@ float Vector3D::norm() {
 	return (float)sqrt(*this & *this);
 }
 
+float Vector3D::norm(Vector3D _vector) {
+	return (float)sqrt(*this & _vector);
+}
+
 // Normalize
 Vector3D Vector3D::normalize() {
 	return (*this / norm());
