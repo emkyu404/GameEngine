@@ -34,8 +34,6 @@ public:
 
 	void applyForces(float _duration);
 
-	Particle* getParticle(int indexParticle); 
-
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
 	void handleContacts();
