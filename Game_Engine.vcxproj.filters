@@ -153,6 +153,9 @@
     <ClCompile Include="common\contacts\ParticleContactGenerator.cpp">
       <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
+    <ClCompile Include="utilities\Camera.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -202,12 +205,6 @@
     </ClInclude>
     <ClInclude Include="shapes\Grid.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleDrag.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\ParticleSpring.h">
-      <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\PhysicWorld.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
@@ -268,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="common\contacts\ParticleContactGenerator.h">
       <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\Camera.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

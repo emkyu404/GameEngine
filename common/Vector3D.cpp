@@ -158,6 +158,13 @@ void Vector3D::clear() {
 	this->z = 0;
 }
 
+Vector3D Vector3D::cross(Vector3D _vector)
+{
+	return Vector3D(this->y * _vector.z -  this->z * _vector.y, 
+					this->z * _vector.x - this->x * _vector.z, 
+					this->x * _vector.y - this->y * _vector.x);
+}
+
 /*-------------- AFFICHAGE --------------*/
 
 void Vector3D::print() {

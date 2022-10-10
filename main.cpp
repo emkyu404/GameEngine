@@ -35,6 +35,9 @@
 #include "ParticleAnchoredSpring.h"
 #include "ParticleBuoyancy.h"
 
+//Camera
+#include "Camera.h"
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
@@ -48,7 +51,7 @@ static Shape* grid;
 
 static Shader* particleShader;
 
-static mat4 View,Projection ,mvp, Model;
+static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
 static int particleCount = 5;
@@ -61,6 +64,17 @@ static ParticleForceGenerator* drag = new ParticleDrag();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
 static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
 
+//time logic
+float dt = 0.0f; //deltaTime
+float lastFrame = 0.0f;
+bool firstMouse = true;
+
+//mouse
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+
+Camera camera = Camera(10.0f, 3.0f, 10.0f);
+
 const static GLuint vao, vbo, ibo;
 
 void initGL();
@@ -70,6 +84,9 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version);
 void renderImGUIMainFrame();
 void initProjectionMatrix();
 void mainLoop();
+void processInput(GLFWwindow* window);
+void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main()
 {
@@ -107,6 +124,9 @@ int main()
 
 	// Make sure we can capture keys
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetCursorPosCallback(window, mouseCallback);
+	glfwSetScrollCallback(window, scrollCallback);
+
 
 	setupImGUI(window, glsl_version); // Setup ImGUI
 
@@ -142,13 +162,13 @@ void paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Update matrix
-	glm::mat4 viewProjection = Projection * View;
-
+	projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	view = camera.getViewMatrix();
 
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
-		Model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
-		mvp = viewProjection * Model;
+		model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
+		mvp = projection * view * model;
 		// Précision du shader à utiliser
 		particleShader->Activate();
 
@@ -375,23 +395,23 @@ void renderImGUI()
 void initProjectionMatrix() {
 	/* -- Matrice de projection -- */
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	Projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 100.0f);
+	projection = glm::perspective(glm::radians(camera.getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 100.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-
-	// Camera matrix
-	View = glm::lookAt(
+	
+	view = glm::lookAt(
 		vec3(10, 3, 10), // Camera is at (4,3,3), in World Space
 		vec3(0, 0, 0), // and looks at the origin
 		vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
+	//View = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
 	// Model matrix : an identity matrix (model will be at the origin)
-	Model = glm::mat4(1.0f);
+	model = glm::mat4(1.0f);
 
 	// Our ModelViewProjection : multiplication of our 3 matrices
-	mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
+	mvp = projection * view * model; // Remember, matrix multiplication is the other way around
 
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
@@ -403,7 +423,13 @@ void mainLoop() {
 
 		glfwPollEvents();
 
-		float dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
+		//dt = ImGui::GetIO().DeltaTime; //dt => DeltaTime
+
+		float currentFrame = static_cast<float>(glfwGetTime());
+		dt = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		processInput(window); // process all input
 
 		// Update logic with our Vector3D class
 		PhysicWorld::getInstance()->applyForces(dt);
@@ -424,7 +450,54 @@ void mainLoop() {
 
 
 	} // Check if escape is pressed to close the window
-	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		glfwWindowShouldClose(window) == 0);
+	while (!glfwWindowShouldClose(window));
+}
+
+void processInput(GLFWwindow* _window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(_window, true);
+
+	if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS) {
+		camera.processKeyboard(FORWARD, dt);
+	}
+	if (glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS) {
+		camera.processKeyboard(BACKWARD, dt);
+	}
+	if (glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS) {
+		camera.processKeyboard(LEFT, dt);
+	}
+	if (glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS) {
+		camera.processKeyboard(RIGHT, dt);
+	}
+	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		camera.setLock(!camera.getLock());
+	}
+}
+
+void mouseCallback(GLFWwindow* _window, double _xposIn, double _yposIn)
+{
+	float xpos = static_cast<float>(_xposIn);
+	float ypos = static_cast<float>(_yposIn);
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.processMouseMovement(xoffset, yoffset, true);
+}
+
+void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
+{
+	camera.processMouseScroll(static_cast<float>(_yOffset));
 }
 

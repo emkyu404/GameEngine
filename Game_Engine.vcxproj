@@ -160,6 +160,7 @@
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
     <ClCompile Include="shapes\Triangle.cpp" />
+    <ClCompile Include="utilities\Camera.cpp" />
     <ClCompile Include="utilities\IBO.cpp" />
     <ClCompile Include="utilities\LoadShader.cpp" />
     <ClCompile Include="utilities\Shader.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="shapes\Grid.h" />
     <ClInclude Include="shapes\Shape.h" />
     <ClInclude Include="shapes\Triangle.h" />
+    <ClInclude Include="utilities\Camera.h" />
     <ClInclude Include="utilities\IBO.h" />
     <ClInclude Include="utilities\LoadShader.h" />
     <ClInclude Include="utilities\Shader.h" />

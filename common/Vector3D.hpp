@@ -54,6 +54,7 @@ public:
 	float norm(Vector3D _vector);
 	Vector3D normalize();
 	void clear();
+	Vector3D cross(Vector3D _vector); //return cross product between two vectors
 
 	/*-------------- PRINTS --------------*/
 
