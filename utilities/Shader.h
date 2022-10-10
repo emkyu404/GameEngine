@@ -8,10 +8,10 @@ class Shader
 {
 public:
     GLuint programID; // ID of shader
-    Shader(const char* vertexFile, const char* fragmentFile);
+    Shader(const char* _vertexFile, const char* _fragmentFile);
 
-    void Activate();
-    void Deactivate();
+    void activate();
+    void deactivate();
 };
 
 #endif // SHADER_H

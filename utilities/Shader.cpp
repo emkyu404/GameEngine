@@ -6,12 +6,12 @@ Shader::Shader(const char* _vertex_file_path, const char* _fragment_file_path)
 	programID = LoadShaders(_vertex_file_path, _fragment_file_path);
 }
 
-void Shader::Activate()
+void Shader::activate()
 {
 	glUseProgram(programID);
 }
 
-void Shader::Deactivate()
+void Shader::deactivate()
 {
 	glDeleteProgram(programID);
 }
