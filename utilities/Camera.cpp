@@ -2,6 +2,8 @@
 
 using namespace glm;
 
+// Code inspired by https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/camera.h
+
 Camera::Camera(float _posX, float _posY, float _posZ) {
 	front = Vector3D(0.0f, 0.0f, -1.0f);
 	movementSpeed = SPEED;
