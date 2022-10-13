@@ -1,7 +1,5 @@
 #include <NaiveParticleContactGenerator.h>
 
-
-
 NaiveParticleContactGenerator::NaiveParticleContactGenerator() 
 	: NaiveParticleContactGenerator(DEFAULT_RADIUS, vector<Particle*>()) {
 

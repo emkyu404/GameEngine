@@ -9,5 +9,6 @@ public:
 	float restitution;
 	unsigned int addContact(ParticleContact* _contact, unsigned int _limit) const;
 
+
 };
 
