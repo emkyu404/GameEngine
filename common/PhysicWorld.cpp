@@ -20,11 +20,12 @@ PhysicWorld* PhysicWorld::getInstance() {
 
 
 void PhysicWorld::handleContacts() {
+	// Generate contact list
 	if (particles.size() <= 0) {
 		return;
 	}
-
-	NaiveParticleContactGenerator npcg = NaiveParticleContactGenerator();
+	// Resolve all contact
+	//TODO
 	
 }
 

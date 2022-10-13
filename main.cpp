@@ -170,7 +170,7 @@ void paintGL() {
 		model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
-		particleShader->Activate();
+		particleShader->activate();
 
 		// Send our transformation to the currently bound shader, in the "MVP" uniform
 		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
