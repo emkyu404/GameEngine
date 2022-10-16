@@ -12,5 +12,5 @@ float ParticleLink::currentLenght() const {
 
 unsigned ParticleLink::addContact(ParticleContact* contact, unsigned limit) const {
 
-	
+	return 0;
 }

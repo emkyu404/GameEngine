@@ -21,20 +21,19 @@ PhysicWorld* PhysicWorld::getInstance() {
 }
 
 
-int PhysicWorld::generateContacts() {
+unsigned PhysicWorld::generateContacts() {
 	unsigned limit = maxContacts;
 	ParticleContact* nextContact = contacts;
 
-	for (ContactGenerators::iterator g = contactGenerators.begin();
-		g != contactGenerators.end();
-		g++) {
+	/*
+	for (ParticleContactGenerator contactGenerator : contactGenerators) {
 		unsigned used = (g)->addContact(nextContact, limit);
 		limit -= used;
 		nextContact += used;
 
 		if (limit <= 0) break;
 	}
-
+	*/
 	return maxContacts - limit;
 }
 

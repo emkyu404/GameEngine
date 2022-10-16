@@ -5,7 +5,7 @@
 #include "ParticleForceRegistry.h"
 #include <ParticleContact.h>
 #include "ParticleContactResolver.h"
-
+#include "ParticleContactGenerator.h"
 
 using namespace std;
 
@@ -13,16 +13,15 @@ class PhysicWorld
 {
 private:
 	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be runnning
-	typedef vector<ParticleContactGenerator> ContactGenerators;
-	typedef vector<Particle*> Particles;
 
-	Particles particles; // list of particles
+
+	vector<Particle*> particles; // list of particles
 	vector<ParticleContact*> particlesContacts; // list of contacts
 	ParticleForceRegistry particleForceRegistry;
 	
 	ParticleContactResolver contactResolver; // hold resolver of contact
 
-	ContactGenerators contactGenerators;
+	vector<ParticleContactGenerator> contactGenerators;
 
 	ParticleContact* contacts; // hold list of contact
 
@@ -45,7 +44,7 @@ public:
 
 	void runPhysics(float _duration);
 	void integrate(float _duration);
-	int generateContacts();
+	unsigned generateContacts();
 
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
