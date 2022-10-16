@@ -30,131 +30,131 @@
     <Filter Include="Fichiers d%27en-tête\common\contacts">
       <UniqueIdentifier>{1e88343b-5abf-459d-858c-e029e9d92f41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources">
+    <Filter Include="Fichiers sources">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\imgui">
+    <Filter Include="Fichiers sources\imgui">
       <UniqueIdentifier>{25aea6f5-dc9a-4c51-a877-a1af1d21c3e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\common">
+    <Filter Include="Fichiers sources\common">
       <UniqueIdentifier>{d46629a0-32c3-4ab9-b7f6-b6b5481b179f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts">
+    <Filter Include="Fichiers sources\common\contacts">
       <UniqueIdentifier>{a6219421-2c66-4aa6-b3c8-331b754ef1da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces">
+    <Filter Include="Fichiers sources\common\contacts\forces">
       <UniqueIdentifier>{7c616026-bdb6-4f5c-b63a-917658417acd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\shapes">
+    <Filter Include="Fichiers sources\shapes">
       <UniqueIdentifier>{31bda780-bcfb-4ed3-b858-9f95d4f54d8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\shaders">
+    <Filter Include="Fichiers sources\shaders">
       <UniqueIdentifier>{64e1aa8f-ac19-4b41-be4c-014e3df1f19c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\utilities\Fichiers sources\utilities">
+    <Filter Include="Fichiers sources\utilities">
       <UniqueIdentifier>{499153da-3bb3-43df-97c3-26ea4b6fdb79}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources</Filter>
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_glfw.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_tables.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\imgui</Filter>
+      <Filter>Fichiers sources\imgui</Filter>
     </ClCompile>
     <ClCompile Include="common\Particle.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common</Filter>
+      <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="common\Vector3D.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common</Filter>
+      <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Triangle.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shapes</Filter>
+      <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Cube.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shapes</Filter>
+      <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
     <ClCompile Include="shapes\Grid.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shapes</Filter>
+      <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
     <ClCompile Include="common\PhysicWorld.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common</Filter>
+      <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="utilities\Shader.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="utilities\LoadShader.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="utilities\VBO.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="utilities\VAO.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="utilities\IBO.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleBuoyancy.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleSpring.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleForceRegistry.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleAnchoredSpring.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleGravity.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleDrag.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleCable.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleContactResolver.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleLink.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleRod.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\NaiveParticleContactGenerator.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleContact.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleContactGenerator.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\common\contacts</Filter>
+      <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
     <ClCompile Include="utilities\Camera.cpp">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\utilities</Filter>
+      <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,16 +272,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\DiscFragmentShader.fragmentshader">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shaders</Filter>
+      <Filter>Fichiers sources\shaders</Filter>
     </None>
     <None Include="shaders\DiscVertexShader.vertexshader">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shaders</Filter>
+      <Filter>Fichiers sources\shaders</Filter>
     </None>
     <None Include="shaders\SimpleFragmentShader.fragmentshader">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shaders</Filter>
+      <Filter>Fichiers sources\shaders</Filter>
     </None>
     <None Include="shaders\SimpleVertexShader.vertexshader">
-      <Filter>Fichiers d%27en-tête\utilities\Fichiers sources\shaders</Filter>
+      <Filter>Fichiers sources\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

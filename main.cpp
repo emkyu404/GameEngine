@@ -432,7 +432,7 @@ void mainLoop() {
 		processInput(window); // process all input
 
 		// Update logic with our Vector3D class
-		PhysicWorld::getInstance()->applyForces(dt);
+		PhysicWorld::getInstance()->runPhysics(dt);
 
 		renderImGUI(); //Create the ImGUI Frame
 		// Clear and setup viewport

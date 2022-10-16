@@ -1,9 +1,10 @@
 #pragma once
 
 #include <vector>
-#include "Particle.hpp";
-#include "ParticleForceRegistry.h";
+#include "Particle.hpp"
+#include "ParticleForceRegistry.h"
 #include <ParticleContact.h>
+#include "ParticleContactResolver.h"
 
 
 using namespace std;
@@ -12,10 +13,20 @@ class PhysicWorld
 {
 private:
 	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be runnning
+	typedef vector<ParticleContactGenerator> ContactGenerators;
+	typedef vector<Particle*> Particles;
 
-	vector<Particle*> particles; // list of particles
+	Particles particles; // list of particles
 	vector<ParticleContact*> particlesContacts; // list of contacts
 	ParticleForceRegistry particleForceRegistry;
+	
+	ParticleContactResolver contactResolver; // hold resolver of contact
+
+	ContactGenerators contactGenerators;
+
+	ParticleContact* contacts; // hold list of contact
+
+	unsigned int maxContacts; // maximum of contact possible => size of contact array
 
 public:
 
@@ -32,11 +43,13 @@ public:
 
 	/*-------------- GENERAL METHOD --------------*/
 
-	void applyForces(float _duration);
+	void runPhysics(float _duration);
+	void integrate(float _duration);
+	int generateContacts();
 
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
-	void handleContacts();
+
 	void addParticle(); 
 	void addParticle(Vector3D _initialPosition);
 	void removeParticle(Particle* _targetParticle);

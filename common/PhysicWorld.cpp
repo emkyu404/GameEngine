@@ -7,6 +7,8 @@
 
 PhysicWorld::PhysicWorld()
 {
+	/* hard-code max contacts per frame */
+	maxContacts = 10;
 }
 
 PhysicWorld* PhysicWorld::singleton = nullptr;;
@@ -19,24 +21,48 @@ PhysicWorld* PhysicWorld::getInstance() {
 }
 
 
-void PhysicWorld::handleContacts() {
-	// Generate contact list
-	if (particles.size() <= 0) {
-		return;
+int PhysicWorld::generateContacts() {
+	unsigned limit = maxContacts;
+	ParticleContact* nextContact = contacts;
+
+	for (ContactGenerators::iterator g = contactGenerators.begin();
+		g != contactGenerators.end();
+		g++) {
+		unsigned used = (g)->addContact(nextContact, limit);
+		limit -= used;
+		nextContact += used;
+
+		if (limit <= 0) break;
 	}
-	// Resolve all contact
-	//TODO
-	
+
+	return maxContacts - limit;
 }
 
-void PhysicWorld::applyForces(float _duration) {
+void PhysicWorld::integrate(float _duration) {
+	for (Particle* particle : particles) {
+		particle->integrate(_duration);
+	}
+}
+
+void PhysicWorld::runPhysics(float _duration) {
 	if (particles.size() <= 0) {
 		return;
 	}
 
+	// First, apply force generators
 	particleForceRegistry.updateForce(_duration);
-	for (Particle* particle : particles) {
-		particle->integrate(_duration);
+
+	//Then integrate the objects
+	integrate(_duration);
+
+	// Generate contacts
+	int usedContacts = generateContacts();
+
+	//Resolve them
+
+	if (usedContacts) {
+		contactResolver.setIterations(usedContacts * 2);
+		contactResolver.resolveContacts(contacts, usedContacts, _duration);
 	}
 }
 
