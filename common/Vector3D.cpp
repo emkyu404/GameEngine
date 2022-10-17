@@ -143,7 +143,8 @@ float Vector3D::norm() {
 }
 
 float Vector3D::norm(Vector3D _vector) {
-	return (float)sqrt(*this & _vector);
+	// Norme entre deux vecteurs = sqrt((x1-x2)² + (y1-y2)² + (z1-z2)²)
+	return (float)sqrt((*this - _vector) & (*this - _vector));
 }
 
 // Normalize
