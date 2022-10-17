@@ -38,6 +38,8 @@
 //Camera
 #include "Camera.h"
 
+#define MAX_NUMBER_PARTICLES 1000
+
 using namespace glm;
 
 const unsigned int SCR_WIDTH = 800;
@@ -63,6 +65,8 @@ static ParticleForceGenerator* drag = new ParticleDrag();
 //static ParticleForceGenerator* spring = new ParticleSpring();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
 static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
+
+int detectorNumberParticle = 0; 
 
 //time logic
 float dt = 0.0f; //deltaTime
@@ -211,6 +215,17 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 }
 
+bool VectorOfStringGetter(void* data, int n, const char** out_text)
+{
+	const vector<Vector3D>* particles = (vector<Vector3D>*)data;
+	detectorNumberParticle++; 
+
+	*out_text = "Particle ";
+
+	return true;
+}
+
+
 void renderImGUIParticlesList()
 {
 	ImGui::Begin("Particles");
@@ -232,22 +247,7 @@ void renderImGUIParticlesList()
 		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(particleIndex);
 		string text_spring = std::string("Apply Spring##") + std::to_string(particleIndex);
 		string text_remove = std::string("Remove Particle##") + std::to_string(particleIndex);
-
-		//char* particles = new char[numberParticles - 1]; 
-		//vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
-		//particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == particle; }), particlesVector.end());;
-
-		//for (int iParticle = 0; iParticle < numberParticles - 1; iParticle++)
-		//{
-		//	particles[iParticle] = iParticle.; 
-		//}
-
-		//int selectedItem = 0; 
-		//// 
-		//
-		//ImGui::ListBox("Listbox", &selectedItem, particles, particles.size()); 
-
-		//ImGui::ListBox()
+		string text_particleList = std::string("Particle List##") + std::to_string(particleIndex);
 
 		if (ImGui::CollapsingHeader(text_customization_particle.c_str()))
 		{
@@ -258,15 +258,6 @@ void renderImGUIParticlesList()
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
-
-			if (particleIndex == 2)
-			{
-				if (ImGui::Button(text_spring.c_str()))
-				{
-					ParticleForceGenerator* spring = new ParticleSpring(instance->getParticle(1));
-					PhysicWorld::getInstance()->addForceEntry(particle, spring);
-				}
-			}
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{
@@ -286,6 +277,25 @@ void renderImGUIParticlesList()
 			if (ImGui::Button(text_buoyancy.c_str()))
 			{
 				PhysicWorld::getInstance()->addForceEntry(particle, buoyancy);
+			}
+
+			//char* particles[numberParticles - 1] = new char*[numberParticles - 1];
+			//const char* particles[5]; // = { "1", "2", "3", "4", "5" };
+			static int selectedParticleSpring = 0;
+
+			vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
+			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == particle; }), particlesVector.end());;
+			const char* out_text[MAX_NUMBER_PARTICLES];
+
+			ImGui::Combo(text_particleList.c_str(), &selectedParticleSpring, *VectorOfStringGetter,
+				(void *) &particlesVector, particlesVector.size());
+
+			detectorNumberParticle = 0; 
+
+			if (ImGui::Button(text_spring.c_str()))
+			{
+				ParticleForceGenerator* spring = new ParticleSpring(particlesVector[selectedParticleSpring]);
+				PhysicWorld::getInstance()->addForceEntry(particle, spring);
 			}
 
 			if (ImGui::Button(text_remove.c_str()))
@@ -500,4 +510,3 @@ void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
 {
 	camera.processMouseScroll(static_cast<float>(_yOffset));
 }
-

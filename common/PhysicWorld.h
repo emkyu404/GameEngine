@@ -18,7 +18,7 @@ private:
 	vector<Particle*> particles; // list of particles
 	vector<ParticleContact*> particlesContacts; // list of contacts
 	ParticleForceRegistry particleForceRegistry;
-	
+
 	ParticleContactResolver contactResolver; // hold resolver of contact
 
 	vector<ParticleContactGenerator> contactGenerators;
@@ -49,12 +49,12 @@ public:
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
 
-	void addParticle(); 
+	void addParticle();
 	void addParticle(Vector3D _initialPosition);
 	void removeParticle(Particle* _targetParticle);
 
 	void clearParticles();
-	
+
 	/*-------------- METHODS FORCES --------------*/
 
 	void addForceEntry(Particle* _newParticle, ParticleForceGenerator* _forceGenerator);
