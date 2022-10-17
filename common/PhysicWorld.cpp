@@ -7,8 +7,13 @@
 
 PhysicWorld::PhysicWorld()
 {
+	const int arraySize = 10;
 	/* hard-code max contacts per frame */
-	maxContacts = 10;
+	maxContacts = arraySize;
+
+	/* initialize ParticleContact? */
+	ParticleContact pcArray[arraySize];
+	contacts = pcArray; //contacts point to array of particle contact
 }
 
 PhysicWorld* PhysicWorld::singleton = nullptr;;
@@ -23,17 +28,17 @@ PhysicWorld* PhysicWorld::getInstance() {
 
 unsigned PhysicWorld::generateContacts() {
 	unsigned limit = maxContacts;
-	ParticleContact* nextContact = contacts;
-
-	/*
-	for (ParticleContactGenerator contactGenerator : contactGenerators) {
-		unsigned used = (g)->addContact(nextContact, limit);
+	ParticleContact* nextContact = contacts; // nextContact points to the first element of the list of contacts
+	vector<ParticleContactGenerator*>::iterator ptr; //declare iterator
+	
+	for (ptr = contactGenerators.begin(); ptr < contactGenerators.end(); ptr++) {
+		unsigned used = (*ptr)->addContact(nextContact, limit);
 		limit -= used;
-		nextContact += used;
+		nextContact += used; // next value of list
 
 		if (limit <= 0) break;
 	}
-	*/
+	
 	return maxContacts - limit;
 }
 
@@ -68,15 +73,30 @@ void PhysicWorld::runPhysics(float _duration) {
 /*-------------- METHODS PARTICLES --------------*/
 
 void PhysicWorld::addParticle() {
+	if (particles.size() <= 0) {
+		addContactGenerator(new NaiveParticleContactGenerator());
+	}
 	Particle* _newParticle = new Particle();
 	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
+	// update NaiveParticleContactGenerator
+
+	vector<ParticleContactGenerator*>::iterator ptr; //declare iterator
+	for (ptr = contactGenerators.begin(); ptr < contactGenerators.end(); ptr++) {
+		
+		if ((* ptr)->type() == "NaiveParticleContactGenerator") {
+			printf("Naive Particle Contact Generator Exist !");
+		}
+	}
+	
 }
 
 void PhysicWorld::addParticle(Vector3D _initialPosition) {
 	Particle* _newParticle = new Particle(_initialPosition);
 	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
+	// update NaiveParticleContactGenerator
+
 }
 
 void PhysicWorld::removeParticle(Particle* _targetParticle) {
@@ -115,4 +135,11 @@ void PhysicWorld::addForceEntry(Particle* _newParticle, ParticleForceGenerator* 
 
 void PhysicWorld::removeForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator) {
 	particleForceRegistry.removeForceEntry(_targetParticle, _targetForceGenerator);
+}
+
+
+
+/*-------------- METHODS CONTACT GENERATOR ---------------*/
+void PhysicWorld::addContactGenerator(ParticleContactGenerator* _contactGenerator) {
+	contactGenerators.push_back(_contactGenerator);
 }

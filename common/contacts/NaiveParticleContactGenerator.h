@@ -18,4 +18,6 @@ public:
 	NaiveParticleContactGenerator(float _radius);
 	NaiveParticleContactGenerator(float _radius, vector<Particle*> _particles);
 	unsigned int addContact(ParticleContact* _contact, unsigned int _limit) const;
+	bool particleIsInvolved(Particle* _particle);
+	string type();
 };

@@ -12,16 +12,14 @@ using namespace std;
 class PhysicWorld
 {
 private:
-	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be runnning
+	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be running
 
-
+	
 	vector<Particle*> particles; // list of particles
-	vector<ParticleContact*> particlesContacts; // list of contacts
 	ParticleForceRegistry particleForceRegistry;
 	
 	ParticleContactResolver contactResolver; // hold resolver of contact
-
-	vector<ParticleContactGenerator> contactGenerators;
+	vector<ParticleContactGenerator*> contactGenerators;
 
 	ParticleContact* contacts; // hold list of contact
 
@@ -54,9 +52,13 @@ public:
 	void removeParticle(Particle* _targetParticle);
 
 	void clearParticles();
-	
+
 	/*-------------- METHODS FORCES --------------*/
 
 	void addForceEntry(Particle* _newParticle, ParticleForceGenerator* _forceGenerator);
 	void removeForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator);
+
+	/*-------------- METHODS CONTACT GENERATOR --------------*/
+
+	void addContactGenerator(ParticleContactGenerator* _contactGenerator);
 };
