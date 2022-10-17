@@ -219,8 +219,9 @@ bool VectorOfStringGetter(void* data, int n, const char** out_text)
 {
 	const vector<Vector3D>* particles = (vector<Vector3D>*)data;
 	detectorNumberParticle++; 
-
-	*out_text = "Particle ";
+	string text = "Particle " + to_string(detectorNumberParticle);
+	//printf("%s", text); 
+	*out_text = "Particle"; 
 
 	return true;
 }
@@ -279,8 +280,7 @@ void renderImGUIParticlesList()
 				PhysicWorld::getInstance()->addForceEntry(particle, buoyancy);
 			}
 
-			//char* particles[numberParticles - 1] = new char*[numberParticles - 1];
-			//const char* particles[5]; // = { "1", "2", "3", "4", "5" };
+
 			static int selectedParticleSpring = 0;
 
 			vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
