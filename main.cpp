@@ -78,6 +78,7 @@ float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 
 Camera camera = Camera(10.0f, 3.0f, 10.0f);
+static float camSpeed = 2.5f;
 
 const static GLuint vao, vbo, ibo;
 
@@ -215,6 +216,22 @@ void setupImGUI(GLFWwindow* window, const char* glsl_version) {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 }
 
+void rendererImGUICamera()
+{
+	ImGui::Begin("Camera"); 
+
+	
+	
+	ImGui::SliderFloat("Movement speed", &camSpeed, 1.0f, 25.0f); 
+
+	if (ImGui::Button("Set movement speed"))
+	{
+		camera.setMovementSpeed(camSpeed); 
+	}
+
+	ImGui::End(); 
+}
+
 bool VectorOfStringGetter(void* data, int n, const char** out_text)
 {
 	const vector<Vector3D>* particles = (vector<Vector3D>*)data;
@@ -225,7 +242,6 @@ bool VectorOfStringGetter(void* data, int n, const char** out_text)
 
 	return true;
 }
-
 
 void renderImGUIParticlesList()
 {
@@ -399,6 +415,7 @@ void renderImGUI()
 	ImGui::NewFrame();
 	renderImGUIMainFrame();
 	renderImGUIParticlesList();
+	rendererImGUICamera(); 
 	ImGui::Render();
 }
 
