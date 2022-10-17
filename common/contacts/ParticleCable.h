@@ -9,8 +9,6 @@ class ParticleCable : public ParticleLink {
 public:
 
 	ParticleCable();
-	ParticleCable(float _maxLenght);
-	ParticleCable(float _restitution);
 	ParticleCable(float _maxLenght, float _restitution);
 
 	float maxLenght;

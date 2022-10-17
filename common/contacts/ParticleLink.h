@@ -8,7 +8,7 @@ public :
 	Particle* particle[2];
 
 	ParticleLink();
-	ParticleLink(Particle* _particles[2]);
+	//ParticleLink(Particle* _particles[2]);
 
 	float currentLenght() const;
 	unsigned int addContact(ParticleContact* _contact, unsigned int _limit) const = 0;

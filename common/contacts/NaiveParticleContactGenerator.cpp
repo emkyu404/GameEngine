@@ -8,6 +8,7 @@ NaiveParticleContactGenerator::NaiveParticleContactGenerator()
 NaiveParticleContactGenerator::NaiveParticleContactGenerator(float _radius) 
 	: NaiveParticleContactGenerator(_radius, vector<Particle*>()) {
 }
+
 /* Full constructor */
 NaiveParticleContactGenerator::NaiveParticleContactGenerator(float _radius, vector<Particle*> _particles) {
 	radius = _radius;
