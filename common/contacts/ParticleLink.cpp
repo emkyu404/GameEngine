@@ -1,5 +1,9 @@
 #include "ParticleLink.h"
 
+ParticleLink::ParticleLink()
+{
+}
+
 ParticleLink::ParticleLink(Particle* _particle[2]) {
 	particle[0] = _particle[0];
 	particle[1] = _particle[1];

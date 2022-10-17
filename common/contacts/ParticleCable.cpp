@@ -8,9 +8,11 @@ ParticleCable::ParticleCable(float _maxLenght)
 	: ParticleCable(_maxLenght, DEFAULT_RESTITUTION) {
 }
 
+/*
 ParticleCable::ParticleCable(float _restitution)
 	: ParticleCable(DEFAULT_MAX_LENGHT, _restitution) {
 }
+*/
 
 ParticleCable::ParticleCable(float _maxLenght, float _restitution) {
 	maxLenght = _maxLenght;
