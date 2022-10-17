@@ -26,6 +26,11 @@ mat4 Camera::getViewMatrix() {
 	return lookAt(glmPosition, glmPosition+glmFront, glmUp);
 }
 
+void Camera::setMovementSpeed(float _moveSpeed)
+{
+	movementSpeed = _moveSpeed;
+}
+
 void Camera::processKeyboard(CameraMovement _direction, float _deltaTime) {
 	if (lock)
 		return;

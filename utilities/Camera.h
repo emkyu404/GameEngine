@@ -39,6 +39,7 @@ public :
 	void processKeyboard(CameraMovement _direction, float _deltaTime);
 	void processMouseMovement(float _xOffset, float _yOffset, GLboolean _constrainPitch);
 	void processMouseScroll(float _yOffset);
+	void setMovementSpeed(float _moveSpeed); 
 	void setLock(bool _lockState);
 	bool getLock();
 	float getZoom();
