@@ -2,10 +2,10 @@
 #include "ParticleForceGenerator.h"
 #include "Vector3D.hpp"
 
-#define DEFAULT_MAX_DEPTH 1
-#define DEFAULT_VOLUME 1
-#define DEFAULT_WATER_HEIGHT 1
-#define DEFAULT_LIQUID_DENSITY 1000
+#define DEFAULT_MAX_DEPTH 5
+#define DEFAULT_VOLUME 20
+#define DEFAULT_WATER_HEIGHT 4
+#define DEFAULT_LIQUID_DENSITY 1
 
 class ParticleBuoyancy : public ParticleForceGenerator
 {
