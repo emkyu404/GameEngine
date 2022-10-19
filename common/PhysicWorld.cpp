@@ -30,6 +30,7 @@ unsigned PhysicWorld::generateContacts() {
 	unsigned limit = maxContacts;
 	ParticleContact* nextContact = contacts; // nextContact points to the first element of the list of contacts
 	vector<ParticleContactGenerator*>::iterator ptr; //declare iterator
+
 	
 	for (ptr = contactGenerators.begin(); ptr < contactGenerators.end(); ptr++) {
 		unsigned used = (*ptr)->addContact(nextContact, limit);
@@ -60,13 +61,14 @@ void PhysicWorld::runPhysics(float _duration) {
 	integrate(_duration);
 
 	// Generate contacts
-	int usedContacts = generateContacts();
+	if (contactGenerators.size() > 0) {
+		int usedContacts = generateContacts();
+		//Resolve them
 
-	//Resolve them
-
-	if (usedContacts) {
-		contactResolver.setIterations(usedContacts * 2);
-		contactResolver.resolveContacts(contacts, usedContacts, _duration);
+		if (usedContacts) {
+			contactResolver.setIterations(usedContacts);
+			contactResolver.resolveContacts(contacts, usedContacts, _duration);
+		}
 	}
 }
 
@@ -74,29 +76,27 @@ void PhysicWorld::runPhysics(float _duration) {
 
 void PhysicWorld::addParticle() {
 	if (particles.size() <= 0) {
-		addContactGenerator(new NaiveParticleContactGenerator());
+		addContactGenerator(new NaiveParticleContactGenerator(&particles));
 	}
+
 	Particle* _newParticle = new Particle();
 	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
-	// update NaiveParticleContactGenerator
 
 	vector<ParticleContactGenerator*>::iterator ptr; //declare iterator
 	for (ptr = contactGenerators.begin(); ptr < contactGenerators.end(); ptr++) {
 		
-		if ((* ptr)->type() == "NaiveParticleContactGenerator") {
-			printf("Naive Particle Contact Generator Exist !");
-		}
 	}
 	
 }
 
 void PhysicWorld::addParticle(Vector3D _initialPosition) {
+	if (particles.size() <= 0) {
+		addContactGenerator(new NaiveParticleContactGenerator(&particles));
+	}
 	Particle* _newParticle = new Particle(_initialPosition);
 	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
-	// update NaiveParticleContactGenerator
-
 }
 
 void PhysicWorld::removeParticle(Particle* _targetParticle) {

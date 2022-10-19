@@ -3,7 +3,6 @@
 /*----------------PROTECTED----------------*/
 
 void ParticleContact::resolve(float _duration) {
-
 	resolveVelocity(_duration);
 	resolveInterpenetration();
 
