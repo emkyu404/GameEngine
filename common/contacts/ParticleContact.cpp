@@ -10,6 +10,7 @@ void ParticleContact::resolve(float _duration) {
 }
 
 float ParticleContact::calculateSeparatingVelocity() const {
+
 	Vector3D relativeVelocity = particle[0]->getVelocity();
 	if (particle[1]) {
 		relativeVelocity -= particle[1]->getVelocity();
@@ -20,9 +21,13 @@ float ParticleContact::calculateSeparatingVelocity() const {
 /*----------------PRIVATE----------------*/
 
 void ParticleContact::resolveVelocity(float _duration) {
+
+	/* Find the velocity in the direction of the contact */
 	float separatingVelocity = calculateSeparatingVelocity();
 	
+	/* Verify if it needs to be resolved */
 	if (separatingVelocity > 0) {
+		/* The contact is either separating, or stationary, no impule is required */
 		return;
 	}
 
