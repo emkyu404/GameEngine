@@ -11,6 +11,6 @@ public :
 	ParticleLink(Particle* _particles[2]);
 
 	float currentLenght() const;
-	unsigned int addContact(ParticleContact* _contact, unsigned int _limit) const = 0;
+	unsigned int addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const = 0;
 };
 

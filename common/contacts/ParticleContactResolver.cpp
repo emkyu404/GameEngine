@@ -1,26 +1,28 @@
 #include <ParticleContactResolver.h>
+#include <vector>
 
-void ParticleContactResolver::resolveContacts(ParticleContact* _contactArray, unsigned int _numContacts, float _duration) {
-	unsigned i;
+using namespace std;
 
+void ParticleContactResolver::resolveContacts(vector<ParticleContact*>* _contactArray, unsigned int _numContacts, float _duration) {
 	iterationsUsed = 0;
 	while (iterationsUsed < iterations) {
 		float max = FLT_MAX;
-		unsigned maxIndex = _numContacts;
-
-		for (i = 0; i < _numContacts; i++) {
-			float sepVel = _contactArray[i].calculateSeparatingVelocity();
-			if (sepVel < max && (sepVel < 0 || _contactArray[i].penetration >0)) {
+		int maxIndex = 0;
+		// Search for contact with maximum seperating velocity
+		for (int i = 0; i < _contactArray->size(); i++) {
+			float sepVel = _contactArray->at(i)->calculateSeparatingVelocity();
+			if (sepVel < max && sepVel < 0 || _contactArray->at(i)->penetration > 0) {
 				max = sepVel;
 				maxIndex = i;
 			}
 		}
-
-		if (maxIndex == _numContacts) break;
-
-		_contactArray[maxIndex].resolve(_duration);
-
+		_contactArray->at(maxIndex)->resolve(_duration);
+		_contactArray->erase(_contactArray->begin() + maxIndex); // remove the contact from array
 		iterationsUsed++;
+
+		if (_contactArray->empty()) {
+			return;
+		}
 	}
 }
 

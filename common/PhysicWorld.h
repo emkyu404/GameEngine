@@ -21,7 +21,7 @@ private:
 	ParticleContactResolver contactResolver; // hold resolver of contact
 	vector<ParticleContactGenerator*> contactGenerators;
 
-	ParticleContact* contacts; // hold list of contact
+	vector<ParticleContact*> contacts;
 
 	unsigned int maxContacts; // maximum of contact possible => size of contact array
 

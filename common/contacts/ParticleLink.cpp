@@ -14,7 +14,7 @@ float ParticleLink::currentLenght() const {
 	return relativePos.norm();
 }
 
-unsigned ParticleLink::addContact(ParticleContact* contact, unsigned limit) const {
+unsigned ParticleLink::addContact(vector<ParticleContact*>* _contactArray, unsigned _limit) const {
 
 	return 0;
 }
