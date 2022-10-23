@@ -14,10 +14,6 @@ Cube::Cube(VAO* _vao) {
 
 void Cube::init() {
 
-
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
-
 	/* Tableau de vertices qui représentent les sommets de notre triangle */
 	const GLfloat vertices[] = {
 	-1.0f,-1.0f,-1.0f, // triangle 1 : begin

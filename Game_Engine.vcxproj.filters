@@ -156,6 +156,9 @@
     <ClCompile Include="utilities\Camera.cpp">
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
+    <ClCompile Include="shapes\Line.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -268,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="utilities\Camera.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Line.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
