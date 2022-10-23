@@ -13,7 +13,17 @@ float ParticleLink::currentLenght() const {
 	return relativePos.norm();
 }
 
-unsigned ParticleLink::addContact(vector<ParticleContact*>* _contactArray, unsigned _limit) const {
+unsigned int ParticleLink::addContact(vector<ParticleContact*>* _contactArray, unsigned _limit) const {
 
 	return 0;
+}
+
+bool ParticleLink::particleIsInvolved(Particle* _particle)
+{
+	return true; // ParticleLink gets all particules of our world, always return true
+}
+
+string ParticleLink::type()
+{
+	return "ParticleLink";
 }

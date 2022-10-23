@@ -9,7 +9,7 @@ ParticleCable::ParticleCable(float _maxLenght, float _restitution) {
 	restitution = _restitution;
 }
 
-unsigned ParticleCable::addContact(ParticleContact* contact, unsigned limit) const {
+unsigned int ParticleCable::addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const {
 
 	float lenght = currentLenght();
 
@@ -17,16 +17,29 @@ unsigned ParticleCable::addContact(ParticleContact* contact, unsigned limit) con
 		return 0;
 	}
 
-	contact->particle[0] = particle[0];
-	contact->particle[1] = particle[1];
+	ParticleContact* newContact = new ParticleContact(); //create new contact
+
+	newContact->particle[0] = particle[0];
+	newContact->particle[1] = particle[1];
 
 	Vector3D normal = particle[1]->getPosition() - particle[0]->getPosition();
 	normal.normalize();
-	contact->contactNormal = normal;
+	newContact->contactNormal = normal;
 
-	contact->penetration = lenght - maxLenght;
-	contact->restitution = restitution;
+	newContact->penetration = lenght - maxLenght;
+	newContact->restitution = restitution;
 
+	_contact->push_back(newContact);
 	return 1;
 
+}
+
+bool ParticleCable::particleIsInvolved(Particle* _particle)
+{
+	return true; // ParticleCable gets all particules of our world, always return true
+}
+
+string ParticleCable::type()
+{
+	return "ParticleCable";
 }

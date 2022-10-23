@@ -2,6 +2,9 @@
 #include "Particle.hpp"
 #include "ParticleGravity.h"
 #include "NaiveParticleContactGenerator.h"
+#include "ParticleLink.h"
+#include "ParticleRod.h"
+#include "ParticleCable.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 
@@ -13,6 +16,7 @@ PhysicWorld::PhysicWorld()
 
 	// init NaiveParticleContactGenerator
 	NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
+	//ParticleCable* pc = new ParticleCable();
 	contactGenerators.push_back(npcg);
 }
 
