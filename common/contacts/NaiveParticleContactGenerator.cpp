@@ -49,7 +49,7 @@ unsigned int NaiveParticleContactGenerator::addContact(vector<ParticleContact*>*
 				newContact->contactNormal = normal;
 				//penetration calculation
 				newContact->penetration = distance - ((distance - radius) * 2);
-				newContact->restitution = 1;
+				newContact->restitution = 0;
 
 				contactUsed++; // increment number of contact used
 				_contactArray->push_back(newContact); // add our new contact to array of contact

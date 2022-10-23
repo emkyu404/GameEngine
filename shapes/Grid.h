@@ -1,17 +1,17 @@
 #pragma once
-#ifndef GRID_H
-#define GRID_H
 
 #include <GLEW/glew.h>
 #include "Shape.h"
+#include <VAO.h>
+#include <VBO.h>
+#include <IBO.h>
 
 const int SLICES = 10;
 
 class Grid : public Shape
 {
 public:
-    Grid();
-    ~Grid();
+    Grid(VAO* _vao);
     void init();
     void cleanup();
     void draw();
@@ -20,6 +20,6 @@ private:
     bool isInited;
     GLuint m_vao, m_vboVertex, m_vboIndex;
     int slices, length;
-};
 
-#endif // CUBE_H
+    VBO* vbo; VAO* vao; IBO* ibo;
+};

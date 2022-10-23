@@ -4,16 +4,14 @@
 #include <GLM/ext.hpp>
 
 
+
 using namespace std;
 
-Grid::Grid()
+Grid::Grid(VAO* _vao)
 {
     slices = SLICES;
     length = 0; //initialize
-}
-
-Grid::~Grid()
-{
+    vao = _vao;
 }
 
 void Grid::init()
@@ -41,26 +39,14 @@ void Grid::init()
 
         }
     }
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
-
-    glGenBuffers(1, &m_vboVertex);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboVertex);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), glm::value_ptr(vertices[0]), GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-    /*GLuint ibo;
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(glm::uvec4), glm::value_ptr(indices[0]), GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+    //init and bind VAO
+    vao->bindVAO();
+    vbo = new VBO(glm::value_ptr(vertices[0]), vertices.size() * sizeof(glm::vec3));
+    ibo = new IBO(glm::value_ptr(indices[0]), indices.size() * sizeof(glm::uvec4));
+    vao->linkVBO(*vbo, 0);
+    vao->unbindVAO();
 
     length = (GLuint)indices.size() * 4;
-
     isInited = true;
 }
 
@@ -92,8 +78,10 @@ void Grid::draw()
         std::cout << "please call init() before draw()" << std::endl;
     }
     glEnable(GL_DEPTH_TEST);
-    glBindVertexArray(m_vao);
-    //glDrawElements(GL_LINES, length, GL_UNSIGNED_INT, NULL);
-    glBindVertexArray(0);
+    vao->bindVAO();
+    vbo->bindVBO();
+    glDrawElements(GL_LINES, length, GL_UNSIGNED_INT, NULL);
+    vao->unbindVAO();
+    vbo->unbindVBO();
     glDisable(GL_DEPTH_TEST);
 }

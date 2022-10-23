@@ -56,7 +56,7 @@ static Shader* particleShader;
 static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
-static int particleCount = 5;
+static int particleCount = 2;
 static Vector3D offsetParticle = Vector3D(3, 0, 0); 
 
 // Forces
@@ -156,9 +156,17 @@ void initGL() {
 	// Chargement des shaders
 	particleShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 
+	//VAO creation
+	VAO* particleVao = new VAO();
+	VAO* gridVao = new VAO();
+
+
 	//Chargement OpenGL
-	particleShape = new Cube();
+	particleShape = new Cube(particleVao);
 	particleShape->init();
+
+	grid = new Grid(gridVao);
+	grid->init();
 }
 
 void paintGL() {
@@ -169,7 +177,8 @@ void paintGL() {
 	// Update matrix
 	projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 	view = camera.getViewMatrix();
-
+	
+	
 	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
 	{
 		model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
@@ -185,10 +194,10 @@ void paintGL() {
 		float color[3] = { 1.0f, 0.8f, 0.2f };
 		glUniform3fv(color_location, 1, color);
 
+		//grid->draw();
 		//Color test
 		particleShape->draw();
 	}
-	
 }
 
 void initParticles() 

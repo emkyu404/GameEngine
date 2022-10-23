@@ -1,15 +1,13 @@
 #pragma once
-#ifndef CUBE_H
-#define CUBE_H
-
 #include <GLEW/glew.h>
 #include "Shape.h"
+#include "VBO.h"
+#include "VAO.h"
 
 class Cube : public Shape
 {
 public:
-    Cube();
-    ~Cube();
+    Cube(VAO* vao);
     void init();
     void cleanup();
     void draw();
@@ -17,6 +15,5 @@ public:
 private:
     bool isInited;
     GLuint m_vao, m_vboVertex, m_vboIndex;
+    VBO* vbo; VAO* vao;
 };
-
-#endif // CUBE_H

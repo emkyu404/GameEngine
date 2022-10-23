@@ -59,6 +59,10 @@ void PhysicWorld::runPhysics(float _duration) {
 	// Generate contacts
 	int usedContacts = generateContacts();
 
+	if (usedContacts > 0) {
+		printf("%d\n", usedContacts);
+	}
+
 	//Resolve them
 
 	if (usedContacts > 0) {

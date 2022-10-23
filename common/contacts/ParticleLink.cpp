@@ -1,7 +1,6 @@
 #include "ParticleLink.h"
 
-ParticleLink::ParticleLink()
-{
+ParticleLink::ParticleLink() {
 }
 
 ParticleLink::ParticleLink(Particle* _particle[2]) {
