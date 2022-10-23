@@ -8,7 +8,7 @@ class VBO
 public:
 	GLuint id;
 
-	VBO(GLfloat* _vertices, GLsizeiptr _size);
+	VBO(const GLfloat* _vertices, GLsizeiptr _size);
 
 	void bindVBO();
 	void unbindVBO();

@@ -1,7 +1,4 @@
 #pragma once
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
-
 #include <GLEW/glew.h>
 #include "Shape.h"
 
@@ -18,5 +15,3 @@ private:
     bool isInited;
     GLuint m_vao, m_vboVertex, m_vboIndex;
 };
-
-#endif // TRIANGLE_H

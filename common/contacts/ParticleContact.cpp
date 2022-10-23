@@ -90,18 +90,17 @@ void ParticleContact::resolveInterpenetration() {
 	particleMovement[0] = movePerIMass * particle[0]->getInverseMass();
 
 	if (particle[1]) {
-		particleMovement[1] = movePerIMass * -particle[1]->getInverseMass();
+		particleMovement[1] = movePerIMass * - particle[1]->getInverseMass();
 	}
 	else {
 		particleMovement[1].clear();
 	}
 
-	/* Aply the penetration resolution */
-	particle[0]->setPosition(particle[0]->getPosition() + particleMovement[0]);
+	particle[0]->setPosition(particle[0]->getPosition() - particleMovement[0]);
 
 	if (particle[1]) {
 		particle[1]->setPosition(
-			particle[1]->getPosition() + particleMovement[1]
+			particle[1]->getPosition() - particleMovement[1]
 		);
 	}
 }

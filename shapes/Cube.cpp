@@ -7,12 +7,9 @@
 #include <glm/gtx/string_cast.hpp>
 
 
-Cube::Cube() {
+Cube::Cube(VAO* _vao) {
 	isInited = false;
-}
-
-Cube::~Cube() {
-
+	vao = _vao;
 }
 
 void Cube::init() {
@@ -22,7 +19,7 @@ void Cube::init() {
 	glBindVertexArray(m_vao);
 
 	/* Tableau de vertices qui représentent les sommets de notre triangle */
-	static const GLfloat g_vertex_buffer_data[] = {
+	const GLfloat vertices[] = {
 	-1.0f,-1.0f,-1.0f, // triangle 1 : begin
 	-1.0f,-1.0f, 1.0f,
 	-1.0f, 1.0f, 1.0f, // triangle 1 : end
@@ -62,7 +59,7 @@ void Cube::init() {
 	};
 
 	// One color for each vertex. They were generated randomly.
-	static const GLfloat g_color_buffer_data[] = {
+	GLfloat g_color_buffer_data[] = {
 		0.583f,  0.771f,  0.014f,
 		0.609f,  0.115f,  0.436f,
 		0.327f,  0.483f,  0.844f,
@@ -101,23 +98,10 @@ void Cube::init() {
 		0.982f,  0.099f,  0.879f
 	};
 
-	// Generate 1 buffer, put the resulting identifier in vertexbuffer
-	glGenBuffers(1, &m_vboVertex);
-	// The following commands will talk about our 'vertexbuffer' buffer
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboVertex);
-	// Give our vertices to OpenGL.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboVertex);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
+	vao->bindVAO();
+	vbo = new VBO(vertices, sizeof(vertices));
+	vao->linkVBO(*vbo, 0);
+	vao->unbindVAO();
 
 	isInited = true;
 }
@@ -148,5 +132,7 @@ void Cube::draw() {
 	if (!isInited) {
 		std::cout << "Cube please call init() before draw()" << std::endl;
 	}
+	vao->bindVAO();
+	vbo->bindVBO();
 	glDrawArrays(GL_TRIANGLES, 0, 12*3);
 }

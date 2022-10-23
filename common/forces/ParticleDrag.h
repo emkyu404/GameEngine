@@ -3,8 +3,8 @@
 #include "ParticleForceGenerator.h"
 #include "Vector3D.hpp"
 
-#define DEFAULT_VALUE_K1 1 
-#define DEFAULT_VALUE_K2 2
+#define DEFAULT_VALUE_K1 0.1
+#define DEFAULT_VALUE_K2 0.1
 
 class ParticleDrag : public ParticleForceGenerator
 {
