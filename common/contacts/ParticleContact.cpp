@@ -31,8 +31,10 @@ void ParticleContact::resolveVelocity(float _duration) {
 		return;
 	}
 
+	/* Calculate the new separating velocity */
 	float newSepVelocity = -separatingVelocity * restitution;
 
+	/* Check velocity buildup due to acceleration only */
 	Vector3D accCausedVelocity = particle[0]->getAcceleration();
 	if (particle[1]) accCausedVelocity -= particle[1]->getAcceleration();
 
@@ -46,12 +48,14 @@ void ParticleContact::resolveVelocity(float _duration) {
 
 	float deltaVelocity = newSepVelocity - separatingVelocity;
 
+	/* Apply the change of velocity to each object in proportion to their inverse mass*/
 	float totalInverseMass = particle[0]->getInverseMass();
 	if (particle[1])
 		totalInverseMass += particle[1]->getInverseMass();
 
 	if (totalInverseMass <= 0) return;
 
+	/* Calculate the impulse to apply */
 	float impulse = deltaVelocity / totalInverseMass;
 
 	Vector3D impulsePerIMass = contactNormal * impulse;
@@ -69,15 +73,20 @@ void ParticleContact::resolveVelocity(float _duration) {
 
 void ParticleContact::resolveInterpenetration() {
 
+	/* If we don't have any penetration skip this step */
 	if (penetration <= 0) return;
 
+	/* The movement of each object is based on their inverse mass */
 	float totalInverseMass = particle[0]->getInverseMass();
 	if (particle[1]) totalInverseMass += particle[1]->getInverseMass();
 
+	/* If all particles have infinite mass, then we do nothing */
 	if (totalInverseMass <= 0) return;
 
+	/* Find the amount of penetration resolution per unit of invermass */
 	Vector3D movePerIMass = contactNormal * (penetration / totalInverseMass);
 
+	/* Calculate the movement amounts */
 	particleMovement[0] = movePerIMass * particle[0]->getInverseMass();
 
 	if (particle[1]) {
@@ -87,6 +96,7 @@ void ParticleContact::resolveInterpenetration() {
 		particleMovement[1].clear();
 	}
 
+	/* Aply the penetration resolution */
 	particle[0]->setPosition(particle[0]->getPosition() + particleMovement[0]);
 
 	if (particle[1]) {
