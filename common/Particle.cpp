@@ -7,7 +7,7 @@
 // Default constructor
 Particle::Particle()
 	: Particle(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),
-		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+		DEFAULT_VALUE_WEIGHT)
 {
 }
 
@@ -56,80 +56,6 @@ void Particle::reset()
 	velocity = Vector3D();
 	acceleration = Vector3D();
 	clearForce(); 
-}
-
-/*-------------- GETTERS --------------*/
-
-// Return position 
-Vector3D Particle::getPosition() {
-	return position; 
-}
-
-// Return initial positon 
-Vector3D Particle::getInitialPosition() {
-	return initialPosition; 
-}
-
-// Return velocity 
-Vector3D Particle::getVelocity() {
-	return velocity;
-}
-
-// Return acceleration 
-Vector3D Particle::getAcceleration() {
-	return acceleration;
-}
-
-// Return weight 
-float Particle::getMass() {
-	return 1.0f / inverseMass;
-}
-
-// Return inverse weight 
-float Particle::getInverseMass() {
-	return inverseMass; 
-}
-
-// Return damping
-float Particle::getDamping() {
-	return damping; 
-}
-
-/*-------------- SETTERS --------------*/
-
-// Set Vector3 position 
-void Particle::setPosition(Vector3D _position) {
-	position = _position; 
-}
-
-void Particle::initializePosition(Vector3D _initialPosition) {
-	position = _initialPosition; 
-	initialPosition = _initialPosition; 
-}
-
-// Set Vector3 velocity
-void Particle::setVelocity(Vector3D _velocity) {
-	velocity = _velocity;
-}
-
-// Set Vector3 acceleration
-void Particle::setAcceleration(Vector3D _acceleration) {
-	acceleration = _acceleration;
-}
-
-// Set weight
-void Particle::setMass(float _mass) {
-	inverseMass = 1.0f / _mass;
-}
-
-// Change weight to inverse weight 
-void Particle::setInverseMass(float _inverseMass) {
-	inverseMass = _inverseMass;
-}
-
-// Set damping 
-void Particle::setDamping(float _damping) {
-	damping = _damping; 
 }
 
 // Add a force
