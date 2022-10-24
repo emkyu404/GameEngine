@@ -147,6 +147,7 @@
     <ClCompile Include="common\forces\ParticleGravity.cpp" />
     <ClCompile Include="common\forces\ParticleSpring.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\PhysicObject.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="common\forces\ParticleGravity.h" />
     <ClInclude Include="common\forces\ParticleSpring.h" />
     <ClInclude Include="common\Particle.hpp" />
+    <ClInclude Include="common\PhysicObject.h" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\Vector3D.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
