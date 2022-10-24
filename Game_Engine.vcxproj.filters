@@ -162,6 +162,9 @@
     <ClCompile Include="common\PhysicObject.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -279,6 +282,9 @@
       <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
     <ClInclude Include="common\PhysicObject.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>

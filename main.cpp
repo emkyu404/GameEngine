@@ -14,8 +14,9 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtx/transform.hpp>
 
-//Utility class
+//Utilities class
 #include "Shader.h"
+#include "Quaternion.h"
 
 // Moteur
 #include <Particle.hpp>
