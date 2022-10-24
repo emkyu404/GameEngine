@@ -157,6 +157,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
     <ClCompile Include="shapes\Line.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="common\Particle.hpp" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\Vector3D.hpp" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
