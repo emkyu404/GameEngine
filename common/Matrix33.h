@@ -22,7 +22,7 @@ public :
 
 	Vector3D transform(Vector3D &_vector);
 	Matrix33 getInverse();
-	Matrix33 getTtranspose();
+	Matrix33 getTranspose();
 
 	//void setOrientation(const Quaternion& q);
 

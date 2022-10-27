@@ -165,10 +165,10 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix33.cpp">
+    <ClCompile Include="common\Matrix33.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix34.cpp">
+    <ClCompile Include="common\Matrix34.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -293,10 +293,10 @@
     <ClInclude Include="Quaternion.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix33.h">
+    <ClInclude Include="common\Matrix33.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix34.h">
+    <ClInclude Include="common\Matrix34.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>
