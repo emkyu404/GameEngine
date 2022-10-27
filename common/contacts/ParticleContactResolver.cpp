@@ -21,7 +21,6 @@ void ParticleContactResolver::resolveContacts(vector<ParticleContact*>* _contact
 		iterationsUsed++;
 
 		if (_contactArray->empty()) {
-			printf("All contact resolved\n");
 			return;
 		}
 	}

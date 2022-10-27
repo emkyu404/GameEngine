@@ -166,7 +166,7 @@ Vector3D Vector3D::cross(Vector3D _vector)
 					this->x * _vector.y - this->y * _vector.x);
 }
 
-/*-------------- AFFICHAGE --------------*/
+/*-------------- DISPLAY --------------*/
 
 void Vector3D::print() {
 	cout << "x = " << this->x << endl;

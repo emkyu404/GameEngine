@@ -147,6 +147,7 @@
     <ClCompile Include="common\forces\ParticleGravity.cpp" />
     <ClCompile Include="common\forces\ParticleSpring.cpp" />
     <ClCompile Include="common\Particle.cpp" />
+    <ClCompile Include="common\PhysicObject.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -157,10 +158,12 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Matrix33.cpp" />
     <ClCompile Include="Matrix34.cpp" />
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
+    <ClCompile Include="shapes\Line.cpp" />
     <ClCompile Include="shapes\Triangle.cpp" />
     <ClCompile Include="utilities\Camera.cpp" />
     <ClCompile Include="utilities\IBO.cpp" />
@@ -185,8 +188,10 @@
     <ClInclude Include="common\forces\ParticleGravity.h" />
     <ClInclude Include="common\forces\ParticleSpring.h" />
     <ClInclude Include="common\Particle.hpp" />
+    <ClInclude Include="common\PhysicObject.h" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\Vector3D.hpp" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -200,6 +205,7 @@
     <ClInclude Include="Matrix34.h" />
     <ClInclude Include="shapes\Cube.h" />
     <ClInclude Include="shapes\Grid.h" />
+    <ClInclude Include="shapes\Line.h" />
     <ClInclude Include="shapes\Shape.h" />
     <ClInclude Include="shapes\Triangle.h" />
     <ClInclude Include="utilities\Camera.h" />
