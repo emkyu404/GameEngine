@@ -52,7 +52,7 @@ Matrix34 Matrix34::getInverse() {
 	float newValues[12];
 
 	float det = getDeterminant();
-	if (det == 0) return;
+	if (det == 0) return Matrix34(DEFAULT_VALUES);;
 	float invd = 1.0f / det;
 	// à finirs
 	newValues[0] = -(values[9] * values[6] + values[5] * values[10]) * invd;
