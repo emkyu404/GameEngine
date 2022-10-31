@@ -43,7 +43,7 @@ public:
 
 	/*-------------- METHODS --------------*/
 
-	void Normalized(); 
+	void normalized(); 
 	void rotateByVector(const Vector3D& vector); 
 	void updateByAngularVelocity(const Vector3D& rotation, float duration); 
 

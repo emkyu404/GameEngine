@@ -148,6 +148,7 @@
     <ClCompile Include="common\forces\ParticleSpring.cpp" />
     <ClCompile Include="common\Particle.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
+    <ClCompile Include="common\Quaternion.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -157,7 +158,6 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
     <ClCompile Include="shapes\Line.cpp" />
@@ -186,8 +186,8 @@
     <ClInclude Include="common\forces\ParticleSpring.h" />
     <ClInclude Include="common\Particle.hpp" />
     <ClInclude Include="common\PhysicWorld.h" />
+    <ClInclude Include="common\Quaternion.h" />
     <ClInclude Include="common\Vector3D.hpp" />
-    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
