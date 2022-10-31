@@ -162,6 +162,12 @@
     <ClCompile Include="common\Quaternion.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\Matrix33.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Matrix34.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -279,6 +285,12 @@
       <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
     <ClInclude Include="common\Quaternion.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Matrix33.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Matrix34.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>
