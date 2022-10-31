@@ -92,6 +92,22 @@ Quaternion Quaternion::operator*(const Quaternion& other)
 
 /*-------------- METHODS --------------*/
 
+void Quaternion::normalized()
+{
+
+}
+
+void Quaternion::rotateByVector(const Vector3D& vector)
+{
+
+}
+
+void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float duration)
+{
+
+}
+
+
 /*-------------- DISPLAY --------------*/
 
 void Quaternion::print() {
