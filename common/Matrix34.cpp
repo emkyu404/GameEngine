@@ -1,5 +1,7 @@
 #include "Matrix34.h"
 
+/*-------------- CONSTRUCTORS --------------*/
+
 Matrix34::Matrix34() : Matrix34(DEFAULT_VALUES) {
 }
 
@@ -8,6 +10,8 @@ Matrix34::Matrix34(const float _values[12]) {
 		values[i] = _values[i];
 	}
 }
+
+/*-------------- OPERATORS --------------*/
 
 Matrix34 Matrix34::operator* (Matrix34& _otherMatrix) {
 	float newValues[12] = {
@@ -44,12 +48,12 @@ void Matrix34::operator= (Matrix34& _matrix) {
 	}
 }
 
-Vector3D Matrix34::transform(Vector3D& _vector) {
-	return (*this) * _vector;
-}
+/*-------------- GETTERS --------------*/
 
 Matrix34 Matrix34::getInverse() {
-	float newValues[12];
+	float newValues[12]; 
+	// inverse only for square matrix
+	// last row is [0 0 0 1], so we only used values[15] = 1
 
 	float det = getDeterminant();
 	if (det == 0) return Matrix34(DEFAULT_VALUES);;
@@ -57,16 +61,33 @@ Matrix34 Matrix34::getInverse() {
 	// à finirs
 	newValues[0] = -(values[9] * values[6] + values[5] * values[10]) * invd;
 	newValues[1] = (values[9] * values[2] - values[1] * values[10]) * invd;
-	newValues[2] = -(values[5] * values[2] + values[1] * values[10]) * invd;
-	newValues[3] = (values[9] * values[6] - values[5] * values[10]) * invd;
-	newValues[4] = -(values[9] * values[6] + values[5] * values[10]) * invd;
-	newValues[5] = (values[9] * values[6] - values[5] * values[10]) * invd;
-	newValues[6] = -(values[9] * values[6] + values[5] * values[10]) * invd;
-	newValues[7] = (values[9] * values[6] - values[5] * values[10]) * invd;
-	newValues[8] = -(values[9] * values[6] + values[5] * values[10]) * invd;
-	newValues[9] = (values[9] * values[6] - values[5] * values[10]) * invd;
-	newValues[10] = -(values[9] * values[6] + values[5] * values[10]) * invd;
-	newValues[11] = (values[9] * values[6] - values[5] * values[10]) * invd;
+	newValues[2] = -(values[5] * values[2] + values[1] * values[6]) * invd;
+	newValues[3] = (values[9] * values[6] * values[3] 
+					- values[5] * values[10] * values[3]
+					- values[9] * values[2] * values[7]
+					+ values[1] * values[10] * values[7]
+					+ values[5] * values[2] * values[11]
+					- values[1] * values[6] * values[11]) * invd;
+
+	newValues[4] = (values[8] * values[6] - values[4] * values[10]) * invd;
+	newValues[5] = -(values[8] * values[2] - values[0] * values[10]) * invd;
+	newValues[6] = (values[4] * values[2] - values[0] * values[6]) * invd;
+	newValues[7] = (-values[8] * values[6] * values[3]
+					+ values[4] * values[10] * values[3]
+					+ values[8] * values[2] * values[7]
+					- values[0] * values[10] * values[7]
+					- values[4] * values[2] * values[11]
+					+ values[0] * values[6] * values[11]) * invd;
+
+	newValues[8] = -(values[8] * values[5] + values[4] * values[9]) * invd;
+	newValues[9] = (values[8] * values[1] - values[0] * values[9]) * invd;
+	newValues[10] = -(values[4] * values[1] + values[0] * values[5]) * invd;
+	newValues[11] = (values[8] * values[5] * values[3]
+					- values[4] * values[9] * values[3]
+					- values[8] * values[1] * values[7]
+					+ values[0] * values[9] * values[7]
+					+ values[4] * values[1] * values[11]
+					+ values[0] * values[5] * values[11]) * invd;
 
 	return Matrix34(newValues);
 }
@@ -84,8 +105,22 @@ float* Matrix34::getValues() {
 	return values;
 }
 
+/*-------------- FUNCTIONS --------------*/
+
+// transform a position
+Vector3D Matrix34::transformPosition(Vector3D& _vector) {
+	return (*this) * _vector;
+}
+
+// transform a direction by ignoring the translation
+Vector3D Matrix34::transformDirection(Vector3D& _vector) {
+	return (*this) * _vector;
+}
+
+/*-------------- DISPLAY --------------*/
+
 void Matrix34::printMatrix34() {
-	cout << "Matrix 4x4 : \n";
+	cout << "Matrix 3x4 : \n";
 	for (int i = 0; i < 12; i++) {
 		for (int j = 0; j < 4; j++) {
 			cout << "[" << values[i] << "]";

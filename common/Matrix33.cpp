@@ -1,5 +1,7 @@
 #include "Matrix33.h"
 
+/*-------------- CONSTRUCTORS --------------*/
+
 Matrix33::Matrix33() : Matrix33(DEFAULT_VALUES) {
 }
 
@@ -8,6 +10,8 @@ Matrix33::Matrix33(const float _values[9]) {
 		values[i] = _values[i];
 	}
 }
+
+/*-------------- OPERATORS --------------*/
 
 Matrix33 Matrix33::operator * (Matrix33 &_otherMatrix) {
 	float newValues[9] = { 
@@ -39,10 +43,7 @@ void Matrix33::operator = (Matrix33& _matrix) {
 	}
 }
 
-/* Transform the given vector by this matrix */
-Vector3D Matrix33::transform(Vector3D &_vector) {
-	return (*this) * _vector;
-}
+/*-------------- GETTERS --------------*/
 
 Matrix33 Matrix33::getInverse() {
 	float valuesInverse[9];
@@ -72,9 +73,26 @@ Matrix33 Matrix33::getInverse() {
 	return Matrix33(valuesInverse);
 }
 
+Matrix33 Matrix33::getTranspose() {
+
+}
+
 float* Matrix33::getValues() {
 	return values;
 }
+
+/*-------------- FUNCTIONS --------------*/
+
+/* Transform the given vector by this matrix */
+Vector3D Matrix33::transform(Vector3D& _vector) {
+	return (*this) * _vector;
+}
+
+void Matrix33::setOrientation(Quaternion& _quaternion) {
+
+}
+
+/*-------------- DISPLAY --------------*/
 
 void Matrix33::printMatrix33() {
 	cout << "Matrix 3x3 : \n";
