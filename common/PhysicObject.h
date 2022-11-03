@@ -16,7 +16,7 @@ protected:
 public:
 	virtual void integrate(float _deltaTime) = 0;
 	virtual void addForce(Vector3D _force) = 0;
-	virtual void clearForce() = 0;
+	virtual void clearAccumulator() = 0;
 
 	Vector3D getPosition();
 	Vector3D getInitialPosition() ;

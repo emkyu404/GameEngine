@@ -27,6 +27,8 @@ public:
 	void integrate(float deltaTime);
 	void reset();
 	void addForce(Vector3D);
+	void clearAccumulator();
+private:
 	void clearForce();
 }; 
 #endif

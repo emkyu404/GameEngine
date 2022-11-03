@@ -63,6 +63,10 @@ void Particle::addForce(Vector3D _newForce) {
 	forceAccumulator = forceAccumulator + _newForce;
 }
 
+void Particle::clearAccumulator() {
+	clearForce();
+}
+
 // Clear all forces
 void Particle::clearForce() {
 	forceAccumulator = Vector3D();

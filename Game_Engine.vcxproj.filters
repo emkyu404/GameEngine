@@ -168,6 +168,12 @@
     <ClCompile Include="common\Matrix34.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\RigidBody.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\PhysicObject.cpp">
+      <Filter>Fichiers sources\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -291,6 +297,12 @@
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
     <ClInclude Include="common\Matrix34.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\RigidBody.h">
+      <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PhysicObject.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -152,6 +152,7 @@
     <ClCompile Include="common\PhysicObject.cpp" />
     <ClCompile Include="common\PhysicWorld.cpp" />
     <ClCompile Include="common\Quaternion.cpp" />
+    <ClCompile Include="common\RigidBody.cpp" />
     <ClCompile Include="common\Vector3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="common\PhysicObject.h" />
     <ClInclude Include="common\PhysicWorld.h" />
     <ClInclude Include="common\Quaternion.h" />
+    <ClInclude Include="common\RigidBody.h" />
     <ClInclude Include="common\Vector3D.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
