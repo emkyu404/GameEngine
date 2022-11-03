@@ -21,8 +21,7 @@ public:
 
 	Matrix34 operator*(Matrix34 &_vector);
 	Vector3D operator*(Vector3D &_vector);
-	void operator = (Matrix34& _matrix);
-
+	void operator = (Matrix34 _matrix);
 
 	/*-------------- GETTERS --------------*/
 
@@ -34,7 +33,9 @@ public:
 
 	Vector3D transformPosition(Vector3D &_vector);
 	Vector3D transformDirection(Vector3D& _vector);
+
 	void setOrientationAndPosition(Quaternion& _quaternion, Vector3D& _vector);
+	void invert();
 	
 	/*-------------- DISPLAY --------------*/
 

@@ -42,7 +42,7 @@ Vector3D Matrix34::operator* (Vector3D& _vector) {
 	);
 }
 
-void Matrix34::operator= (Matrix34& _matrix) {
+void Matrix34::operator = (Matrix34 _matrix) {
 	for (int i = 0; i < 12; i++) {
 		values[i] = _matrix.getValues()[i];
 	}
@@ -107,14 +107,42 @@ float* Matrix34::getValues() {
 
 /*-------------- FUNCTIONS --------------*/
 
-// transform a position
+// transform a position with the translation
 Vector3D Matrix34::transformPosition(Vector3D& _vector) {
-	return (*this) * _vector;
+	return Vector3D(
+		_vector.getX() + values[3],
+		_vector.getY() + values[7],
+		_vector.getZ() + values[11]);
 }
 
 // transform a direction by ignoring the translation
 Vector3D Matrix34::transformDirection(Vector3D& _vector) {
-	return (*this) * _vector;
+	return Vector3D(
+		_vector.getX() * values[0] + _vector.getY() * values[1] + _vector.getZ() * values[2],
+		_vector.getX() * values[4] + _vector.getY() * values[5] + _vector.getZ() * values[6],
+		_vector.getX() * values[8] + _vector.getY() * values[9] + _vector.getZ() * values[10]);
+}
+
+// Set this matrix to be the rotation matrix corresponding to the given quaternion
+void Matrix34::setOrientationAndPosition(Quaternion &_quaternion, Vector3D &_vector) {
+	values[0] = 1 - (2 * _quaternion.getJ() * _quaternion.getJ() + 2 * _quaternion.getK() * _quaternion.getK());
+	values[1] = 2 * _quaternion.getI() * _quaternion.getJ() + 2 * _quaternion.getK() * _quaternion.getW();
+	values[2] = 2 * _quaternion.getI() * _quaternion.getK() - 2 * _quaternion.getJ() * _quaternion.getW();
+	values[3] = _vector.getX();
+
+	values[4] = 2 * _quaternion.getI() * _quaternion.getJ() - 2 * _quaternion.getK() * _quaternion.getW();
+	values[5] = 1 - (2 * _quaternion.getI() * _quaternion.getI() + 2 * _quaternion.getK() * _quaternion.getK());
+	values[6] = 2 * _quaternion.getJ() * _quaternion.getK() + 2 * _quaternion.getI() * _quaternion.getW();
+	values[7] = _vector.getY();
+
+	values[8] = 2 * _quaternion.getI() * _quaternion.getK() + 2 * _quaternion.getJ() * _quaternion.getW();
+	values[9] = 2 * _quaternion.getJ() * _quaternion.getK() - 2 * _quaternion.getI() * _quaternion.getW();
+	values[10] = 1 - (2 * _quaternion.getI() * _quaternion.getI() + 2 * _quaternion.getJ() * _quaternion.getJ());
+	values[11] = _vector.getZ();
+}
+
+void Matrix34::invert() {
+	(*this) = getInverse();
 }
 
 /*-------------- DISPLAY --------------*/
