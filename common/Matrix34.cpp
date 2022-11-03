@@ -2,7 +2,10 @@
 
 /*-------------- CONSTRUCTORS --------------*/
 
-Matrix34::Matrix34() : Matrix34(DEFAULT_VALUES) {
+Matrix34::Matrix34() {
+	for (int i = 0; i < 12; i++) {
+		values[i] = 0;
+	}
 }
 
 Matrix34::Matrix34(const float _values[12]) {
@@ -56,7 +59,7 @@ Matrix34 Matrix34::getInverse() {
 	// last row is [0 0 0 1], so we only used values[15] = 1
 
 	float det = getDeterminant();
-	if (det == 0) return Matrix34(DEFAULT_VALUES);;
+	if (det == 0) return Matrix34();;
 	float invd = 1.0f / det;
 	// à finirs
 	newValues[0] = -(values[9] * values[6] + values[5] * values[10]) * invd;

@@ -2,7 +2,7 @@
 #include "Vector3D.hpp"
 #include "Quaternion.h"
 
-const float DEFAULT_VALUES[12] = { 0 };
+//const float DEFAULT_VALUES[12] = { 0 };
 
 class Matrix34 {
 

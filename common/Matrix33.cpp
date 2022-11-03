@@ -2,7 +2,10 @@
 
 /*-------------- CONSTRUCTORS --------------*/
 
-Matrix33::Matrix33() : Matrix33(DEFAULT_VALUES) {
+Matrix33::Matrix33() {
+	for (int i = 0; i < 9; i++) {
+		values[i] = 0;
+	}
 }
 
 Matrix33::Matrix33(const float _values[9]) {
@@ -57,7 +60,7 @@ Matrix33 Matrix33::getInverse() {
 
 	float det = (v1 * values[8] - v2 * values[7] - v3 * values[8] +
 		v4 * values[7] + v5 * values[5] - v6 * values[4]);
-	if (det == 0.0f) return Matrix33(DEFAULT_VALUES);
+	if (det == 0.0f) return Matrix33();
 	float invd = 1.0f / det;
 
 	valuesInverse[0] = (values[4] * values[8] - values[5] * values[7]) * invd;
