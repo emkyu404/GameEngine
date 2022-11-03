@@ -1,10 +1,10 @@
 #pragma once
 #include "Vector3D.hpp"
-#include "Matrix34.cpp"
+#include "Quaternion.h"
 
 using namespace std;
 
-const float DEFAULT_VALUES[9] = {0};
+//const float DEFAULT_VALUES[9] = {0};
 
 class Matrix33 {
 
