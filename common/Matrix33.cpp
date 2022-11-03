@@ -1,5 +1,7 @@
 #include "Matrix33.h"
 
+/*-------------- CONSTRUCTORS --------------*/
+
 Matrix33::Matrix33() : Matrix33(DEFAULT_VALUES) {
 }
 
@@ -8,6 +10,8 @@ Matrix33::Matrix33(const float _values[9]) {
 		values[i] = _values[i];
 	}
 }
+
+/*-------------- OPERATORS --------------*/
 
 Matrix33 Matrix33::operator * (Matrix33 &_otherMatrix) {
 	float newValues[9] = { 
@@ -33,16 +37,13 @@ Vector3D Matrix33::operator * (Vector3D &_vector) {
 		_vector.getX() * values[6] + _vector.getY() * values[7] + _vector.getZ() * values[8]);
 }
 
-void Matrix33::operator = (Matrix33& _matrix) {
+void Matrix33::operator = (Matrix33 _matrix) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = _matrix.getValues()[i];
 	}
 }
 
-/* Transform the given vector by this matrix */
-Vector3D Matrix33::transform(Vector3D &_vector) {
-	return (*this) * _vector;
-}
+/*-------------- GETTERS --------------*/
 
 Matrix33 Matrix33::getInverse() {
 	float valuesInverse[9];
@@ -72,9 +73,55 @@ Matrix33 Matrix33::getInverse() {
 	return Matrix33(valuesInverse);
 }
 
+Matrix33 Matrix33::getTranspose() {
+	float newValues[9];
+
+	newValues[0] = values[0];
+	newValues[1] = values[3];
+	newValues[2] = values[6];
+	newValues[3] = values[1];
+	newValues[4] = values[4];
+	newValues[5] = values[7];
+	newValues[6] = values[2];
+	newValues[7] = values[5];
+	newValues[8] = values[8];
+
+	return Matrix33(newValues);
+}
+
 float* Matrix33::getValues() {
 	return values;
 }
+
+/*-------------- FUNCTIONS --------------*/
+
+/* Transform the given vector by this matrix */
+Vector3D Matrix33::transform(Vector3D& _vector) {
+	return (*this) * _vector;
+}
+
+// Set this matrix to be the rotation matrix corresponding to the given quaternion
+void Matrix33::setOrientation(Quaternion& _quaternion) {
+	values[0] = 1 - (2*_quaternion.getJ() * _quaternion.getJ() + 2*_quaternion.getK() * _quaternion.getK());
+	values[1] = 2 * _quaternion.getI() * _quaternion.getJ() + 2 * _quaternion.getK() * _quaternion.getW();
+	values[2] = 2 * _quaternion.getI() * _quaternion.getK() - 2 * _quaternion.getJ() * _quaternion.getW();
+	values[3] = 2 * _quaternion.getI() * _quaternion.getJ() - 2 * _quaternion.getK() * _quaternion.getW();
+	values[4] = 1 - (2 * _quaternion.getI() * _quaternion.getI() + 2 * _quaternion.getK() * _quaternion.getK());
+	values[5] = 2 * _quaternion.getJ() * _quaternion.getK() + 2 * _quaternion.getI() * _quaternion.getW();
+	values[6] = 2 * _quaternion.getI() * _quaternion.getK() + 2 * _quaternion.getJ() * _quaternion.getW();
+	values[7] = 2 * _quaternion.getJ() * _quaternion.getK() - 2 * _quaternion.getI() * _quaternion.getW();
+	values[8] = 1 - (2 * _quaternion.getI() * _quaternion.getI() + 2 * _quaternion.getJ() * _quaternion.getJ());
+}
+
+void Matrix33::invert() {
+	(*this) = getInverse();
+}
+
+void Matrix33::transpose() {
+	(*this) = getTranspose();
+}
+
+/*-------------- DISPLAY --------------*/
 
 void Matrix33::printMatrix33() {
 	cout << "Matrix 3x3 : \n";

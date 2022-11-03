@@ -34,7 +34,7 @@ void ParticleContact::resolveVelocity(float _duration) {
 	/* Calculate the new separating velocity */
 	float newSepVelocity = -separatingVelocity * restitution;
 
-	/* Check velocity buildup due to acceleration only */
+	/* Check velocity buildup due to acceleration only 
 	Vector3D accCausedVelocity = particle[0]->getAcceleration();
 	if (particle[1]) accCausedVelocity -= particle[1]->getAcceleration();
 
@@ -44,7 +44,7 @@ void ParticleContact::resolveVelocity(float _duration) {
 		newSepVelocity += restitution * accCausedSepVelocity;
 
 		if (newSepVelocity < 0) newSepVelocity = 0;
-	}
+	}*/
 
 	/* relative velocity normalized */
 	float deltaVelocity = newSepVelocity - separatingVelocity;
@@ -56,7 +56,7 @@ void ParticleContact::resolveVelocity(float _duration) {
 
 	if (totalInverseMass <= 0) return;
 
-	/* Calculate the impulse to apply */
+	/* Calculate the impulse to apply (formule from course) */
 	float impulse = deltaVelocity / totalInverseMass;
 
 	Vector3D impulsePerIMass = contactNormal * impulse;
