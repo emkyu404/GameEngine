@@ -40,6 +40,7 @@ public:
 	/*-------------- OPERATORS --------------*/
 
 	Quaternion operator*(const Quaternion& other);
+	Quaternion operator*(const float other);
 
 	/*-------------- METHODS --------------*/
 

@@ -77,7 +77,7 @@ void Quaternion::setK(float _K) {
 
 /*-------------- OPERATORS --------------*/
 
-// Product by a scalar
+// Product by a quaternion
 Quaternion Quaternion::operator*(const Quaternion& other)
 {
 	Quaternion result = Quaternion(); 
@@ -90,11 +90,23 @@ Quaternion Quaternion::operator*(const Quaternion& other)
 	return *this; 
 }
 
+// Product by a scalar 
+Quaternion Quaternion::operator*(const float scalar)
+{
+	Quaternion result = Quaternion(); 
+	result.setI(this->getI() * scalar);
+	result.setJ(this->getJ() * scalar);
+	result.setK(this->getK() * scalar);
+	result.setW(this->getW() * scalar);
+
+	return result; 
+}
+
 /*-------------- METHODS --------------*/
 
 void Quaternion::normalized()
 {
-
+	
 }
 
 void Quaternion::rotateByVector(const Vector3D& vector)
