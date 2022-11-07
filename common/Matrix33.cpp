@@ -8,7 +8,7 @@ Matrix33::Matrix33() {
 	}
 }
 
-Matrix33::Matrix33(const float _values[9]) {
+Matrix33::Matrix33(float _values[9]) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = _values[i];
 	}
@@ -44,6 +44,10 @@ void Matrix33::operator = (Matrix33 _matrix) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = _matrix.getValues()[i];
 	}
+}
+
+void Matrix33::operator *= (Matrix33 _matrix) {
+	(*this) = (*this) * _matrix;
 }
 
 /*-------------- GETTERS --------------*/
@@ -99,7 +103,7 @@ float* Matrix33::getValues() {
 /*-------------- FUNCTIONS --------------*/
 
 /* Transform the given vector by this matrix */
-Vector3D Matrix33::transform(Vector3D& _vector) {
+Vector3D Matrix33::transform(Vector3D &_vector) {
 	return (*this) * _vector;
 }
 
@@ -129,8 +133,8 @@ void Matrix33::transpose() {
 void Matrix33::printMatrix33() {
 	cout << "Matrix 3x3 : \n";
 	for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 3; j++) {
-			cout << "[" << values[i] << "]";
-		}
+		cout << "[" << values[i] << "]";
+		
+		
 	}
 }

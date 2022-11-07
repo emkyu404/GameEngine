@@ -17,7 +17,7 @@ public :
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Matrix33();
-	Matrix33(const float _values[9]);
+	Matrix33(float _values[9]);
 
 	/*-------------- GETTERS --------------*/
 
@@ -27,13 +27,14 @@ public :
 
 	/*-------------- OPERATORS --------------*/
 
-	Matrix33 operator * (Matrix33 &_otherMatrix);
-	Vector3D operator * (Vector3D &_vector);
+	Matrix33 operator * (Matrix33& _otherMatrix);
+	Vector3D operator * (Vector3D& _vector);
 	void operator = (Matrix33 _matrix);
+	void operator *= (Matrix33 _matrix);
 
 	/*-------------- METHODS --------------*/
 
-	Vector3D transform(Vector3D &_vector);
+	Vector3D transform(Vector3D& _vector);
 	void setOrientation(Quaternion& _quaternion);
 	void invert();
 	void transpose();

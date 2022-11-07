@@ -38,6 +38,7 @@
 
 //Camera
 #include "Camera.h"
+#include <Matrix33.h>
 
 #define MAX_NUMBER_PARTICLES 1000
 
@@ -93,9 +94,12 @@ void mainLoop();
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+void testMatrix();
 
 int main()
 {
+	testMatrix();
+
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -536,4 +540,15 @@ void mouseCallback(GLFWwindow* _window, double _xposIn, double _yposIn)
 void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
 {
 	camera.processMouseScroll(static_cast<float>(_yOffset));
+}
+
+void testMatrix() {
+	float valuesM1[9] = {0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f,0.0f};
+	Matrix33 m1 = Matrix33(valuesM1);
+	Matrix33 m2 = Matrix33();
+
+	m1.printMatrix33();
+	m1.getInverse().printMatrix33();
+	m1.getTranspose().printMatrix33();
+
 }
