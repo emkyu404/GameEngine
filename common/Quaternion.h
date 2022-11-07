@@ -40,10 +40,12 @@ public:
 	/*-------------- OPERATORS --------------*/
 
 	Quaternion operator*(const Quaternion& other);
+	Quaternion operator+(const Quaternion& other);
 	Quaternion operator*(const float other);
 
 	/*-------------- METHODS --------------*/
 
+	float getNorm(); 
 	void normalized(); 
 	void rotateByVector(const Vector3D& vector); 
 	void updateByAngularVelocity(const Vector3D& rotation, float duration); 
