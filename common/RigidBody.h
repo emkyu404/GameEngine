@@ -40,14 +40,12 @@ public:
 
 	void clearAccumulator();
 
-	void setInertiaTensor(Matrix33 _inertiaTensor);
-
-	static inline void calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation);
-
 private:
 	// called each frame to calculate the transformMatrix and normalize the orientation
 	void calculateDerivedData();
 	void clearForce();
 	void clearTorque();
-
+	void setInertiaTensor(Matrix33 _inertiaTensor);
+	static void _calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation);
+	static void _transformInertiaTensor(Matrix33& _iitWorld, const Quaternion& _orientation, const Matrix33& _iitbody, const Matrix34& _transformMatrix);
 };
