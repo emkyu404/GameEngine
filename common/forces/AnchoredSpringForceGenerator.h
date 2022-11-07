@@ -1,11 +1,11 @@
 #pragma once
-#include "ParticleForceGenerator.h"
+#include "ObjectForceGenerator.h"
 #include "Vector3D.hpp"
 
 #define DEFAULT_VALUE_K 1
 #define DEFAULT_VALUE_RESTLENGTH 2
 
-class ParticleAnchoredSpring : public ParticleForceGenerator
+class AnchoredSpringForceGenerator : public ObjectForceGenerator
 {
 private:
 
@@ -20,11 +20,11 @@ public:
 
 	/*-------------- CONSTRUCTORS --------------*/
 
-	ParticleAnchoredSpring(Vector3D*);
-	ParticleAnchoredSpring(Vector3D*, float m_k, float m_restLength);
+	AnchoredSpringForceGenerator(Vector3D*);
+	AnchoredSpringForceGenerator(Vector3D*, float m_k, float m_restLength);
 
 	/*-------------- METHODES --------------*/
 
-	void updateForce(Particle* particle, float duration);
+	void updateForce(PhysicObject* particle, float duration);
 
 };

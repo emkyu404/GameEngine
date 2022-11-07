@@ -1,5 +1,5 @@
 #pragma once
-#include "ParticleForceGenerator.h"
+#include "ObjectForceGenerator.h"
 #include "Vector3D.hpp"
 
 #define DEFAULT_MAX_DEPTH 5
@@ -7,7 +7,7 @@
 #define DEFAULT_WATER_HEIGHT 4
 #define DEFAULT_LIQUID_DENSITY 1
 
-class ParticleBuoyancy : public ParticleForceGenerator
+class BuoyancyForceGenerator : public ObjectForceGenerator
 {
 private:
 
@@ -23,13 +23,13 @@ public:
 
 	/*-------------- CONSTRUCTORS --------------*/
 
-	ParticleBuoyancy();
-	ParticleBuoyancy(float maxDepth, float volume);
-	ParticleBuoyancy(float maxDepth, float volume, float waterHeight);
-	ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity);
+	BuoyancyForceGenerator();
+	BuoyancyForceGenerator(float maxDepth, float volume);
+	BuoyancyForceGenerator(float maxDepth, float volume, float waterHeight);
+	BuoyancyForceGenerator(float maxDepth, float volume, float waterHeight, float liquidDensity);
 
 	/*-------------- METHODES --------------*/
 
-	void updateForce(Particle* particle, float duration);
+	void updateForce(PhysicObject* particle, float duration);
 
 };
