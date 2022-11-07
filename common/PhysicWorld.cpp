@@ -1,6 +1,6 @@
 #include "PhysicWorld.h"
 #include "Particle.hpp"
-#include "ParticleGravity.h"
+#include "GravityForceGenerator.h"
 #include "NaiveParticleContactGenerator.h"
 #include "ParticleLink.h"
 #include "ParticleRod.h"
@@ -115,11 +115,11 @@ Particle* PhysicWorld::getParticle(int _index) {
 
 /*-------------- METHODS FORCES --------------*/
 
-void PhysicWorld::addForceEntry(Particle* _newParticle, ParticleForceGenerator* fg) {
+void PhysicWorld::addForceEntry(Particle* _newParticle, ObjectForceGenerator* fg) {
 	particleForceRegistry.addForceEntry(_newParticle, fg);
 }
 
-void PhysicWorld::removeForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator) {
+void PhysicWorld::removeForceEntry(Particle* _targetParticle, ObjectForceGenerator* _targetForceGenerator) {
 	particleForceRegistry.removeForceEntry(_targetParticle, _targetForceGenerator);
 }
 

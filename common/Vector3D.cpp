@@ -38,6 +38,21 @@ float Vector3D::getZ() {
 	return this->z;
 }
 
+// Return x
+float Vector3D::getX() const {
+	return this->x;
+}
+
+// Return y
+float Vector3D::getY() const {
+	return this->y;
+}
+
+// Return z
+float Vector3D::getZ() const {
+	return this->z;
+}
+
 /*-------------- SETTERS --------------*/
 
 // Set himself

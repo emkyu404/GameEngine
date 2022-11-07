@@ -30,11 +30,11 @@
 #include "PhysicWorld.h"
 
 //Forces
-#include "ParticleGravity.h"
-#include "ParticleDrag.h"
-#include "ParticleSpring.h"
-#include "ParticleAnchoredSpring.h"
-#include "ParticleBuoyancy.h"
+#include "GravityForceGenerator.h"
+#include "DragForceGenerator.h"
+#include "SpringForceGenerator.h"
+#include "AnchoredSpringForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
 
 //Camera
 #include "Camera.h"
@@ -62,11 +62,11 @@ static int particleCount = 2;
 static Vector3D offsetParticle = Vector3D(3, 0, 0); 
 
 // Forces
-static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
-static ParticleForceGenerator* drag = new ParticleDrag(); 
+static ObjectForceGenerator* gravity = new GravityForceGenerator(); // Gravity force is common to every particle
+static ObjectForceGenerator* drag = new DragForceGenerator(); 
 //static ParticleForceGenerator* spring = new ParticleSpring();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
-static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
+static ObjectForceGenerator* buoyancy = new BuoyancyForceGenerator();
 
 int detectorNumberParticle = 0; 
 
@@ -324,7 +324,7 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_spring.c_str()))
 			{
-				ParticleForceGenerator* spring = new ParticleSpring(particlesVector[selectedParticleSpring]);
+				ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
 				PhysicWorld::getInstance()->addForceEntry(particle, spring);
 			}
 
