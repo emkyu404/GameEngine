@@ -27,6 +27,10 @@ public:
 	float getY();
 	float getZ();
 
+	float getX() const;
+	float getY() const;
+	float getZ() const;
+
 	/*-------------- SETTERS --------------*/
 
 	void setVector3D(float _X, float _Y, float _Z);

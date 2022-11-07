@@ -77,7 +77,7 @@ void Quaternion::setK(float _K) {
 
 /*-------------- OPERATORS --------------*/
 
-// Product by a scalar
+// Product by a quaternion
 Quaternion Quaternion::operator*(const Quaternion& other)
 {
 	Quaternion result = Quaternion(); 
@@ -90,23 +90,55 @@ Quaternion Quaternion::operator*(const Quaternion& other)
 	return *this; 
 }
 
+// Addition by a quaternion
+Quaternion Quaternion::operator+(const Quaternion& other)
+{
+	Quaternion result = Quaternion();
+	result.values[0] = (this->values[0] + other.values[0]); 
+	result.values[1] = (this->values[1] + other.values[1]);
+	result.values[2] = (this->values[2] + other.values[2]);
+	result.values[3] = (this->values[3] + other.values[3]);
+	this->setQuaternion(result.values[0], result.values[1], result.values[2], result.values[3]);
+
+	return *this;
+}
+
+// Product by a scalar 
+Quaternion Quaternion::operator*(const float scalar)
+{
+	Quaternion result = Quaternion(); 
+	result.setI(this->getI() * scalar);
+	result.setJ(this->getJ() * scalar);
+	result.setK(this->getK() * scalar);
+	result.setW(this->getW() * scalar);
+
+	return result; 
+}
+
 /*-------------- METHODS --------------*/
+
+float Quaternion::getNorm()
+{
+	return sqrt(this->getW() * this->getW() + this->getI() * this->getI() + this->getJ() * this->getJ() + this->getK() * this->getK());
+}
 
 void Quaternion::normalized()
 {
-
+	*this= *this * (1.0f / this->getNorm());
 }
 
-void Quaternion::rotateByVector(const Vector3D& vector)
+void Quaternion::rotateByVector(const Vector3D& _vector)
 {
-
+	Quaternion byVector = Quaternion(0, _vector.getX(), _vector.getY(), _vector.getZ());
+	*this = *this * byVector; 
 }
 
 void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float duration)
 {
-
+	Quaternion rotatedQuaternion = Quaternion(this->getW(), this->getI(), this->getJ(), this->getK()); 
+	rotatedQuaternion.rotateByVector(rotation); 
+	*this = *this + (rotatedQuaternion * (duration / 2.0f));
 }
-
 
 /*-------------- DISPLAY --------------*/
 
