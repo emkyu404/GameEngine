@@ -47,5 +47,5 @@ private:
 	void clearTorque();
 	void setInertiaTensor(Matrix33 _inertiaTensor);
 	static void _calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation);
-	static void _transformInertiaTensor(Matrix33& _iitWorld, const Quaternion& _orientation, const Matrix33& _iitbody, const Matrix34& _transformMatrix);
+	static void _transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orientation, Matrix33& _iitbody, Matrix34& _transformMatrix);
 };

@@ -18,6 +18,7 @@ private:
 	vector<Particle*> particles; // list of particles
 	ParticleForceRegistry particleForceRegistry;
 
+
 	ParticleContactResolver contactResolver; // hold resolver of contact
 	vector<ParticleContactGenerator*> contactGenerators;
 

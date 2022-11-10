@@ -5,9 +5,7 @@ void RigidBody::integrate(float _deltaTime) {
 	position = position + velocity * _deltaTime;
 
 	//2 - Update orientation
-	Quaternion w = Quaternion(0, rotation.getX(), rotation.getY(), rotation.getZ()); // convert rotation into new quaternion ?
-	//orientation = orientation +  orientation * w * (_deltaTime / 2) ; // * w ?
-
+	orientation.updateByAngularVelocity(rotation, _deltaTime);
 	//3 - Compute transform matrix & I ^ -1
 	calculateDerivedData();
 
@@ -15,12 +13,12 @@ void RigidBody::integrate(float _deltaTime) {
 	acceleration = forceAccumulator * this->getInverseMass();
 
 	//5 - Compute angular acceleration
-
+	Vector3D angularAcceleration = inverseInertiaTensor * torqueAccumulator;
 
 	//6 - Update linear velocity
 	velocity = velocity * damping + acceleration * _deltaTime;
 	//7 - Update angular velocity
-	rotation = rotation * angularDamping; // + angularAcceleration * _deltaTime;
+	rotation = rotation * angularDamping + angularAcceleration * _deltaTime;
 
 	//8 - Clear accumulators
 	clearAccumulator();
@@ -59,7 +57,61 @@ void RigidBody::_calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& 
 	_transformMatrix.setOrientationAndPosition(_orientation, _position);
 }
 
-void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, const Quaternion& _orientation, const Matrix33& _iitbody, const Matrix34& _transformMatrix) {
+void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orientation, Matrix33& _iitbody, Matrix34& _transformMatrix) {
+	
+	//Basis transform (rotationMatrix * iitbody) * rotationMatrix
+
+	float t4 = _transformMatrix.getValues()[0] * _iitbody.getValues()[0] +
+			   _transformMatrix.getValues()[1] * _iitbody.getValues()[3] +
+			   _transformMatrix.getValues()[2] * _iitbody.getValues()[6];
+
+	float t9 = _transformMatrix.getValues()[0] * _iitbody.getValues()[1] +
+			   _transformMatrix.getValues()[1] * _iitbody.getValues()[4] +
+			   _transformMatrix.getValues()[2] * _iitbody.getValues()[7];
+
+	float t14 = _transformMatrix.getValues()[0] * _iitbody.getValues()[2] +
+			    _transformMatrix.getValues()[1] * _iitbody.getValues()[5] +
+			    _transformMatrix.getValues()[2] * _iitbody.getValues()[8];
+
+	float t28 = _transformMatrix.getValues()[4] * _iitbody.getValues()[0] +
+				_transformMatrix.getValues()[5] * _iitbody.getValues()[3] +
+				_transformMatrix.getValues()[6] * _iitbody.getValues()[6];
+
+
+	float t33 = _transformMatrix.getValues()[4] * _iitbody.getValues()[1] +
+				_transformMatrix.getValues()[5] * _iitbody.getValues()[4] +
+				_transformMatrix.getValues()[6] * _iitbody.getValues()[7];
+
+
+	float t38 = _transformMatrix.getValues()[4] * _iitbody.getValues()[2] +
+				_transformMatrix.getValues()[5] * _iitbody.getValues()[5] +
+				_transformMatrix.getValues()[6] * _iitbody.getValues()[8];
+
+	float t52 = _transformMatrix.getValues()[8] * _iitbody.getValues()[0] +
+				_transformMatrix.getValues()[9] * _iitbody.getValues()[3] +
+				_transformMatrix.getValues()[10] * _iitbody.getValues()[6];
+
+	float t57 = _transformMatrix.getValues()[8] * _iitbody.getValues()[1] +
+				_transformMatrix.getValues()[9] * _iitbody.getValues()[4] +
+				_transformMatrix.getValues()[10] * _iitbody.getValues()[7];
+
+	float t62 = _transformMatrix.getValues()[8] * _iitbody.getValues()[2] +
+				_transformMatrix.getValues()[9] * _iitbody.getValues()[5] +
+				_transformMatrix.getValues()[10] * _iitbody.getValues()[8];
+
+	//
+	float v1 = t4 * _transformMatrix.getValues()[0] + t9 * _transformMatrix.getValues()[1] + t14 * _transformMatrix.getValues()[2];
+	float v2 = t4 * _transformMatrix.getValues()[4] + t9 * _transformMatrix.getValues()[5] + t14 * _transformMatrix.getValues()[6];
+	float v3 = t4 * _transformMatrix.getValues()[8] + t9 * _transformMatrix.getValues()[9] + t14 * _transformMatrix.getValues()[10];
+	float v4 = t28 * _transformMatrix.getValues()[0] + t33 * _transformMatrix.getValues()[1] + t38 * _transformMatrix.getValues()[2];
+	float v5 = t28 * _transformMatrix.getValues()[4] + t33 * _transformMatrix.getValues()[5] + t38 * _transformMatrix.getValues()[6];
+	float v6 = t28 * _transformMatrix.getValues()[8] + t33 * _transformMatrix.getValues()[9] + t38 * _transformMatrix.getValues()[10];
+	float v7 = t52 * _transformMatrix.getValues()[0] + t57 * _transformMatrix.getValues()[1] + t62 * _transformMatrix.getValues()[2];
+	float v8 = t52 * _transformMatrix.getValues()[4] + t57 * _transformMatrix.getValues()[5] + t62 * _transformMatrix.getValues()[6];
+	float v9 = t52 * _transformMatrix.getValues()[8] + t57 * _transformMatrix.getValues()[9] + t62 * _transformMatrix.getValues()[10];
+
+	float values[9] = { v1,v2,v3,v4,v5,v6,v7,v8,v9 };
+	_iitWorld = Matrix33(values);
 }
 
 void RigidBody::calculateDerivedData(){
@@ -73,8 +125,8 @@ void RigidBody::calculateDerivedData(){
 							0, (1 / 12) * getMass() * 2, 0,
 							0, 0 , (1 / 12)* getMass() * 2 };
 
-	Matrix33 inertiaTensor = Matrix33(values);
-	setInertiaTensor(inertiaTensor);
+	Matrix33 inverseInertiaTensorBody = Matrix33(values).getInverse();
+	_transformInertiaTensor(inverseInertiaTensor, orientation, inverseInertiaTensorBody, transformMatrix);
 }
 
 void RigidBody::clearForce() {

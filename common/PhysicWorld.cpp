@@ -95,6 +95,7 @@ void PhysicWorld::removeParticle(Particle* _targetParticle) {
 			}),
 		particles.end()
 				);
+	delete _targetParticle;
 }
 
 void PhysicWorld::clearParticles() {
