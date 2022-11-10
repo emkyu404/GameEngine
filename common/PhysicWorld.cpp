@@ -15,9 +15,9 @@ PhysicWorld::PhysicWorld()
 	maxContacts = arraySize;
 
 	// init NaiveParticleContactGenerator
-	NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
+	//NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
 	//ParticleCable* pc = new ParticleCable();
-	contactGenerators.push_back(npcg);
+	//contactGenerators.push_back(npcg);
 }
 
 PhysicWorld* PhysicWorld::singleton = nullptr;;
@@ -44,18 +44,18 @@ unsigned PhysicWorld::generateContacts() {
 }
 
 void PhysicWorld::integrate(float _duration) {
-	for (Particle* particle : particles) {
-		particle->integrate(_duration);
+	for (PhysicObject* physicObject : physicObjects) {
+		physicObject->integrate(_duration);
 	}
 }
 
 void PhysicWorld::runPhysics(float _duration) {
-	if (particles.size() <= 0) {
+	if (physicObjects.size() <= 0) {
 		return;
 	}
 
 	// First, apply force generators
-	particleForceRegistry.updateForce(_duration);
+	forceRegistry.updateForce(_duration);
 
 	//Then integrate the objects
 	integrate(_duration);
@@ -76,52 +76,52 @@ void PhysicWorld::runPhysics(float _duration) {
 void PhysicWorld::addParticle() {
 	Particle* _newParticle = new Particle();
 	_newParticle->setMass(1);
-	particles.push_back(_newParticle);
+	physicObjects.push_back(_newParticle);
 }
 
 void PhysicWorld::addParticle(Vector3D _initialPosition) {
 	Particle* _newParticle = new Particle(_initialPosition);
 	_newParticle->setMass(1);
-	particles.push_back(_newParticle);
+	physicObjects.push_back(_newParticle);
 }
 
 void PhysicWorld::removeParticle(Particle* _targetParticle) {
-	particles.erase(
+	physicObjects.erase(
 		remove_if(
-			particles.begin(),
-			particles.end(),
-			[&](const Particle* p)
+			physicObjects.begin(),
+			physicObjects.end(),
+			[&](const PhysicObject* p)
 			{ return p == _targetParticle;
 			}),
-		particles.end()
+		physicObjects.end()
 				);
 	delete _targetParticle;
 }
 
 void PhysicWorld::clearParticles() {
-	particleForceRegistry.clear();
+	forceRegistry.clear();
 }
 
-vector<Particle*> PhysicWorld::getParticles() {
-	return particles;
+vector<PhysicObject*> PhysicWorld::getPhysicObjects() {
+	return physicObjects;
 }
 
 int PhysicWorld::getNumberOfParticles() {
-	return particles.size();
+	return physicObjects.size();
 }
 
-Particle* PhysicWorld::getParticle(int _index) {
-	return particles[_index];
+PhysicObject* PhysicWorld::getPhysicObject(int _index) {
+	return physicObjects[_index];
 }
 
 /*-------------- METHODS FORCES --------------*/
 
-void PhysicWorld::addForceEntry(Particle* _newParticle, ObjectForceGenerator* fg) {
-	particleForceRegistry.addForceEntry(_newParticle, fg);
+void PhysicWorld::addForceEntry(PhysicObject* _newPhysicObject, ObjectForceGenerator* fg) {
+	forceRegistry.addForceEntry(_newPhysicObject, fg);
 }
 
-void PhysicWorld::removeForceEntry(Particle* _targetParticle, ObjectForceGenerator* _targetForceGenerator) {
-	particleForceRegistry.removeForceEntry(_targetParticle, _targetForceGenerator);
+void PhysicWorld::removeForceEntry(PhysicObject* _targetPhysicObject, ObjectForceGenerator* _targetForceGenerator) {
+	forceRegistry.removeForceEntry(_targetPhysicObject, _targetForceGenerator);
 }
 
 

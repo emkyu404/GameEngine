@@ -184,9 +184,9 @@ void paintGL() {
 	view = camera.getViewMatrix();
 	
 	
-	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
 	{
-		model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
+		model = glm::translate(glm::vec3(physicObject->getPosition().getX(), physicObject->getPosition().getY(), physicObject->getPosition().getZ()));
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
 		particleShader->activate();
@@ -265,10 +265,10 @@ void renderImGUIParticlesList()
 	float particleIndex = 0.0f; 
 	int numberParticles = instance->getNumberOfParticles(); 
 
-	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
 	{
 		particleIndex++;
-		ImGui::Text("Particle %.0f", particleIndex); 
+		ImGui::Text("Physic Object %.0f", particleIndex); 
 
 		// Declare string names with ID to make sure GUI is ok with the buttons
 		string text_customization_particle = std::string("Customization particle##") + std::to_string(particleIndex);
@@ -282,9 +282,9 @@ void renderImGUIParticlesList()
 
 		if (ImGui::CollapsingHeader(text_customization_particle.c_str()))
 		{
-			Vector3D position = particle->getPosition(); 
-			Vector3D velocity = particle->getVelocity(); 
-			Vector3D acceleration = particle->getAcceleration(); 
+			Vector3D position = physicObject->getPosition();
+			Vector3D velocity = physicObject->getVelocity();
+			Vector3D acceleration = physicObject->getAcceleration();
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
@@ -297,24 +297,24 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_gravity.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, gravity);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, gravity);
 			}
 
 			if (ImGui::Button(text_drag.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, drag);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, drag);
 			}
 
 			if (ImGui::Button(text_buoyancy.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, buoyancy);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, buoyancy);
 			}
 
 
 			static int selectedParticleSpring = 0;
 
-			vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
-			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == particle; }), particlesVector.end());;
+			vector<PhysicObject*> particlesVector = PhysicWorld::getInstance()->getPhysicObjects();
+			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const PhysicObject* p) { return p == physicObject; }), particlesVector.end());;
 			const char* out_text[MAX_NUMBER_PARTICLES];
 
 			ImGui::Combo(text_particleList.c_str(), &selectedParticleSpring, *VectorOfStringGetter,
@@ -325,13 +325,14 @@ void renderImGUIParticlesList()
 			if (ImGui::Button(text_spring.c_str()))
 			{
 				ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
-				PhysicWorld::getInstance()->addForceEntry(particle, spring);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
 			}
 
+			/*
 			if (ImGui::Button(text_remove.c_str()))
 			{
-				PhysicWorld::getInstance()->removeParticle(particle);
-			}
+				PhysicWorld::getInstance()->removeParticle(physicObject);
+			}*/
 		}
 	}
 
@@ -355,7 +356,7 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Apply Gravity"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->addForceEntry(particle, gravity);
 		}
@@ -363,7 +364,7 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Disable Gravity"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->removeForceEntry(particle, gravity);
 		}
@@ -371,50 +372,50 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Apply Drag"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->addForceEntry(particle, drag);
+			instance->addForceEntry(physicObject, drag);
 		}
 	}
 
 	if (ImGui::Button("Disable Drag"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->removeForceEntry(particle, drag);
+			instance->removeForceEntry(physicObject, drag);
 		}
 	}
 
 	if (ImGui::Button("Apply Buoyancy"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->addForceEntry(particle, buoyancy);
+			instance->addForceEntry(physicObject, buoyancy);
 		}
 	}
 
 	if (ImGui::Button("Disable Buoyancy"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->removeForceEntry(particle, buoyancy);
+			instance->removeForceEntry(physicObject, buoyancy);
 		}
 	}
 
-
+	/*
 	if (ImGui::Button("Remove all particles"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->removeParticle(particle);
 		}
-	}
+	}*/
 
 	if (ImGui::Button("Reset"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			particle->reset();
+			physicObject->reset();
 		}
 	}
 

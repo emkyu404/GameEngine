@@ -30,5 +30,6 @@ public:
 	void clearAccumulator();
 private:
 	void clearForce();
+
 }; 
 #endif

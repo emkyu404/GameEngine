@@ -64,3 +64,9 @@ void PhysicObject::setMass(float _mass) {
 void PhysicObject::setInverseMass(float _inverseMass) {
 	inverseMass = _inverseMass;
 }
+
+void PhysicObject::reset() {
+	position = initialPosition;
+	velocity = Vector3D();
+	acceleration = Vector3D();
+}

@@ -15,8 +15,8 @@ private:
 	static PhysicWorld* singleton; // singleton design pattern as we have only one instance of PhysicWorld that should be running
 
 	
-	vector<Particle*> particles; // list of particles
-	ObjectForceRegistry particleForceRegistry;
+	vector<PhysicObject*> physicObjects; // list of physicsObject
+	ObjectForceRegistry forceRegistry;
 
 
 	ParticleContactResolver contactResolver; // hold resolver of contact
@@ -35,8 +35,8 @@ public:
 
 	/*-------------- GETTERS --------------*/
 
-	Particle* getParticle(int indexParticle);
-	vector<Particle*> getParticles();
+	PhysicObject* getPhysicObject(int indexParticle);
+	vector<PhysicObject*> getPhysicObjects();
 	int getNumberOfParticles();
 
 	/*-------------- GENERAL METHOD --------------*/
@@ -56,8 +56,8 @@ public:
 
 	/*-------------- METHODS FORCES --------------*/
 
-	void addForceEntry(Particle* _newParticle, ObjectForceGenerator* _forceGenerator);
-	void removeForceEntry(Particle* _targetParticle, ObjectForceGenerator* _targetForceGenerator);
+	void addForceEntry(PhysicObject* _newPhysicObject, ObjectForceGenerator* fg);
+	void removeForceEntry(PhysicObject* _targetPhysicObject, ObjectForceGenerator* _targetForceGenerator);
 
 	/*-------------- METHODS CONTACT GENERATOR --------------*/
 

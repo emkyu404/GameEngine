@@ -31,4 +31,6 @@ public:
 	void setAcceleration(Vector3D);
 	void setMass(float);
 	void setInverseMass(float);
+
+	void reset();
 };
