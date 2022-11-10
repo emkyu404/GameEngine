@@ -1,6 +1,48 @@
 #include "RigidBody.h"
 
+
+/*-------------- CONSTRUCTORS --------------*/
+
+// Default constructor
+RigidBody::RigidBody()
+	: RigidBody(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),
+		DEFAULT_VALUE_WEIGHT)
+{
+}
+
+// Default constructor with position
+RigidBody::RigidBody(Vector3D _position)
+	: RigidBody(_position, Vector3D(0, 0, 0), Vector3D(0, 0, 0),
+		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+{
+}
+
+// Default constructor with basic vectors 
+RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration)
+	: RigidBody(_position, _velocity, _acceleration, DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
+{
+}
+
+// Default constructor with basic vectors and weight 
+RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass)
+	: RigidBody(_position, _velocity, _acceleration, _inverseMass, DEFAULT_VALUE_DAMPING)
+{
+}
+
+// Full customization constructor
+RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass, float _damping) {
+	position = _position;
+	initialPosition = position;
+	velocity = _velocity;
+	acceleration = _acceleration;
+	inverseMass = _inverseMass;
+	damping = _damping;
+	forceAccumulator = Vector3D();
+}
+
+
 void RigidBody::integrate(float _deltaTime) {
+	printf("RigidBody integrate called");
 	//1 - Update position
 	position = position + velocity * _deltaTime;
 

@@ -98,7 +98,25 @@ void PhysicWorld::removeParticle(Particle* _targetParticle) {
 	delete _targetParticle;
 }
 
-void PhysicWorld::clearParticles() {
+/*-------------- METHODS RIGIDBODIES --------------*/
+
+void PhysicWorld::addRigidBody() {
+	RigidBody* _newRigidBody = new RigidBody();
+	_newRigidBody->setMass(1);
+	physicObjects.push_back(_newRigidBody);
+}
+
+void PhysicWorld::addRigidBody(Vector3D _initialPosition) {
+	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
+	_newRigidBody->setMass(1);
+	physicObjects.push_back(_newRigidBody);
+}
+
+void PhysicWorld::removeRigidBody(RigidBody* _targetRigidBody) {
+
+}
+
+void PhysicWorld::clearPhysicObjects() {
 	forceRegistry.clear();
 }
 

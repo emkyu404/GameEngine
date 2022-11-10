@@ -5,8 +5,13 @@
 #include "Quaternion.h"
 #include "Matrix33.h"
 
+
+#define DEFAULT_VALUE_WEIGHT 1.0f
+#define DEFAULT_VALUE_DAMPING 1.0f
+
 class RigidBody : public PhysicObject
 {
+
 private:
 	// Angular velocity of the rigid body
 	Vector3D rotation;
@@ -28,20 +33,24 @@ private:
 
 
 public:
+
+	/*-------------- CONSTRUCTORS --------------*/
+	RigidBody();
+	RigidBody(Vector3D position);
+	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration);
+	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass);
+	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float damping);
+
+	/*-------------- METHODES --------------*/
 	void integrate(float _deltaTime);
 	void reset();
-	//Add force to the center of mass
-	void addForce(Vector3D _newForce);
-	//Add force at a point in world coordinate, gerate force and torque
-	void addForceAtPoint(Vector3D _newForce, Vector3D _worldPoint);
-	//Add force at a point in local coordinate
-	// point is converted in world coodinated using the transform matrix
-	void addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint);
+	void addForce(Vector3D _newForce);  //Add force to the center of mass
+	void addForceAtPoint(Vector3D _newForce, Vector3D _worldPoint);//Add force at a point in world coordinate, gerate force and torque
+	void addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint); //Add force at a point in local coordinate, point is converted in world coodinated using the transform matrix
 
 	void clearAccumulator();
 
 private:
-	// called each frame to calculate the transformMatrix and normalize the orientation
 	void calculateDerivedData();
 	void clearForce();
 	void clearTorque();

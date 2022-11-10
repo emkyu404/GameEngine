@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Particle.hpp"
+#include "RigidBody.h"
 #include "ObjectForceRegistry.h"
 #include <ParticleContact.h>
 #include "ParticleContactResolver.h"
@@ -52,7 +53,13 @@ public:
 	void addParticle(Vector3D _initialPosition);
 	void removeParticle(Particle* _targetParticle);
 
-	void clearParticles();
+	/*-------------- METHODS RIGIDBODIES --------------*/
+
+	void addRigidBody();
+	void addRigidBody(Vector3D _initialPosition);
+	void removeRigidBody(RigidBody* _targetRigidBody);
+
+	void clearPhysicObjects();
 
 	/*-------------- METHODS FORCES --------------*/
 

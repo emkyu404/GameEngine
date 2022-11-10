@@ -8,10 +8,8 @@
 #define DEFAULT_VALUE_DAMPING 1.0f
 
 
-class Particle : public PhysicObject
-{
-private:
-	float damping;
+class Particle : public PhysicObject {
+
 public:
 
 	/*-------------- CONSTRUCTORS --------------*/

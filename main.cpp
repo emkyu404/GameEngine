@@ -50,16 +50,16 @@ const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
 static GLuint MatrixID;
-static Shape* particleShape;
+static Shape* physicObjectShape;
 static Shape* grid;
 
-static Shader* particleShader;
+static Shader* physicObjectShader;
 
 static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
-static int particleCount = 2;
-static Vector3D offsetParticle = Vector3D(3, 0, 0); 
+static int physicObjectCount = 2;
+static Vector3D offsetPhysicObject = Vector3D(3, 0, 0);
 
 // Forces
 static ObjectForceGenerator* gravity = new GravityForceGenerator(); // Gravity force is common to every particle
@@ -86,7 +86,7 @@ const static GLuint vao, vbo, ibo;
 
 void initGL();
 void paintGL();
-void initParticles();
+void initPhysicObject();
 void setupImGUI(GLFWwindow* window, const char* glsl_version);
 void renderImGUIMainFrame();
 void initProjectionMatrix();
@@ -144,7 +144,7 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	initParticles();
+	initPhysicObject();
 
 	mainLoop(); // Main render loop
 
@@ -159,7 +159,7 @@ int main()
 
 void initGL() {
 	// Chargement des shaders
-	particleShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
+	physicObjectShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 
 	//VAO creation
 	VAO* particleVao = new VAO();
@@ -167,8 +167,8 @@ void initGL() {
 
 
 	//Chargement OpenGL
-	particleShape = new Cube(particleVao);
-	particleShape->init();
+	physicObjectShape = new Cube(particleVao);
+	physicObjectShape->init();
 
 	grid = new Grid(gridVao);
 	grid->init();
@@ -189,27 +189,33 @@ void paintGL() {
 		model = glm::translate(glm::vec3(physicObject->getPosition().getX(), physicObject->getPosition().getY(), physicObject->getPosition().getZ()));
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
-		particleShader->activate();
+		physicObjectShader->activate();
 
 		// Send our transformation to the currently bound shader, in the "MVP" uniform
 		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
-		GLint color_location = glGetUniformLocation(particleShader->programID, "my_color");
-		float color[3] = { 1.0f, 0.8f, 0.2f };
-		glUniform3fv(color_location, 1, color);
+		GLint color_location = glGetUniformLocation(physicObjectShader->programID, "my_color");
+		if (dynamic_cast<RigidBody*> (physicObject) != nullptr) {
+			float color[3] = {1.0f, 0.8f, 0.2f};
+			glUniform3fv(color_location, 1, color);
+		}
+		else if(dynamic_cast<Particle*> (physicObject) != nullptr) {
+			float color[3] = { 1.0f, 0.0f, 0.0f };
+			glUniform3fv(color_location, 1, color);
+		}
 
 		//grid->draw();
 		//Color test
-		particleShape->draw();
+		physicObjectShape->draw();
 	}
 }
 
-void initParticles() 
+void initPhysicObject() 
 {
-	for (int i = 0; i < particleCount; ++i)
+	for (int i = 0; i < physicObjectCount; ++i)
 	{
-		PhysicWorld::getInstance()->addParticle(Vector3D() + Vector3D(3 * i, 0, 0));
+		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}
 }
 
@@ -351,7 +357,7 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Add Particle"))
 	{
-		instance->addParticle(offsetParticle * instance->getNumberOfParticles());
+		instance->addParticle(offsetPhysicObject * instance->getNumberOfParticles());
 	}
 
 	if (ImGui::Button("Apply Gravity"))
@@ -457,7 +463,7 @@ void initProjectionMatrix() {
 
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
-	MatrixID = glGetUniformLocation(particleShader->programID, "MVP");
+	MatrixID = glGetUniformLocation(physicObjectShader->programID, "MVP");
 }
 
 void mainLoop() {
