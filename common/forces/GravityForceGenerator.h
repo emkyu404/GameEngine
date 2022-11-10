@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ParticleForceGenerator.h"
+#include "ObjectForceGenerator.h"
 #include "Vector3D.hpp"
 
 
 const Vector3D EARTH_GRAVITY = Vector3D(0, -10.0f, 0); 
 
-class ParticleGravity : public ParticleForceGenerator
+class GravityForceGenerator : public ObjectForceGenerator
 {
 private:
 
@@ -16,11 +16,11 @@ public:
 
 	/*-------------- CONSTRUCTORS --------------*/
 
-	ParticleGravity(); 
-	ParticleGravity(Vector3D); 
+	GravityForceGenerator(); 
+	GravityForceGenerator(Vector3D); 
 
 	/*-------------- METHODES --------------*/
 	
-	void updateForce(Particle* particle, float duration); 
+	void updateForce(PhysicObject* object, float duration); 
 
 };

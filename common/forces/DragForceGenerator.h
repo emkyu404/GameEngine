@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ParticleForceGenerator.h"
+#include "ObjectForceGenerator.h"
 #include "Vector3D.hpp"
 
 #define DEFAULT_VALUE_K1 0.1
 #define DEFAULT_VALUE_K2 0.1
 
-class ParticleDrag : public ParticleForceGenerator
+class DragForceGenerator : public ObjectForceGenerator
 {
 private:
 
@@ -17,11 +17,11 @@ public:
 
 	/*-------------- CONSTRUCTORS --------------*/
 
-	ParticleDrag(); 
-	ParticleDrag(float, float); 
+	DragForceGenerator(); 
+	DragForceGenerator(float, float); 
 
 	/*-------------- METHODES --------------*/
 
-	void updateForce(Particle* particle, float duration);
+	void updateForce(PhysicObject* particle, float duration);
 
 };

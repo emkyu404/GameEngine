@@ -30,14 +30,15 @@
 #include "PhysicWorld.h"
 
 //Forces
-#include "ParticleGravity.h"
-#include "ParticleDrag.h"
-#include "ParticleSpring.h"
-#include "ParticleAnchoredSpring.h"
-#include "ParticleBuoyancy.h"
+#include "GravityForceGenerator.h"
+#include "DragForceGenerator.h"
+#include "SpringForceGenerator.h"
+#include "AnchoredSpringForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
 
 //Camera
 #include "Camera.h"
+#include <Matrix33.h>
 
 #define MAX_NUMBER_PARTICLES 1000
 
@@ -61,11 +62,11 @@ static int particleCount = 2;
 static Vector3D offsetParticle = Vector3D(3, 0, 0); 
 
 // Forces
-static ParticleForceGenerator* gravity = new ParticleGravity(); // Gravity force is common to every particle
-static ParticleForceGenerator* drag = new ParticleDrag(); 
+static ObjectForceGenerator* gravity = new GravityForceGenerator(); // Gravity force is common to every particle
+static ObjectForceGenerator* drag = new DragForceGenerator(); 
 //static ParticleForceGenerator* spring = new ParticleSpring();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
-static ParticleForceGenerator* buoyancy = new ParticleBuoyancy();
+static ObjectForceGenerator* buoyancy = new BuoyancyForceGenerator();
 
 int detectorNumberParticle = 0; 
 
@@ -93,9 +94,12 @@ void mainLoop();
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+void testMatrix();
 
 int main()
 {
+	testMatrix();
+
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -320,7 +324,7 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_spring.c_str()))
 			{
-				ParticleForceGenerator* spring = new ParticleSpring(particlesVector[selectedParticleSpring]);
+				ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
 				PhysicWorld::getInstance()->addForceEntry(particle, spring);
 			}
 
@@ -536,4 +540,15 @@ void mouseCallback(GLFWwindow* _window, double _xposIn, double _yposIn)
 void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
 {
 	camera.processMouseScroll(static_cast<float>(_yOffset));
+}
+
+void testMatrix() {
+	float valuesM1[9] = {0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f,0.0f};
+	Matrix33 m1 = Matrix33(valuesM1);
+	Matrix33 m2 = Matrix33();
+
+	m1.printMatrix33();
+	m1.getInverse().printMatrix33();
+	m1.getTranspose().printMatrix33();
+
 }

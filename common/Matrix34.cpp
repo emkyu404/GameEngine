@@ -8,7 +8,7 @@ Matrix34::Matrix34() {
 	}
 }
 
-Matrix34::Matrix34(const float _values[12]) {
+Matrix34::Matrix34(float _values[12]) {
 	for (int i = 0; i < 12; i++) {
 		values[i] = _values[i];
 	}
@@ -156,5 +156,6 @@ void Matrix34::printMatrix34() {
 		for (int j = 0; j < 4; j++) {
 			cout << "[" << values[i] << "]";
 		}
+		cout << "\n";
 	}
 }

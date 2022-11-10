@@ -15,7 +15,7 @@ public:
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Matrix34();
-	Matrix34(const float _values[12]);
+	Matrix34(float _values[12]);
 
 	/*-------------- OPERATORS --------------*/
 

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Particle.hpp"
-#include "ParticleForceRegistry.h"
+#include "ObjectForceRegistry.h"
 #include <ParticleContact.h>
 #include "ParticleContactResolver.h"
 #include "ParticleContactGenerator.h"
@@ -16,7 +16,7 @@ private:
 
 	
 	vector<Particle*> particles; // list of particles
-	ParticleForceRegistry particleForceRegistry;
+	ObjectForceRegistry particleForceRegistry;
 
 
 	ParticleContactResolver contactResolver; // hold resolver of contact
@@ -56,8 +56,8 @@ public:
 
 	/*-------------- METHODS FORCES --------------*/
 
-	void addForceEntry(Particle* _newParticle, ParticleForceGenerator* _forceGenerator);
-	void removeForceEntry(Particle* _targetParticle, ParticleForceGenerator* _targetForceGenerator);
+	void addForceEntry(Particle* _newParticle, ObjectForceGenerator* _forceGenerator);
+	void removeForceEntry(Particle* _targetParticle, ObjectForceGenerator* _targetForceGenerator);
 
 	/*-------------- METHODS CONTACT GENERATOR --------------*/
 
