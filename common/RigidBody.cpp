@@ -121,7 +121,7 @@ void RigidBody::calculateDerivedData(){
 
 	//TODO calculate inertia Tensor in world coordinate
 	//Cuboid inertia tensor
-	const float values[9] = { (1 / 12) * getMass() * 2, 0, 0,
+	float values[9] = { (1 / 12) * getMass() * 2, 0, 0,
 							0, (1 / 12) * getMass() * 2, 0,
 							0, 0 , (1 / 12)* getMass() * 2 };
 
