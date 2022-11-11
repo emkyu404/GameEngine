@@ -124,7 +124,12 @@ float Quaternion::getNorm()
 
 void Quaternion::normalized()
 {
-	*this= *this * (1.0f / this->getNorm());
+	float norm = getNorm(); 
+
+	if (norm == 0)
+		return; 
+
+	*this= *this * (1.0f / norm);
 }
 
 void Quaternion::rotateByVector(const Vector3D& _vector)

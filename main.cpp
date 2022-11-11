@@ -581,4 +581,8 @@ void testMatrix() {
 	quatTest.normalized();
 	quatTest.print();
 
+	Quaternion quatTestNotEmpty = Quaternion(3, 2, 1, 1);
+	quatTestNotEmpty.print();
+	quatTestNotEmpty.normalized();
+	quatTestNotEmpty.print();
 }
