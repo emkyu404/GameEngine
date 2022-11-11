@@ -84,7 +84,7 @@ void RigidBody::addForceAtPoint(Vector3D _newForce, Vector3D _worldPoint) {
 
 void RigidBody::addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint) {
 	//TODO convert local position to world position and then call addForceAtPoint
-	Vector3D pt = transformMatrix * _localPoint;
+	Vector3D pt = transformMatrix.transformAll(_localPoint);
 	addForceAtPoint(_newForce, pt);
 }
 
