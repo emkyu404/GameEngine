@@ -138,8 +138,7 @@ Vector3D Matrix34::transformDirection(Vector3D& _vector) {
 }
 
 Vector3D Matrix34::transformAll(Vector3D& _vector) {
-	Vector3D vectorTemp = transformDirection(_vector);
-	return transformPosition(vectorTemp);
+	return (*this) * _vector;
 }
 
 // Set this matrix to be the rotation matrix corresponding to the given quaternion
