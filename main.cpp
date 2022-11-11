@@ -192,11 +192,9 @@ void paintGL() {
 		model = glm::translate(glm::vec3(physicObject->getPosition().getX(), physicObject->getPosition().getY(), physicObject->getPosition().getZ()));
 		if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
 			RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
-			/*
 			glm::quat quat = glm::quat(rigidbody->getOrientation().getW(), rigidbody->getOrientation().getI(), rigidbody->getOrientation().getJ(), rigidbody->getOrientation().getK());
 			glm::mat4 rot = glm::toMat4(quat);
 			model = rot * model;
-			*/
 		}
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
@@ -311,7 +309,6 @@ void renderImGUIParticlesList()
 				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
 				Quaternion orientation = rigidbody->getOrientation();
 				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
-				orientation.print();
 			}
 
 			//if (ImGui::Button(text_mass.c_str()))
