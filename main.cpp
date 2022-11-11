@@ -573,9 +573,8 @@ void testMatrix() {
 	Matrix34 m1 = Matrix34(valuesM1);
 	Matrix34 m2 = Matrix34(valuesM2);
 
-	m1.printMatrix33();
-	m1.getInverse().printMatrix33();
-	m1.getTranspose().printMatrix33();
+	m1.printMatrix34();
+	m1.getInverse().printMatrix34();
 
 	Quaternion quatTest = Quaternion();
 	quatTest.print();
