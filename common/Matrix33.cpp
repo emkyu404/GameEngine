@@ -134,7 +134,8 @@ void Matrix33::printMatrix33() {
 	cout << "Matrix 3x3 : \n";
 	for (int i = 0; i < 9; i++) {
 		cout << "[" << values[i] << "]";
-		
-		
+		if ((i + 1) % 3 == 0) {
+			cout << "\n";
+		}
 	}
 }

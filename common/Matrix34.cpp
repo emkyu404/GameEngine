@@ -51,8 +51,12 @@ void Matrix34::operator = (Matrix34 _matrix) {
 	}
 }
 
-/*-------------- GETTERS --------------*/
+void Matrix34::operator *= (Matrix34 _matrix) {
+	(*this) = (*this) * _matrix;
+}
 
+/*-------------- GETTERS --------------*/
+	
 Matrix34 Matrix34::getInverse() {
 	float newValues[12]; 
 	// inverse only for square matrix
@@ -61,10 +65,10 @@ Matrix34 Matrix34::getInverse() {
 	float det = getDeterminant();
 	if (det == 0) return Matrix34();;
 	float invd = 1.0f / det;
-	// à finirs
-	newValues[0] = -(values[9] * values[6] + values[5] * values[10]) * invd;
+
+	newValues[0] = (-values[9] * values[6] + values[5] * values[10]) * invd;
 	newValues[1] = (values[9] * values[2] - values[1] * values[10]) * invd;
-	newValues[2] = -(values[5] * values[2] + values[1] * values[6]) * invd;
+	newValues[2] = (-values[5] * values[2] + values[1] * values[6]) * invd;
 	newValues[3] = (values[9] * values[6] * values[3] 
 					- values[5] * values[10] * values[3]
 					- values[9] * values[2] * values[7]
@@ -73,7 +77,7 @@ Matrix34 Matrix34::getInverse() {
 					- values[1] * values[6] * values[11]) * invd;
 
 	newValues[4] = (values[8] * values[6] - values[4] * values[10]) * invd;
-	newValues[5] = -(values[8] * values[2] - values[0] * values[10]) * invd;
+	newValues[5] = (-values[8] * values[2] + values[0] * values[10]) * invd;
 	newValues[6] = (values[4] * values[2] - values[0] * values[6]) * invd;
 	newValues[7] = (-values[8] * values[6] * values[3]
 					+ values[4] * values[10] * values[3]
@@ -82,15 +86,15 @@ Matrix34 Matrix34::getInverse() {
 					- values[4] * values[2] * values[11]
 					+ values[0] * values[6] * values[11]) * invd;
 
-	newValues[8] = -(values[8] * values[5] + values[4] * values[9]) * invd;
+	newValues[8] = (-values[8] * values[5] + values[4] * values[9]) * invd;
 	newValues[9] = (values[8] * values[1] - values[0] * values[9]) * invd;
-	newValues[10] = -(values[4] * values[1] + values[0] * values[5]) * invd;
+	newValues[10] = (-values[4] * values[1] + values[0] * values[5]) * invd;
 	newValues[11] = (values[8] * values[5] * values[3]
 					- values[4] * values[9] * values[3]
 					- values[8] * values[1] * values[7]
 					+ values[0] * values[9] * values[7]
 					+ values[4] * values[1] * values[11]
-					+ values[0] * values[5] * values[11]) * invd;
+					- values[0] * values[5] * values[11]) * invd;
 
 	return Matrix34(newValues);
 }
@@ -153,9 +157,9 @@ void Matrix34::invert() {
 void Matrix34::printMatrix34() {
 	cout << "Matrix 3x4 : \n";
 	for (int i = 0; i < 12; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << "[" << values[i] << "]";
+		cout << "[" << values[i] << "]";
+		if ((i + 1) % 4 == 0) {
+			cout << "\n";
 		}
-		cout << "\n";
 	}
 }

@@ -22,6 +22,7 @@ public:
 	Matrix34 operator*(Matrix34 &_vector);
 	Vector3D operator*(Vector3D &_vector);
 	void operator = (Matrix34 _matrix);
+	void operator *= (Matrix34 _matrix);
 
 	/*-------------- GETTERS --------------*/
 
