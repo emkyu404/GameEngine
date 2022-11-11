@@ -39,6 +39,7 @@
 //Camera
 #include "Camera.h"
 #include <Matrix33.h>
+#include <Matrix34.h>
 
 #define MAX_NUMBER_PARTICLES 1000
 
@@ -543,12 +544,15 @@ void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
 }
 
 void testMatrix() {
-	float valuesM1[9] = {0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f,0.0f};
-	Matrix33 m1 = Matrix33(valuesM1);
-	Matrix33 m2 = Matrix33();
+	float valuesM1[12] = { 1.0f, 2.0f, 0.0f, 1.0f, 4.0f, 3.0f, -1.0f, 2.0f, 2.0f, 7.0f, 9.0f, 0.0f };
+	float valuesM2[12] = { 7.0f, 6.0f, 2.0f, 0.0f, -1.0f, 5.0f, 3.0f, 1.0f, 4.0f, 8.0f, 0.0f, -4.0f };
+	Matrix34 m1 = Matrix34(valuesM1);
+	Matrix34 m2 = Matrix34(valuesM2);
 
-	m1.printMatrix33();
-	m1.getInverse().printMatrix33();
-	m1.getTranspose().printMatrix33();
-
+	m1.printMatrix34();
+	m2.printMatrix34();
+	Vector3D v = Vector3D(1, 0, 1);
+	Vector3D result;
+	result = m1 * v;
+	result.print();
 }
