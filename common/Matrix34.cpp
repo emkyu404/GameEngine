@@ -112,6 +112,13 @@ float* Matrix34::getValues() {
 	return values;
 }
 
+Matrix33 Matrix34::getMatrixRotation() {
+	float newValues[9] = { values[0], values[1], values[2],
+						values[4], values[5], values[6],
+						values[8], values[9], values[10] };
+	return Matrix33(newValues);
+}
+
 /*-------------- FUNCTIONS --------------*/
 
 // transform a position with the translation
@@ -128,6 +135,11 @@ Vector3D Matrix34::transformDirection(Vector3D& _vector) {
 		_vector.getX() * values[0] + _vector.getY() * values[1] + _vector.getZ() * values[2],
 		_vector.getX() * values[4] + _vector.getY() * values[5] + _vector.getZ() * values[6],
 		_vector.getX() * values[8] + _vector.getY() * values[9] + _vector.getZ() * values[10]);
+}
+
+Vector3D Matrix34::transformAll(Vector3D& _vector) {
+	Vector3D vectorTemp = transformDirection(_vector);
+	return transformPosition(vectorTemp);
 }
 
 // Set this matrix to be the rotation matrix corresponding to the given quaternion
