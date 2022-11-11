@@ -38,11 +38,11 @@ RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _accelerat
 	inverseMass = _inverseMass;
 	damping = _damping;
 	forceAccumulator = Vector3D();
+	orientation = Quaternion();
 }
 
 
 void RigidBody::integrate(float _deltaTime) {
-	printf("RigidBody integrate called");
 	//1 - Update position
 	position = position + velocity * _deltaTime;
 
@@ -86,6 +86,11 @@ void RigidBody::addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint) {
 	//TODO convert local position to world position and then call addForceAtPoint
 }
 
+Quaternion RigidBody::getOrientation()
+{
+	return orientation;
+}
+
 void RigidBody::clearAccumulator() {
 	clearForce();
 	clearTorque();
@@ -102,6 +107,7 @@ void RigidBody::_calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& 
 void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orientation, Matrix33& _iitbody, Matrix34& _transformMatrix) {
 	
 	//Basis transform (rotationMatrix * iitbody) * rotationMatrix
+	// TODO : asked how it's really done ?
 
 	float t4 = _transformMatrix.getValues()[0] * _iitbody.getValues()[0] +
 			   _transformMatrix.getValues()[1] * _iitbody.getValues()[3] +
@@ -158,11 +164,9 @@ void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orient
 
 void RigidBody::calculateDerivedData(){
 	orientation.normalized();
-	//TODO calculate transform matrix based on position, oritentation
 	_calculateTransformMatrix(transformMatrix,position,orientation);
 
-	//TODO calculate inertia Tensor in world coordinate
-	//Cuboid inertia tensor
+	// Hardset of inertia tensor of cuboœd, might change later
 	float values[9] = { (1 / 12) * getMass() * 2, 0, 0,
 							0, (1 / 12) * getMass() * 2, 0,
 							0, 0 , (1 / 12)* getMass() * 2 };

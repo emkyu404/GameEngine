@@ -12,6 +12,8 @@
 // Inclut GLM
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
+#include<glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <GLM/gtx/transform.hpp>
 
 //Utilities class
@@ -187,6 +189,14 @@ void paintGL() {
 	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
 	{
 		model = glm::translate(glm::vec3(physicObject->getPosition().getX(), physicObject->getPosition().getY(), physicObject->getPosition().getZ()));
+		if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+			RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+			/*
+			glm::quat quat = glm::quat(rigidbody->getOrientation().getW(), rigidbody->getOrientation().getI(), rigidbody->getOrientation().getJ(), rigidbody->getOrientation().getK());
+			glm::mat4 rot = glm::toMat4(quat);
+			model = rot * model;
+			*/
+		}
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
 		physicObjectShader->activate();
@@ -295,6 +305,13 @@ void renderImGUIParticlesList()
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
+
+			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+				Quaternion orientation = rigidbody->getOrientation();
+				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
+				orientation.print();
+			}
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{
@@ -557,5 +574,10 @@ void testMatrix() {
 	m1.printMatrix33();
 	m1.getInverse().printMatrix33();
 	m1.getTranspose().printMatrix33();
+
+	Quaternion quatTest = Quaternion();
+	quatTest.print();
+	quatTest.normalized();
+	quatTest.print();
 
 }

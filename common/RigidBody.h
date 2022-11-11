@@ -48,6 +48,8 @@ public:
 	void addForceAtPoint(Vector3D _newForce, Vector3D _worldPoint);//Add force at a point in world coordinate, gerate force and torque
 	void addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint); //Add force at a point in local coordinate, point is converted in world coodinated using the transform matrix
 
+	Quaternion getOrientation();
+
 	void clearAccumulator();
 
 private:
