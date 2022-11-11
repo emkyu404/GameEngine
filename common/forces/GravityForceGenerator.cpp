@@ -14,7 +14,7 @@ GravityForceGenerator::GravityForceGenerator(Vector3D _gravity) {
 
 /*-------------- METHODES --------------*/
 
-void GravityForceGenerator::updateForce(PhysicObject* _particle, float _duration) {
-	Vector3D F = m_gravity * _particle->getMass();
-	_particle->addForce(F);
+void GravityForceGenerator::updateForce(PhysicObject* _physicObject, float _duration) {
+	Vector3D F = m_gravity * _physicObject->getMass();
+	_physicObject->addForce(F);
 }

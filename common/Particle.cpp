@@ -50,17 +50,19 @@ void Particle::integrate(float _deltaTime) {
 	clearForce();
 }
 
-void Particle::reset()
+void Particle::reset() 
 {
-	position = initialPosition;
-	velocity = Vector3D();
-	acceleration = Vector3D();
+	PhysicObject::reset();
 	clearForce(); 
 }
 
 // Add a force
 void Particle::addForce(Vector3D _newForce) {
 	forceAccumulator = forceAccumulator + _newForce;
+}
+
+void Particle::clearAccumulator() {
+	clearForce();
 }
 
 // Clear all forces

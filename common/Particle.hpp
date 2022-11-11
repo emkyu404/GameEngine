@@ -8,10 +8,8 @@
 #define DEFAULT_VALUE_DAMPING 1.0f
 
 
-class Particle : public PhysicObject
-{
-private:
-	float damping;
+class Particle : public PhysicObject {
+
 public:
 
 	/*-------------- CONSTRUCTORS --------------*/
@@ -27,6 +25,9 @@ public:
 	void integrate(float deltaTime);
 	void reset();
 	void addForce(Vector3D);
+	void clearAccumulator();
+private:
 	void clearForce();
+
 }; 
 #endif

@@ -12,6 +12,8 @@
 // Inclut GLM
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
+#include<glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <GLM/gtx/transform.hpp>
 
 //Utilities class
@@ -51,16 +53,16 @@ const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
 static GLuint MatrixID;
-static Shape* particleShape;
+static Shape* physicObjectShape;
 static Shape* grid;
 
-static Shader* particleShader;
+static Shader* physicObjectShader;
 
 static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
-static int particleCount = 2;
-static Vector3D offsetParticle = Vector3D(3, 0, 0); 
+static int physicObjectCount = 2;
+static Vector3D offsetPhysicObject = Vector3D(3, 0, 0);
 
 // Forces
 static ObjectForceGenerator* gravity = new GravityForceGenerator(); // Gravity force is common to every particle
@@ -87,7 +89,7 @@ const static GLuint vao, vbo, ibo;
 
 void initGL();
 void paintGL();
-void initParticles();
+void initPhysicObject();
 void setupImGUI(GLFWwindow* window, const char* glsl_version);
 void renderImGUIMainFrame();
 void initProjectionMatrix();
@@ -145,7 +147,7 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	initParticles();
+	initPhysicObject();
 
 	mainLoop(); // Main render loop
 
@@ -160,7 +162,7 @@ int main()
 
 void initGL() {
 	// Chargement des shaders
-	particleShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
+	physicObjectShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
 
 	//VAO creation
 	VAO* particleVao = new VAO();
@@ -168,8 +170,8 @@ void initGL() {
 
 
 	//Chargement OpenGL
-	particleShape = new Cube(particleVao);
-	particleShape->init();
+	physicObjectShape = new Cube(particleVao);
+	physicObjectShape->init();
 
 	grid = new Grid(gridVao);
 	grid->init();
@@ -185,32 +187,46 @@ void paintGL() {
 	view = camera.getViewMatrix();
 	
 	
-	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
 	{
-		model = glm::translate(glm::vec3(particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()));
+		model = glm::translate(glm::vec3(physicObject->getPosition().getX(), physicObject->getPosition().getY(), physicObject->getPosition().getZ()));
+		if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+			RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+			/*
+			glm::quat quat = glm::quat(rigidbody->getOrientation().getW(), rigidbody->getOrientation().getI(), rigidbody->getOrientation().getJ(), rigidbody->getOrientation().getK());
+			glm::mat4 rot = glm::toMat4(quat);
+			model = rot * model;
+			*/
+		}
 		mvp = projection * view * model;
 		// Précision du shader à utiliser
-		particleShader->activate();
+		physicObjectShader->activate();
 
 		// Send our transformation to the currently bound shader, in the "MVP" uniform
 		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
-		GLint color_location = glGetUniformLocation(particleShader->programID, "my_color");
-		float color[3] = { 1.0f, 0.8f, 0.2f };
-		glUniform3fv(color_location, 1, color);
+		GLint color_location = glGetUniformLocation(physicObjectShader->programID, "my_color");
+		if (dynamic_cast<RigidBody*> (physicObject) != nullptr) {
+			float color[3] = {1.0f, 0.8f, 0.2f};
+			glUniform3fv(color_location, 1, color);
+		}
+		else if(dynamic_cast<Particle*> (physicObject) != nullptr) {
+			float color[3] = { 1.0f, 0.0f, 0.0f };
+			glUniform3fv(color_location, 1, color);
+		}
 
 		//grid->draw();
 		//Color test
-		particleShape->draw();
+		physicObjectShape->draw();
 	}
 }
 
-void initParticles() 
+void initPhysicObject() 
 {
-	for (int i = 0; i < particleCount; ++i)
+	for (int i = 0; i < physicObjectCount; ++i)
 	{
-		PhysicWorld::getInstance()->addParticle(Vector3D() + Vector3D(3 * i, 0, 0));
+		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}
 }
 
@@ -266,10 +282,10 @@ void renderImGUIParticlesList()
 	float particleIndex = 0.0f; 
 	int numberParticles = instance->getNumberOfParticles(); 
 
-	for (Particle* particle : PhysicWorld::getInstance()->getParticles())
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
 	{
 		particleIndex++;
-		ImGui::Text("Particle %.0f", particleIndex); 
+		ImGui::Text("Physic Object %.0f", particleIndex); 
 
 		// Declare string names with ID to make sure GUI is ok with the buttons
 		string text_customization_particle = std::string("Customization particle##") + std::to_string(particleIndex);
@@ -283,13 +299,20 @@ void renderImGUIParticlesList()
 
 		if (ImGui::CollapsingHeader(text_customization_particle.c_str()))
 		{
-			Vector3D position = particle->getPosition(); 
-			Vector3D velocity = particle->getVelocity(); 
-			Vector3D acceleration = particle->getAcceleration(); 
+			Vector3D position = physicObject->getPosition();
+			Vector3D velocity = physicObject->getVelocity();
+			Vector3D acceleration = physicObject->getAcceleration();
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
+
+			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+				Quaternion orientation = rigidbody->getOrientation();
+				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
+				orientation.print();
+			}
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{
@@ -298,24 +321,24 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_gravity.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, gravity);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, gravity);
 			}
 
 			if (ImGui::Button(text_drag.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, drag);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, drag);
 			}
 
 			if (ImGui::Button(text_buoyancy.c_str()))
 			{
-				PhysicWorld::getInstance()->addForceEntry(particle, buoyancy);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, buoyancy);
 			}
 
 
 			static int selectedParticleSpring = 0;
 
-			vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
-			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == particle; }), particlesVector.end());;
+			vector<PhysicObject*> particlesVector = PhysicWorld::getInstance()->getPhysicObjects();
+			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const PhysicObject* p) { return p == physicObject; }), particlesVector.end());;
 			const char* out_text[MAX_NUMBER_PARTICLES];
 
 			ImGui::Combo(text_particleList.c_str(), &selectedParticleSpring, *VectorOfStringGetter,
@@ -326,13 +349,14 @@ void renderImGUIParticlesList()
 			if (ImGui::Button(text_spring.c_str()))
 			{
 				ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
-				PhysicWorld::getInstance()->addForceEntry(particle, spring);
+				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
 			}
 
+			/*
 			if (ImGui::Button(text_remove.c_str()))
 			{
-				PhysicWorld::getInstance()->removeParticle(particle);
-			}
+				PhysicWorld::getInstance()->removeParticle(physicObject);
+			}*/
 		}
 	}
 
@@ -351,12 +375,12 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Add Particle"))
 	{
-		instance->addParticle(offsetParticle * instance->getNumberOfParticles());
+		instance->addParticle(offsetPhysicObject * instance->getNumberOfParticles());
 	}
 
 	if (ImGui::Button("Apply Gravity"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->addForceEntry(particle, gravity);
 		}
@@ -364,7 +388,7 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Disable Gravity"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->removeForceEntry(particle, gravity);
 		}
@@ -372,50 +396,50 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Apply Drag"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->addForceEntry(particle, drag);
+			instance->addForceEntry(physicObject, drag);
 		}
 	}
 
 	if (ImGui::Button("Disable Drag"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->removeForceEntry(particle, drag);
+			instance->removeForceEntry(physicObject, drag);
 		}
 	}
 
 	if (ImGui::Button("Apply Buoyancy"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->addForceEntry(particle, buoyancy);
+			instance->addForceEntry(physicObject, buoyancy);
 		}
 	}
 
 	if (ImGui::Button("Disable Buoyancy"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			instance->removeForceEntry(particle, buoyancy);
+			instance->removeForceEntry(physicObject, buoyancy);
 		}
 	}
 
-
+	/*
 	if (ImGui::Button("Remove all particles"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* particle : instance->getPhysicObjects())
 		{
 			instance->removeParticle(particle);
 		}
-	}
+	}*/
 
 	if (ImGui::Button("Reset"))
 	{
-		for (Particle* particle : instance->getParticles())
+		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			particle->reset();
+			physicObject->reset();
 		}
 	}
 
@@ -457,7 +481,7 @@ void initProjectionMatrix() {
 
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
-	MatrixID = glGetUniformLocation(particleShader->programID, "MVP");
+	MatrixID = glGetUniformLocation(physicObjectShader->programID, "MVP");
 }
 
 void mainLoop() {
@@ -549,10 +573,13 @@ void testMatrix() {
 	Matrix34 m1 = Matrix34(valuesM1);
 	Matrix34 m2 = Matrix34(valuesM2);
 
-	m1.printMatrix34();
-	m2.printMatrix34();
-	Vector3D v = Vector3D(1, 0, 1);
-	Vector3D result;
-	result = m1 * v;
-	result.print();
+	m1.printMatrix33();
+	m1.getInverse().printMatrix33();
+	m1.getTranspose().printMatrix33();
+
+	Quaternion quatTest = Quaternion();
+	quatTest.print();
+	quatTest.normalized();
+	quatTest.print();
+
 }

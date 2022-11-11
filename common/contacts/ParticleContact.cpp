@@ -46,6 +46,7 @@ void ParticleContact::resolveVelocity(float _duration) {
 		if (newSepVelocity < 0) newSepVelocity = 0;
 	}*/
 
+	/* relative velocity normalized */
 	float deltaVelocity = newSepVelocity - separatingVelocity;
 
 	/* Apply the change of velocity to each object in proportion to their inverse mass*/
