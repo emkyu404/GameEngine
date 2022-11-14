@@ -9,9 +9,6 @@
 class SpringForceGenerator : public ObjectForceGenerator
 {
 protected:
-	// other anchor
-	PhysicObject* m_other;
-
 	// Spring constants
 	float m_k;
 	float m_restLength;
@@ -19,9 +16,8 @@ protected:
 public:
 
 	/*-------------- CONSTRUCTORS --------------*/
-
-	SpringForceGenerator(PhysicObject*);
-	SpringForceGenerator(PhysicObject*, float m_k, float m_restLength);
+	SpringForceGenerator();
+	SpringForceGenerator(float m_k, float m_restLength);
 
 	/*-------------- METHODES --------------*/
 

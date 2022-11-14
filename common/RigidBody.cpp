@@ -98,6 +98,11 @@ void RigidBody::clearAccumulator() {
 	clearTorque();
 }
 
+Matrix34 RigidBody::getTransformMatrix()
+{
+	return transformMatrix;
+}
+
 void RigidBody::setInertiaTensor(Matrix33 _inertiaTensor) {
 	inverseInertiaTensor = _inertiaTensor.getInverse();
 }
@@ -110,7 +115,7 @@ void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orient
 	
 	//Basis transform (rotationMatrix * iitbody) * rotationMatrix
 	// TODO : asked how it's really done ?
-
+	/*
 	float t4 = _transformMatrix.getValues()[0] * _iitbody.getValues()[0] +
 			   _transformMatrix.getValues()[1] * _iitbody.getValues()[3] +
 			   _transformMatrix.getValues()[2] * _iitbody.getValues()[6];
@@ -161,9 +166,9 @@ void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orient
 	float v9 = t52 * _transformMatrix.getValues()[8] + t57 * _transformMatrix.getValues()[9] + t62 * _transformMatrix.getValues()[10];
 
 	float values[9] = { v1,v2,v3,v4,v5,v6,v7,v8,v9 };
-	_iitWorld = Matrix33(values);
+	_iitWorld = Matrix33(values);*/
 	Matrix33 rotationMatrix = _transformMatrix.getMatrixRotation();
-	Matrix33 _iitWorldTest = rotationMatrix * _iitbody * rotationMatrix;
+	_iitWorld = rotationMatrix.getInverse() * _iitbody * rotationMatrix;
 }
 
 void RigidBody::calculateDerivedData(){
