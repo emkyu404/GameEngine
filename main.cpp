@@ -43,7 +43,7 @@
 #include <Matrix33.h>
 #include <Matrix34.h>
 
-#define MAX_NUMBER_PARTICLES 1000
+#define MAX_NUMBER_PHYSICOBJECT 1000
 
 using namespace glm;
 
@@ -280,10 +280,10 @@ void renderImGUIParticlesList()
 	float particleIndex = 0.0f; 
 	int numberParticles = instance->getNumberOfParticles(); 
 
-	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getPhysicObjects())
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getParticles())
 	{
 		particleIndex++;
-		ImGui::Text("Physic Object %.0f", particleIndex); 
+		ImGui::Text("Particle %.0f", particleIndex); 
 
 		// Declare string names with ID to make sure GUI is ok with the buttons
 		string text_customization_particle = std::string("Customization particle##") + std::to_string(particleIndex);
@@ -334,9 +334,9 @@ void renderImGUIParticlesList()
 
 			static int selectedParticleSpring = 0;
 
-			vector<PhysicObject*> particlesVector = PhysicWorld::getInstance()->getPhysicObjects();
-			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const PhysicObject* p) { return p == physicObject; }), particlesVector.end());;
-			const char* out_text[MAX_NUMBER_PARTICLES];
+			vector<Particle*> particlesVector = PhysicWorld::getInstance()->getParticles();
+			particlesVector.erase(remove_if(particlesVector.begin(), particlesVector.end(), [&](const Particle* p) { return p == physicObject; }), particlesVector.end());;
+			const char* out_text[MAX_NUMBER_PHYSICOBJECT];
 
 			ImGui::Combo(text_particleList.c_str(), &selectedParticleSpring, *VectorOfStringGetter,
 				(void *) &particlesVector, particlesVector.size());
@@ -345,7 +345,7 @@ void renderImGUIParticlesList()
 
 			if (ImGui::Button(text_spring.c_str()))
 			{
-				ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
+				ObjectForceGenerator* spring = new ParticleSpringForceGenerator(particlesVector[selectedParticleSpring]);
 				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
 			}
 
@@ -360,7 +360,93 @@ void renderImGUIParticlesList()
 	ImGui::End();
 }
 
+void renderImGUIRigidBodiesList()
+{
+	ImGui::Begin("Rigidbodies");
 
+	PhysicWorld* instance = PhysicWorld::getInstance();
+	float rigidIndex = 0.0f;
+	int numberRigidbodies = instance->getNumberOfRigidBodies();
+
+	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getRigidBodies())
+	{
+		rigidIndex++;
+		ImGui::Text("Rigidbody %.0f", rigidIndex);
+
+		// Declare string names with ID to make sure GUI is ok with the buttons
+		string text_customization_rigidbody = std::string("Customization rigid body##") + std::to_string(rigidIndex);
+		string text_mass = std::string("Set inverse mass##") + std::to_string(rigidIndex);
+		string text_gravity = std::string("Apply Gravity##") + std::to_string(rigidIndex);
+		string text_drag = std::string("Apply Drag##") + std::to_string(rigidIndex);
+		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(rigidIndex);
+		string text_spring = std::string("Apply Spring##") + std::to_string(rigidIndex);
+		string text_remove = std::string("Remove Particle##") + std::to_string(rigidIndex);
+		string text_rigidbodyList = std::string("Particle List##") + std::to_string(rigidIndex);
+
+		if (ImGui::CollapsingHeader(text_customization_rigidbody.c_str()))
+		{
+			Vector3D position = physicObject->getPosition();
+			Vector3D velocity = physicObject->getVelocity();
+			Vector3D acceleration = physicObject->getAcceleration();
+
+			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ());
+			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
+			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
+
+			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+				Quaternion orientation = rigidbody->getOrientation();
+				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
+			}
+
+			//if (ImGui::Button(text_mass.c_str()))
+			//{
+			//	printf("%f", particle->GetInverseMass());
+			//}
+
+			if (ImGui::Button(text_gravity.c_str()))
+			{
+				PhysicWorld::getInstance()->addForceEntry(physicObject, gravity);
+			}
+
+			if (ImGui::Button(text_drag.c_str()))
+			{
+				PhysicWorld::getInstance()->addForceEntry(physicObject, drag);
+			}
+
+			if (ImGui::Button(text_buoyancy.c_str()))
+			{
+				PhysicWorld::getInstance()->addForceEntry(physicObject, buoyancy);
+			}
+
+
+			static int selectedParticleSpring = 0;
+
+			vector<RigidBody*> rigidbodiesVector = PhysicWorld::getInstance()->getRigidBodies();
+			rigidbodiesVector.erase(remove_if(rigidbodiesVector.begin(), rigidbodiesVector.end(), [&](const RigidBody* p) { return p == physicObject; }), rigidbodiesVector.end());;
+			const char* out_text[MAX_NUMBER_PHYSICOBJECT];
+
+			ImGui::Combo(text_rigidbodyList.c_str(), &selectedParticleSpring, *VectorOfStringGetter,
+				(void*)&rigidbodiesVector, rigidbodiesVector.size());
+
+			detectorNumberParticle = 0;
+
+			//if (ImGui::Button(text_spring.c_str()))
+			//{
+			//	ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
+			//	PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
+			//}
+
+			/*
+			if (ImGui::Button(text_remove.c_str()))
+			{
+				PhysicWorld::getInstance()->removeParticle(physicObject);
+			}*/
+		}
+	}
+
+	ImGui::End();
+}
 
 void renderImGUIMainFrame() {
 	
@@ -372,7 +458,12 @@ void renderImGUIMainFrame() {
 
 	if (ImGui::Button("Add Particle"))
 	{
-		instance->addParticle(offsetPhysicObject * instance->getNumberOfParticles());
+		instance->addParticle(offsetPhysicObject * instance->getNumberOfPhysicObject());
+	}
+
+	if (ImGui::Button("Add Rigidbody"))
+	{
+		instance->addRigidBody(offsetPhysicObject * instance->getNumberOfPhysicObject());
 	}
 
 	if (ImGui::Button("Apply Gravity"))
