@@ -145,6 +145,8 @@
     <ClCompile Include="common\forces\DragForceGenerator.cpp" />
     <ClCompile Include="common\forces\ObjectForceRegistry.cpp" />
     <ClCompile Include="common\forces\GravityForceGenerator.cpp" />
+    <ClCompile Include="common\forces\ParticleSpringForceGenerator.cpp" />
+    <ClCompile Include="common\forces\RigidSpringForceGenerator.cpp" />
     <ClCompile Include="common\forces\SpringForceGenerator.cpp" />
     <ClCompile Include="common\Matrix33.cpp" />
     <ClCompile Include="common\Matrix34.cpp" />
@@ -187,6 +189,8 @@
     <ClInclude Include="common\forces\ObjectForceGenerator.h" />
     <ClInclude Include="common\forces\ObjectForceRegistry.h" />
     <ClInclude Include="common\forces\GravityForceGenerator.h" />
+    <ClInclude Include="common\forces\ParticleSpringForceGenerator.h" />
+    <ClInclude Include="common\forces\RigidSpringForceGenerator.h" />
     <ClInclude Include="common\forces\SpringForceGenerator.h" />
     <ClInclude Include="common\Matrix33.h" />
     <ClInclude Include="common\Matrix34.h" />

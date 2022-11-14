@@ -25,6 +25,6 @@ public:
 
 	/*-------------- METHODES --------------*/
 
-	void updateForce(PhysicObject* particle, float duration);
+	void updateForce(PhysicObject* physicObject, float duration);
 
 };
