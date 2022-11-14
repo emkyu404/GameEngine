@@ -8,14 +8,13 @@
 
 class SpringForceGenerator : public ObjectForceGenerator
 {
-private:
-
+protected:
 	// other anchor
 	PhysicObject* m_other;
 
 	// Spring constants
-	float m_k; 
-	float m_restLength; 
+	float m_k;
+	float m_restLength;
 
 public:
 
@@ -26,6 +25,5 @@ public:
 
 	/*-------------- METHODES --------------*/
 
-	void updateForce(PhysicObject* particle, float duration);
-
+	virtual void updateForce(PhysicObject*, float duration) = 0;
 };

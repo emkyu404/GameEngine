@@ -174,6 +174,12 @@
     <ClCompile Include="common\PhysicObject.cpp">
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\forces\ParticleSpringForceGenerator.cpp">
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="common\forces\RigidSpringForceGenerator.cpp">
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -304,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="common\PhysicObject.h">
       <Filter>Fichiers d%27en-tête\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\ParticleSpringForceGenerator.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\RigidSpringForceGenerator.h">
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
