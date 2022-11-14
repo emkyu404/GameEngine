@@ -392,8 +392,8 @@ void renderImGUIRigidBodiesList()
 		string text_drag = std::string("Apply Drag##") + std::to_string(rigidIndex);
 		string text_buoyancy = std::string("Apply Buoyancy##") + std::to_string(rigidIndex);
 		string text_spring = std::string("Apply Spring##") + std::to_string(rigidIndex);
-		string text_remove = std::string("Remove Particle##") + std::to_string(rigidIndex);
-		string text_rigidbodyList = std::string("Particle List##") + std::to_string(rigidIndex);
+		string text_remove = std::string("Remove RigidBody##") + std::to_string(rigidIndex);
+		string text_rigidbodyList = std::string("Rigidbody List##") + std::to_string(rigidIndex);
 
 		if (ImGui::CollapsingHeader(text_customization_rigidbody.c_str()))
 		{
@@ -443,11 +443,11 @@ void renderImGUIRigidBodiesList()
 
 			detectorNumberParticle = 0;
 
-			//if (ImGui::Button(text_spring.c_str()))
-			//{
-			//	ObjectForceGenerator* spring = new SpringForceGenerator(particlesVector[selectedParticleSpring]);
-			//	PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
-			//}
+			if (ImGui::Button(text_spring.c_str()))
+			{
+				ObjectForceGenerator* spring = new RigidSpringForceGenerator(rigidbodiesVector[selectedParticleSpring], Vector3D(0, 0, 0), Vector3D(0, 0, 0));
+				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
+			}
 
 			/*
 			if (ImGui::Button(text_remove.c_str()))
@@ -554,6 +554,7 @@ void renderImGUI()
 	ImGui::NewFrame();
 	renderImGUIMainFrame();
 	renderImGUIParticlesList();
+	renderImGUIRigidBodiesList(); 
 	rendererImGUICamera(); 
 	ImGui::Render();
 }
