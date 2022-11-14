@@ -8,6 +8,16 @@ ParticleRod::ParticleRod(float _lenght) {
 	lenght = _lenght;
 }
 
+ParticleRod::ParticleRod(Particle* _particle[2]) 
+	: ParticleRod(DEFAULT_LENGHT, _particle) {
+}
+
+ParticleRod::ParticleRod(float _lenght, Particle* _particle [2]) {
+	lenght = _lenght;
+	particle[0] = _particle[0];
+	particle[1] = _particle[1];
+}
+
 unsigned int ParticleRod::addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const {
 	float currentLen = currentLenght();
 

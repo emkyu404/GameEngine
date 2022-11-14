@@ -15,7 +15,9 @@ protected:
 public :
 
 	ParticleRod();
+	ParticleRod(Particle* _particle[2]);
 	ParticleRod(float _lenght);
+	ParticleRod(float _lenght, Particle* _particle[2]);
 
 	unsigned int addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const;
 	bool particleIsInvolved(Particle* _particle);

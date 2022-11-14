@@ -21,7 +21,7 @@ PhysicWorld::PhysicWorld()
 	contactGenerators.push_back(pc);
 }
 
-PhysicWorld* PhysicWorld::singleton = nullptr;;
+PhysicWorld* PhysicWorld::singleton = nullptr;
 
 PhysicWorld* PhysicWorld::getInstance() {
 	if (singleton == nullptr) {
