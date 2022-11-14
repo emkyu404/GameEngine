@@ -12,6 +12,7 @@ private:
 
 	Vector3D m_bodyAnchor; 
 
+	RigidBody* m_other;
 	// other anchor
 	Vector3D m_otherBodyAnchor;
 

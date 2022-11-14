@@ -52,6 +52,8 @@ public:
 
 	void clearAccumulator();
 
+	Matrix34 getTransformMatrix();
+
 private:
 	void calculateDerivedData();
 	void clearForce();

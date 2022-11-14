@@ -37,7 +37,8 @@
 #include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
 #include "BuoyancyForceGenerator.h"
-
+#include "ParticleSpringForceGenerator.h"
+#include "RigidSpringForceGenerator.h"
 //Camera
 #include "Camera.h"
 #include <Matrix33.h>
@@ -222,10 +223,21 @@ void paintGL() {
 
 void initPhysicObject() 
 {
+	/*
 	for (int i = 0; i < physicObjectCount; ++i)
 	{
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
-	}
+	}*/
+
+	PhysicWorld::getInstance()->addRigidBody(Vector3D());
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(3, 0, 0));
+
+	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
+
+	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 0), Vector3D(-1, -1, 0));
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg);
+	
+
 }
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {
