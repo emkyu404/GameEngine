@@ -206,6 +206,11 @@ void initParticles()
 	{
 		PhysicWorld::getInstance()->addParticle(Vector3D() + Vector3D(3 * i, 0, 0));
 	}
+
+	//PhysicWorld::getInstance()->addParticle();
+	//PhysicWorld::getInstance()->addParticle(Vector3D(1, 0, 0));
+	//vector<Particle*> particles = PhysicWorld::getInstance()->getParticles();
+	//PhysicWorld::getInstance()->addParticleLink(particles[0], particles[1]);
 }
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {

@@ -43,13 +43,13 @@ public:
 	void runPhysics(float _duration);
 	void integrate(float _duration);
 	unsigned generateContacts();
-
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
 
 	void addParticle();
 	void addParticle(Vector3D _initialPosition);
 	void removeParticle(Particle* _targetParticle);
+	void addParticleLink(Particle* _particle_1, Particle* _particle_2);
 
 	void clearParticles();
 
