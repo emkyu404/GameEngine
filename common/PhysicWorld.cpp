@@ -98,6 +98,28 @@ void PhysicWorld::removeParticle(Particle* _targetParticle) {
 	delete _targetParticle;
 }
 
+vector<Particle*> PhysicWorld::getParticles()
+{
+	vector<PhysicObject*> physicObjects = getPhysicObjects();
+	vector<Particle*> particles; 
+
+	for (PhysicObject* physicObject : physicObjects)
+	{
+		Particle* particle = dynamic_cast<Particle*>(physicObject); 
+		if (particle != nullptr)
+		{
+			particles.push_back(particle); 
+		}
+	}
+
+	return particles;
+}
+
+int PhysicWorld::getNumberOfParticles() {
+	vector<Particle*> particles = getParticles(); 
+	return particles.size(); 
+}
+
 /*-------------- METHODS RIGIDBODIES --------------*/
 
 void PhysicWorld::addRigidBody() {
@@ -116,6 +138,28 @@ void PhysicWorld::removeRigidBody(RigidBody* _targetRigidBody) {
 
 }
 
+vector<RigidBody*> PhysicWorld::getRigidBodies()
+{
+	vector<PhysicObject*> physicObjects = getPhysicObjects();
+	vector<RigidBody*> rigidbodies;
+
+	for (PhysicObject* physicObject : physicObjects)
+	{
+		RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+		if (rigidbody != nullptr)
+		{
+			rigidbodies.push_back(rigidbody);
+		}
+	}
+
+	return rigidbodies;
+}
+
+int PhysicWorld::getNumberOfRigidBodies() {
+	vector<RigidBody*> rigidbodies = getRigidBodies();
+	return rigidbodies.size();
+}
+
 void PhysicWorld::clearPhysicObjects() {
 	forceRegistry.clear();
 }
@@ -124,7 +168,7 @@ vector<PhysicObject*> PhysicWorld::getPhysicObjects() {
 	return physicObjects;
 }
 
-int PhysicWorld::getNumberOfParticles() {
+int PhysicWorld::getNumberOfPhysicObject() {
 	return physicObjects.size();
 }
 

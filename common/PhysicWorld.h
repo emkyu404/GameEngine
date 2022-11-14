@@ -37,8 +37,14 @@ public:
 	/*-------------- GETTERS --------------*/
 
 	PhysicObject* getPhysicObject(int indexParticle);
+
 	vector<PhysicObject*> getPhysicObjects();
+	vector<RigidBody*> getRigidBodies();
+	vector<Particle*> getParticles();
+
 	int getNumberOfParticles();
+	int getNumberOfRigidBodies();
+	int getNumberOfPhysicObject();
 
 	/*-------------- GENERAL METHOD --------------*/
 
