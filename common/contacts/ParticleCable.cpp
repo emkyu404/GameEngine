@@ -4,9 +4,20 @@ ParticleCable::ParticleCable()
 	: ParticleCable(DEFAULT_MAX_LENGHT, DEFAULT_RESTITUTION) {
 }
 
+ParticleCable::ParticleCable(Particle* _particle[2])
+	: ParticleCable(DEFAULT_MAX_LENGHT, DEFAULT_RESTITUTION, _particle) {
+}
+
 ParticleCable::ParticleCable(float _maxLenght, float _restitution) {
 	maxLenght = _maxLenght;
 	restitution = _restitution;
+}
+
+ParticleCable::ParticleCable(float _maxLenght, float _restitution, Particle* _particle[2]) {
+	maxLenght = _maxLenght;
+	restitution = _restitution;
+	particle[0] = _particle[0];
+	particle[1] = _particle[1];
 }
 
 unsigned int ParticleCable::addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const {

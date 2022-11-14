@@ -16,7 +16,9 @@ protected:
 public:
 
 	ParticleCable();
+	ParticleCable(Particle* _particle[2]);
 	ParticleCable(float _maxLenght, float _restitution);
+	ParticleCable(float _maxLenght, float _restitution, Particle* _particle[2]);
 
 	unsigned int addContact(vector<ParticleContact*>* _contact, unsigned int _limit) const;
 	bool particleIsInvolved(Particle* _particle);

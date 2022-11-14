@@ -16,8 +16,9 @@ PhysicWorld::PhysicWorld()
 
 	// init NaiveParticleContactGenerator
 	NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
-	//ParticleCable* pc = new ParticleCable();
-	contactGenerators.push_back(npcg);
+	ParticleCable* pc = new ParticleCable();
+	ParticleRod* pr = new ParticleRod();
+	contactGenerators.push_back(pc);
 }
 
 PhysicWorld* PhysicWorld::singleton = nullptr;;
