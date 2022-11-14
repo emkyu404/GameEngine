@@ -162,6 +162,8 @@ void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orient
 
 	float values[9] = { v1,v2,v3,v4,v5,v6,v7,v8,v9 };
 	_iitWorld = Matrix33(values);
+	Matrix33 rotationMatrix = _transformMatrix.getMatrixRotation();
+	Matrix33 _iitWorldTest = rotationMatrix * _iitbody * rotationMatrix;
 }
 
 void RigidBody::calculateDerivedData(){
