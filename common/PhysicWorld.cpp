@@ -15,10 +15,8 @@ PhysicWorld::PhysicWorld()
 	maxContacts = arraySize;
 
 	// init NaiveParticleContactGenerator
-	NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
-	ParticleCable* pc = new ParticleCable();
-	ParticleRod* pr = new ParticleRod();
-	contactGenerators.push_back(pc);
+	//NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
+	//contactGenerators.push_back(npcg);
 }
 
 PhysicWorld* PhysicWorld::singleton = nullptr;
@@ -84,6 +82,15 @@ void PhysicWorld::addParticle(Vector3D _initialPosition) {
 	Particle* _newParticle = new Particle(_initialPosition);
 	_newParticle->setMass(1);
 	particles.push_back(_newParticle);
+}
+
+void PhysicWorld::addParticleLink(Particle* _particle_1, Particle* _particle_2) {
+	Particle* _particle[2] = { _particle_1, _particle_2 };
+
+	ParticleCable* pc = new ParticleCable(2.0f, 0.0f, _particle);
+	ParticleRod* pr = new ParticleRod(2.0f, _particle);
+
+	contactGenerators.push_back(pr);
 }
 
 void PhysicWorld::removeParticle(Particle* _targetParticle) {
