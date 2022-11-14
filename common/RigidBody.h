@@ -8,6 +8,7 @@
 
 #define DEFAULT_VALUE_WEIGHT 1.0f
 #define DEFAULT_VALUE_DAMPING 1.0f
+#define DEFAULT_VALUE_ANGULARDAMPING 1.0f;
 
 class RigidBody : public PhysicObject
 {

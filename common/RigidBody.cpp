@@ -39,6 +39,7 @@ RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _accelerat
 	damping = _damping;
 	forceAccumulator = Vector3D();
 	orientation = Quaternion();
+	angularDamping = DEFAULT_VALUE_ANGULARDAMPING;
 }
 
 
