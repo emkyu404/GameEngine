@@ -49,6 +49,7 @@ void RigidBody::integrate(float _deltaTime) {
 
 	//2 - Update orientation
 	orientation.updateByAngularVelocity(rotation, _deltaTime);
+
 	//3 - Compute transform matrix & I ^ -1
 	calculateDerivedData();
 
@@ -177,9 +178,9 @@ void RigidBody::calculateDerivedData(){
 	_calculateTransformMatrix(transformMatrix,position,orientation);
 
 	// Hardset of inertia tensor of cuboœd, might change later
-	float values[9] = { (1 / 12) * getMass() * 2, 0, 0,
-							0, (1 / 12) * getMass() * 2, 0,
-							0, 0 , (1 / 12)* getMass() * 2 };
+	float values[9] = { (1.0f / 12.0f) * getMass() * 2, 0, 0,
+							0, (1.0f / 12.0f) * getMass() * 2, 0,
+							0, 0 , (1.0f / 12.0f)* getMass() * 2 };
 
 	Matrix33 inverseInertiaTensorBody = Matrix33(values).getInverse();
 	_transformInertiaTensor(inverseInertiaTensor, orientation, inverseInertiaTensorBody, transformMatrix);
