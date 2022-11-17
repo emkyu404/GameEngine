@@ -4,7 +4,8 @@
 
 Quaternion::Quaternion()
 {
-	this->values[0] = 0;
+	//Identity quaternion
+	this->values[0] = 1;
 	this->values[1] = 0;
 	this->values[2] = 0;
 	this->values[3] = 0;

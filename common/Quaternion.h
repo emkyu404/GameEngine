@@ -19,6 +19,7 @@ public:
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Quaternion(); 
+	Quaternion(Vector3D _rotationAngle); // TODO : Init quaternion with Euler Angle ?
 	Quaternion(float w, float i, float j, float k); 
 
 	/*-------------- GETTERS --------------*/
