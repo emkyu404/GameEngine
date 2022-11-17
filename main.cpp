@@ -686,4 +686,8 @@ void testMatrix() {
 	quatTestNotEmpty.print();
 	quatTestNotEmpty.normalized();
 	quatTestNotEmpty.print();
+
+	quatTest.print();
+	quatTest = quatTestNotEmpty * quatTestNotEmpty;
+	quatTest.print();
 }
