@@ -234,7 +234,7 @@ void initPhysicObject()
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
 
-	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 0), Vector3D(-1, -1, 0));
+	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 1), Vector3D(-1, -1, -1));
 	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg);
 	
 
