@@ -61,9 +61,9 @@ void RigidBody::integrate(float _deltaTime) {
 	angularAcceleration = inverseInertiaTensor * torqueAccumulator;
 
 	//6 - Update linear velocity
-	velocity = velocity * damping + acceleration * _deltaTime;
+	velocity = velocity * pow(damping,_deltaTime) + acceleration * _deltaTime;
 	//7 - Update angular velocity
-	rotation = rotation * angularDamping + angularAcceleration * _deltaTime;
+	rotation = rotation * pow(angularDamping,_deltaTime) + angularAcceleration * _deltaTime;
 
 	//8 - Clear accumulators
 	clearAccumulator();
@@ -83,13 +83,16 @@ void RigidBody::addForce(Vector3D _newForce) {
 }
 
 void RigidBody::addForceAtPoint(Vector3D _newForce, Vector3D _worldPoint) {
+
+	//Compute the point relative to center of mass of the rigidbody
 	Vector3D pt = _worldPoint - position; 
 	forceAccumulator = forceAccumulator + _newForce;
-	torqueAccumulator = torqueAccumulator + pt ^ _newForce;
+	torqueAccumulator = torqueAccumulator + (pt ^ _newForce);
 }
 
 void RigidBody::addForceAtBodyPoint(Vector3D _newForce, Vector3D _localPoint) {
-	//TODO convert local position to world position and then call addForceAtPoint
+	
+	//get local point in world coordinates
 	Vector3D pt = transformMatrix.transformAll(_localPoint);
 	addForceAtPoint(_newForce, pt);
 }
@@ -138,12 +141,12 @@ void RigidBody::calculateDerivedData(){
 	_calculateTransformMatrix(transformMatrix,position,orientation);
 
 	// Hardset of inertia tensor of cuboœd, dy = 2 and dz = 2
-	float dy, dz;
-	dy = 2; dz = 2;
+	float dx, dy, dz;
+	dx = 2;  dy = 2; dz = 2;
 
 	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0, 0,
-							0, (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0,
-							0, 0 , (1.0f / 12.0f)* getMass() * (pow(dy, 2) + pow(dz,2)) };
+							0, (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dz,2)), 0,
+							0, 0 , (1.0f / 12.0f)* getMass() * (pow(dx, 2) + pow(dy,2)) };
 
 	Matrix33 inverseInertiaTensorBody = Matrix33(values).getInverse();
 	_transformInertiaTensor(inverseInertiaTensor, orientation, inverseInertiaTensorBody, transformMatrix);

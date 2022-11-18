@@ -231,21 +231,22 @@ void initPhysicObject()
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(5, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-5, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), 1000);
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0, -5, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
+	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[0], Vector3D(0, -1, 0), Vector3D(0, 1, 0));
 
-	//SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(0.5, 0, 0), Vector3D(0,0,0));
-	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 0, 0), Vector3D(-1, 0, 0));
-	RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
-	//RigidSpringForceGenerator* rsfg3 = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, -1), Vector3D(1, -1, -1));
-	//RigidSpringForceGenerator* rsfg4 = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 1), Vector3D(1, -1, 1));
-	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], sfg);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg2);
-	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg4);
+	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
+	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
+	SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(1, 0, 0));
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg1);
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], sfg);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg2);
+
+	//SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(0,0,1));
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], sfg);
+
 	
 
 }
@@ -418,6 +419,7 @@ void renderImGUIRigidBodiesList()
 				ImGui::Text("Torque : (%.1f, %.1f, %.1f)", torque.getX(), torque.getY(), torque.getZ());
 				ImGui::Text("Angular Acceleration : (%.1f, %.1f, %.1f)", angularAcc.getX(), angularAcc.getY(), angularAcc.getZ());
 			}
+
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{

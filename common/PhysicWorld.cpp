@@ -134,8 +134,15 @@ void PhysicWorld::addRigidBody(Vector3D _initialPosition) {
 	physicObjects.push_back(_newRigidBody);
 }
 
-void PhysicWorld::removeRigidBody(RigidBody* _targetRigidBody) {
 
+void PhysicWorld::addRigidBody(Vector3D _initialPosition, float _mass) {
+	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
+	_newRigidBody->setMass(_mass);
+	physicObjects.push_back(_newRigidBody);
+}
+
+void PhysicWorld::removeRigidBody(RigidBody* _targetRigidBody) {
+	
 }
 
 vector<RigidBody*> PhysicWorld::getRigidBodies()
