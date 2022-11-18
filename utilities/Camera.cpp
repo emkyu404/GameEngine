@@ -13,7 +13,7 @@ Camera::Camera(float _posX, float _posY, float _posZ) {
 	worldUp = Vector3D(0.0f, 1.0f, 0.0f); // hard code up is y axis
 	yaw = YAW;
 	pitch = PITCH;
-	lock = false;
+	lock = true;
 	updateCameraVectors();
 }
 

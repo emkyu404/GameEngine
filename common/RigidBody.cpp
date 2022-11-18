@@ -133,7 +133,8 @@ void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orient
 	
 	//Basis transform (rotationMatrix * iitbody) * rotationMatrix
 	Matrix33 rotationMatrix = _transformMatrix.getMatrixRotation();
-	_iitWorld = rotationMatrix.getInverse() * _iitbody * rotationMatrix;
+	Matrix33 invRotationMatrix = rotationMatrix.getInverse();
+	_iitWorld = rotationMatrix * _iitbody * invRotationMatrix;
 }
 
 void RigidBody::calculateDerivedData(){

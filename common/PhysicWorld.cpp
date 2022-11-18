@@ -85,17 +85,18 @@ void PhysicWorld::addParticle(Vector3D _initialPosition) {
 	physicObjects.push_back(_newParticle);
 }
 
-void PhysicWorld::removeParticle(Particle* _targetParticle) {
+void PhysicWorld::removePhysicObject(PhysicObject* _target) {
+	forceRegistry.removeAllForceEntryForPhysicObject(_target);
 	physicObjects.erase(
 		remove_if(
 			physicObjects.begin(),
 			physicObjects.end(),
 			[&](const PhysicObject* p)
-			{ return p == _targetParticle;
+			{ return p == _target;
 			}),
 		physicObjects.end()
 				);
-	delete _targetParticle;
+	delete _target;
 }
 
 vector<Particle*> PhysicWorld::getParticles()
@@ -139,10 +140,6 @@ void PhysicWorld::addRigidBody(Vector3D _initialPosition, float _mass) {
 	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
 	_newRigidBody->setMass(_mass);
 	physicObjects.push_back(_newRigidBody);
-}
-
-void PhysicWorld::removeRigidBody(RigidBody* _targetRigidBody) {
-	
 }
 
 vector<RigidBody*> PhysicWorld::getRigidBodies()

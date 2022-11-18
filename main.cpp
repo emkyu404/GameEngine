@@ -231,23 +231,16 @@ void initPhysicObject()
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), 1000);
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
 	PhysicWorld::getInstance()->addRigidBody(Vector3D(0, -5, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
-	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[0], Vector3D(0, -1, 0), Vector3D(0, 1, 0));
+	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[0], Vector3D(1, 1, 1), Vector3D(0, -1, 0));
 
 	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
 	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
-	SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(1, 0, 0));
 	PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg1);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], sfg);
 	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg2);
-
-	//SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(0,0,1));
-	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], sfg);
-
-	
 
 }
 
@@ -366,11 +359,11 @@ void renderImGUIParticlesList()
 				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
 			}
 
-			/*
+			
 			if (ImGui::Button(text_remove.c_str()))
 			{
-				PhysicWorld::getInstance()->removeParticle(physicObject);
-			}*/
+				PhysicWorld::getInstance()->removePhysicObject(physicObject);
+			}
 		}
 	}
 
@@ -405,6 +398,16 @@ void renderImGUIRigidBodiesList()
 			Vector3D position = physicObject->getPosition();
 			Vector3D velocity = physicObject->getVelocity();
 			Vector3D acceleration = physicObject->getAcceleration();
+
+			float x_pos = position.getX();
+			float y_pos = position.getY();
+			float z_pos = position.getZ();
+			float posArr[3] = { x_pos,y_pos,z_pos };
+
+			/*
+			if (ImGui::SliderFloat3("slider float", posArr, -10.0f, 10.0f, "%.1f")) {
+				physicObject->setPosition(Vector3D(posArr[0], posArr[1],posArr[2]));
+			}*/
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ());
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
@@ -459,11 +462,11 @@ void renderImGUIRigidBodiesList()
 				PhysicWorld::getInstance()->addForceEntry(physicObject, spring);
 			}
 
-			/*
+			
 			if (ImGui::Button(text_remove.c_str()))
 			{
-				PhysicWorld::getInstance()->removeParticle(physicObject);
-			}*/
+				PhysicWorld::getInstance()->removePhysicObject(physicObject);
+			}
 		}
 	}
 

@@ -33,14 +33,17 @@ void ObjectForceRegistry::removeForceEntry(PhysicObject* _object, ObjectForceGen
 	);
 }
 
-void ObjectForceRegistry::removeAllForceEntryForParticle(PhysicObject* _object) {
-	/*
-	m_registry.erase(remove_if(
-		m_registry.begin(),
-		m_registry.end(),
-		[](ParticleForceEntry& pfe) { return pfe.particle == &particle; })
-	))
-	*/
+
+void ObjectForceRegistry::removeAllForceEntryForPhysicObject(PhysicObject* _object) {
+	m_registry.erase(
+		remove_if(
+			m_registry.begin(),
+			m_registry.end(),
+			[&](const ObjectForceEntry& pfe)
+			{ return pfe.object == _object;
+			}),
+		m_registry.end()
+				);
 }
 
 void ObjectForceRegistry::clear() {

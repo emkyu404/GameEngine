@@ -28,7 +28,7 @@ public:
 	void updateForce(float _duration); 
 	void addForceEntry(PhysicObject* _object, ObjectForceGenerator* _forceGenerator);
 	void removeForceEntry(PhysicObject* _object, ObjectForceGenerator* _forceGenerator);
-	void removeAllForceEntryForParticle(PhysicObject* _object);
+	void removeAllForceEntryForPhysicObject(PhysicObject* _object);
 	void clear();
 
 };
