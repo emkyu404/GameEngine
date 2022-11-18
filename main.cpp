@@ -39,6 +39,8 @@
 #include "BuoyancyForceGenerator.h"
 #include "ParticleSpringForceGenerator.h"
 #include "RigidSpringForceGenerator.h"
+#include "SimpleForceGenerator.h"
+
 //Camera
 #include "Camera.h"
 #include <Matrix33.h>
