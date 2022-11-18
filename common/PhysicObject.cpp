@@ -65,10 +65,6 @@ void PhysicObject::setInverseMass(float _inverseMass) {
 	inverseMass = _inverseMass;
 }
 
-void PhysicObject::impulse(Vector3D _impulse) {
-	forceAccumulator += _impulse;
-}
-
 void PhysicObject::reset() {
 	position = initialPosition;
 	velocity = Vector3D();
