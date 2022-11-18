@@ -25,10 +25,16 @@ RigidSpringForceGenerator::RigidSpringForceGenerator(PhysicObject* _m_other, flo
 void RigidSpringForceGenerator::updateForce(PhysicObject* _physicObject, float _duration) {
 
 	RigidBody* _rigidbody = dynamic_cast<RigidBody*>(_physicObject);
-
+	// Get world position of our anchors
 	Vector3D m_bodyAnchorWorld = _rigidbody->getTransformMatrix().transformAll(m_bodyAnchor);
 	Vector3D m_otherBodyAnchorWorld = m_other->getTransformMatrix().transformAll(m_otherBodyAnchor);
+
+	// Calculate distance between our two anchors
 	Vector3D d = m_bodyAnchorWorld - m_otherBodyAnchorWorld; 
-	Vector3D F = d.normalize() * -1 * m_k * abs((d.norm() - m_restLength));
-	_rigidbody->addForceAtBodyPoint(F, m_bodyAnchor);
+
+	// Calculate force
+	Vector3D F = (d.normalize() * -1) * m_k * abs((d.norm() - m_restLength));
+
+	// Add force at body anchor point
+	_rigidbody->addForceAtPoint(F, m_bodyAnchorWorld);
 }

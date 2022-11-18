@@ -14,6 +14,10 @@ class RigidBody : public PhysicObject
 {
 
 private:
+
+	// Angular acceleration of the rigid body
+	Vector3D angularAcceleration;
+
 	// Angular velocity of the rigid body
 	Vector3D rotation;
 
@@ -54,6 +58,9 @@ public:
 	void clearAccumulator();
 
 	Matrix34 getTransformMatrix();
+
+	Vector3D getTorque();
+	Vector3D getAngularAcceleration();
 
 private:
 	void calculateDerivedData();

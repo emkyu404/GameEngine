@@ -64,7 +64,7 @@ static Shader* physicObjectShader;
 static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
-static int physicObjectCount = 2;
+static int physicObjectCount = 5;
 static Vector3D offsetPhysicObject = Vector3D(3, 0, 0);
 
 // Forces
@@ -85,7 +85,7 @@ bool firstMouse = true;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 
-Camera camera = Camera(10.0f, 3.0f, 10.0f);
+Camera camera = Camera(0.0f, 0.0f, 30.0f);
 static float camSpeed = 2.5f;
 
 const static GLuint vao, vbo, ibo;
@@ -225,19 +225,26 @@ void paintGL() {
 
 void initPhysicObject() 
 {
-	/*
-	for (int i = 0; i < physicObjectCount; ++i)
+	
+	/*for (int i = 0; i < physicObjectCount; ++i)
 	{
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D());
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(3, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0, 5, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
 
-	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 1), Vector3D(-1, -1, -1));
+	//SimpleForceGenerator* sfg = new SimpleForceGenerator(Vector3D(0.5, 0, 0), Vector3D(0,0,0));
+	RigidSpringForceGenerator* rsfg = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(0, 1, 0), Vector3D(0, -1, 0));
+	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(-1, 1, -1), Vector3D(-1, -1, -1));
+	//RigidSpringForceGenerator* rsfg3 = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, -1), Vector3D(1, -1, -1));
+	//RigidSpringForceGenerator* rsfg4 = new RigidSpringForceGenerator(rigidbodies[1], Vector3D(1, 1, 1), Vector3D(1, -1, 1));
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], sfg);
 	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg3);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg4);
 	
 
 }
@@ -318,12 +325,6 @@ void renderImGUIParticlesList()
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ()); 
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
-
-			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
-				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
-				Quaternion orientation = rigidbody->getOrientation();
-				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
-			}
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{
@@ -410,7 +411,11 @@ void renderImGUIRigidBodiesList()
 			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
 				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
 				Quaternion orientation = rigidbody->getOrientation();
+				Vector3D torque = rigidbody->getTorque();
+				Vector3D angularAcc = rigidbody->getAngularAcceleration();
 				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
+				ImGui::Text("Torque : (%.1f, %.1f, %.1f)", torque.getX(), torque.getY(), torque.getZ());
+				ImGui::Text("Angular Acceleration : (%.1f, %.1f, %.1f)", angularAcc.getX(), angularAcc.getY(), angularAcc.getZ());
 			}
 
 			//if (ImGui::Button(text_mass.c_str()))
@@ -541,7 +546,13 @@ void renderImGUIMainFrame() {
 	{
 		for (PhysicObject* physicObject : instance->getPhysicObjects())
 		{
-			physicObject->reset();
+			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+				rigidbody->reset();
+			}
+			else {
+				physicObject->reset();
+			}
 		}
 	}
 

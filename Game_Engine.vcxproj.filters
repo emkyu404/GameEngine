@@ -180,6 +180,9 @@
     <ClCompile Include="common\forces\RigidSpringForceGenerator.cpp">
       <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
+    <ClCompile Include="common\forces\SimpleForceGenerator.cpp">
+      <Filter>Fichiers sources\common\contacts\forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="common\forces\RigidSpringForceGenerator.h">
       <Filter>Fichiers sources\common\contacts\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="common\forces\SimpleForceGenerator.h">
+      <Filter>Fichiers d%27en-tête\common\forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
