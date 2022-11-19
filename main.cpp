@@ -100,12 +100,9 @@ void mainLoop();
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-void testMatrix();
 
 int main()
 {
-	testMatrix();
-
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -231,16 +228,22 @@ void initPhysicObject()
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0, -5, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), 10);
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(5, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(-5, 0, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
-	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[0], Vector3D(1, 1, 1), Vector3D(0, -1, 0));
 
-	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
-	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg1);
-	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[1], rsfg2);
+	float rest_length = 3;
+	float spring_constant = 1;
+
+	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[1], spring_constant, rest_length, Vector3D(1, 0, 0), Vector3D(-1, 0, 0));
+	RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], spring_constant, rest_length, Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
+
+
+	
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg1);
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg2);
 
 }
 
@@ -392,6 +395,7 @@ void renderImGUIRigidBodiesList()
 		string text_spring = std::string("Apply Spring##") + std::to_string(rigidIndex);
 		string text_remove = std::string("Remove RigidBody##") + std::to_string(rigidIndex);
 		string text_rigidbodyList = std::string("Rigidbody List##") + std::to_string(rigidIndex);
+		string text_slider_float = std::string("Slider Float##") + std::to_string(rigidIndex);
 
 		if (ImGui::CollapsingHeader(text_customization_rigidbody.c_str()))
 		{
@@ -404,10 +408,10 @@ void renderImGUIRigidBodiesList()
 			float z_pos = position.getZ();
 			float posArr[3] = { x_pos,y_pos,z_pos };
 
-			/*
-			if (ImGui::SliderFloat3("slider float", posArr, -10.0f, 10.0f, "%.1f")) {
+			
+			if (ImGui::SliderFloat3(text_slider_float.c_str(), posArr, -10.0f, 10.0f, "%.1f")) {
 				physicObject->setPosition(Vector3D(posArr[0], posArr[1],posArr[2]));
-			}*/
+			}
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ());
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
@@ -687,6 +691,7 @@ void scrollCallback(GLFWwindow* window, double _xOffset, double _yOffset)
 	camera.processMouseScroll(static_cast<float>(_yOffset));
 }
 
+/*
 void testMatrix() {
 	float valuesM1[12] = { 1.0f, 2.0f, 0.0f, 1.0f, 4.0f, 3.0f, -1.0f, 2.0f, 2.0f, 7.0f, 9.0f, 0.0f };
 	float valuesM2[12] = { 7.0f, 6.0f, 2.0f, 0.0f, -1.0f, 5.0f, 3.0f, 1.0f, 4.0f, 8.0f, 0.0f, -4.0f };
@@ -709,4 +714,4 @@ void testMatrix() {
 	quatTest.print();
 	quatTest = quatTestNotEmpty * quatTestNotEmpty;
 	quatTest.print();
-}
+}*/
