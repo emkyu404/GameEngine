@@ -41,6 +41,16 @@ RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _accelerat
 	orientation = Quaternion();
 	angularDamping = DEFAULT_VALUE_ANGULARDAMPING;
 	angularAcceleration = Vector3D();
+
+	// Hardset of inertia tensor of cuboœd, dy = 2 and dz = 2
+	float dx, dy, dz;
+	dx = 2;  dy = 2; dz = 2;
+
+	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0, 0,
+							0, (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dz,2)), 0,
+							0, 0 , (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dy,2)) };
+
+	inverseInertiaTensor = Matrix33(values).getInverse();
 }
 
 
@@ -58,10 +68,11 @@ void RigidBody::integrate(float _deltaTime) {
 	acceleration = forceAccumulator * this->getInverseMass();
 
 	//5 - Compute angular acceleration
-	angularAcceleration = inverseInertiaTensor * torqueAccumulator;
+	angularAcceleration = inverseInertiaTensorWorld * torqueAccumulator;
 
 	//6 - Update linear velocity
 	velocity = velocity * pow(damping,_deltaTime) + acceleration * _deltaTime;
+
 	//7 - Update angular velocity
 	rotation = rotation * pow(angularDamping,_deltaTime) + angularAcceleration * _deltaTime;
 
@@ -121,36 +132,23 @@ Vector3D RigidBody::getAngularAcceleration() {
 	return angularAcceleration;
 }
 
-void RigidBody::setInertiaTensor(Matrix33 _inertiaTensor) {
-	inverseInertiaTensor = _inertiaTensor.getInverse();
-}
-
 void RigidBody::_calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation){
 	_transformMatrix.setOrientationAndPosition(_orientation, _position);
 }
 
 void RigidBody::_transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orientation, Matrix33& _iitbody, Matrix34& _transformMatrix) {
 	
-	//Basis transform (rotationMatrix * iitbody) * rotationMatrix
+	//Basis transform (rotationMatrix * iitbody) * rotationMatrix ^ -1
 	Matrix33 rotationMatrix = _transformMatrix.getMatrixRotation();
 	Matrix33 invRotationMatrix = rotationMatrix.getInverse();
 	_iitWorld = rotationMatrix * _iitbody * invRotationMatrix;
 }
 
 void RigidBody::calculateDerivedData(){
+	//Normalize orientation
 	orientation.normalized();
 	_calculateTransformMatrix(transformMatrix,position,orientation);
-
-	// Hardset of inertia tensor of cuboœd, dy = 2 and dz = 2
-	float dx, dy, dz;
-	dx = 2;  dy = 2; dz = 2;
-
-	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0, 0,
-							0, (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dz,2)), 0,
-							0, 0 , (1.0f / 12.0f)* getMass() * (pow(dx, 2) + pow(dy,2)) };
-
-	Matrix33 inverseInertiaTensorBody = Matrix33(values).getInverse();
-	_transformInertiaTensor(inverseInertiaTensor, orientation, inverseInertiaTensorBody, transformMatrix);
+	_transformInertiaTensor(inverseInertiaTensorWorld, orientation, inverseInertiaTensor, transformMatrix);
 }
 
 void RigidBody::clearForce() {

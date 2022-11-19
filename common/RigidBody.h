@@ -27,8 +27,11 @@ private:
 	// calculate transform matrix from orientation and rotation
 	Matrix34 transformMatrix;
 
-	// 
+	// local inverse inertia tensor, setup once 
 	Matrix33 inverseInertiaTensor;
+
+	// world coordinate inertia tensor, calculate each frame
+	Matrix33 inverseInertiaTensorWorld;
 
 	//same as linear damping but for rotation
 	float angularDamping;
@@ -66,7 +69,6 @@ private:
 	void calculateDerivedData();
 	void clearForce();
 	void clearTorque();
-	void setInertiaTensor(Matrix33 _inertiaTensor);
 	static void _calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation);
 	static void _transformInertiaTensor(Matrix33& _iitWorld, Quaternion& _orientation, Matrix33& _iitbody, Matrix34& _transformMatrix);
 };
