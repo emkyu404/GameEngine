@@ -3,17 +3,20 @@
 #include "Shape.h"
 #include "VBO.h"
 #include "VAO.h"
+#include "IBO.h"
+#include "Vector3D.hpp"
 
 class Cube : public Shape
 {
 public:
-    Cube(VAO* vao);
+    Cube();
+    Cube(Vector3D scale);
     void init();
     void cleanup();
     void draw();
 
 private:
     bool isInited;
-    GLuint m_vao, m_vboVertex, m_vboIndex;
-    VBO* vbo; VAO* vao;
+    VBO* vbo; VAO* vao; IBO* ibo;
+    Vector3D scale;
 };

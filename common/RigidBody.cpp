@@ -3,48 +3,33 @@
 
 /*-------------- CONSTRUCTORS --------------*/
 
-// Default constructor
-RigidBody::RigidBody()
-	: RigidBody(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),
-		DEFAULT_VALUE_WEIGHT)
-{
+
+
+RigidBody::RigidBody() : RigidBody(Vector3D(0,0,0)) {
 }
 
-// Default constructor with position
-RigidBody::RigidBody(Vector3D _position)
-	: RigidBody(_position, Vector3D(0, 0, 0), Vector3D(0, 0, 0),
-		DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
-{
+RigidBody::RigidBody(Vector3D _position) : RigidBody(_position, Vector3D(1,1,1)) {
 }
 
-// Default constructor with basic vectors 
-RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration)
-	: RigidBody(_position, _velocity, _acceleration, DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING)
-{
+RigidBody::RigidBody(Vector3D _position, Vector3D _scale) : RigidBody(_position, _scale, DEFAULT_VALUE_WEIGHT, DEFAULT_VALUE_DAMPING) {
 }
 
-// Default constructor with basic vectors and weight 
-RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass)
-	: RigidBody(_position, _velocity, _acceleration, _inverseMass, DEFAULT_VALUE_DAMPING)
-{
-}
-
-// Full customization constructor
-RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _acceleration, float _inverseMass, float _damping) {
+RigidBody::RigidBody(Vector3D _position, Vector3D _scale, float _inverseMass, float _damping) {
 	position = _position;
 	initialPosition = position;
-	velocity = _velocity;
-	acceleration = _acceleration;
+	velocity = Vector3D();
+	acceleration = Vector3D();
 	inverseMass = _inverseMass;
 	damping = _damping;
 	forceAccumulator = Vector3D();
 	orientation = Quaternion();
 	angularDamping = DEFAULT_VALUE_ANGULARDAMPING;
 	angularAcceleration = Vector3D();
+	objectScale = _scale;
 
 	// Hardset of inertia tensor of cuboœd, dy = 2 and dz = 2
 	float dx, dy, dz;
-	dx = 2;  dy = 2; dz = 2;
+	dx = _scale.getX();  dy = _scale.getY(); dz = _scale.getY();
 
 	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0, 0,
 							0, (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dz,2)), 0,
@@ -52,7 +37,6 @@ RigidBody::RigidBody(Vector3D _position, Vector3D _velocity, Vector3D _accelerat
 
 	inverseInertiaTensor = Matrix33(values).getInverse();
 }
-
 
 void RigidBody::integrate(float _deltaTime) {
 	//1 - Update position
@@ -130,6 +114,10 @@ Vector3D RigidBody::getTorque()
 
 Vector3D RigidBody::getAngularAcceleration() {
 	return angularAcceleration;
+}
+
+Vector3D RigidBody::getScale() {
+	return objectScale;
 }
 
 void RigidBody::_calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation){

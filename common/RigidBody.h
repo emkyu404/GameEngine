@@ -39,15 +39,17 @@ private:
 	//Accumulated torque, added by Force Generator
 	Vector3D torqueAccumulator;
 
+	//Scale of object - Describe dx, dy and dz for Cuboïd
+	Vector3D objectScale;
+
 
 public:
 
 	/*-------------- CONSTRUCTORS --------------*/
 	RigidBody();
 	RigidBody(Vector3D position);
-	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration);
-	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass);
-	RigidBody(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float damping);
+	RigidBody(Vector3D position, Vector3D scale);
+	RigidBody(Vector3D position, Vector3D scale, float mass, float damping);
 
 	/*-------------- METHODES --------------*/
 	void integrate(float _deltaTime);
@@ -64,6 +66,7 @@ public:
 
 	Vector3D getTorque();
 	Vector3D getAngularAcceleration();
+	Vector3D getScale();
 
 private:
 	void calculateDerivedData();

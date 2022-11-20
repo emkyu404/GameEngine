@@ -2,6 +2,7 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 #include <string>
+#include <map>
 
 #include <iostream>
 #include <vector>
@@ -56,11 +57,9 @@ const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static GLFWwindow* window; //GLFW window context
 
 static GLuint MatrixID;
-static Shape* physicObjectShape;
 static Shape* grid;
 
 static Shader* physicObjectShader;
-
 static mat4 view,projection ,mvp, model;
 
 static PhysicWorld physicWorld = PhysicWorld();
@@ -73,6 +72,8 @@ static ObjectForceGenerator* drag = new DragForceGenerator();
 //static ParticleForceGenerator* spring = new ParticleSpring();
 //static ParticleForceGenerator* anchoredSpring = new ParticleAnchoredSpring();
 static ObjectForceGenerator* buoyancy = new BuoyancyForceGenerator();
+
+static map<PhysicObject*, Shape*> shapeRegistry;
 
 int detectorNumberParticle = 0; 
 
@@ -88,7 +89,6 @@ float lastY = SCR_HEIGHT / 2.0f;
 Camera camera = Camera(0.0f, 0.0f, 30.0f);
 static float camSpeed = 2.5f;
 
-const static GLuint vao, vbo, ibo;
 
 void initGL();
 void paintGL();
@@ -163,15 +163,8 @@ int main()
 void initGL() {
 	// Chargement des shaders
 	physicObjectShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
-
-	//VAO creation
-	VAO* particleVao = new VAO();
 	VAO* gridVao = new VAO();
 
-
-	//Chargement OpenGL
-	physicObjectShape = new Cube(particleVao);
-	physicObjectShape->init();
 
 	grid = new Grid(gridVao);
 	grid->init();
@@ -213,10 +206,24 @@ void paintGL() {
 			float color[3] = { 1.0f, 0.0f, 0.0f };
 			glUniform3fv(color_location, 1, color);
 		}
-
-		//grid->draw();
-		//Color test
-		physicObjectShape->draw();
+		auto search = shapeRegistry.find(physicObject);
+		if ( search != shapeRegistry.end()) {
+			search->second->draw();
+		}
+		else {
+			Shape* objectShape;
+			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
+				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+				Vector3D scale = rigidbody->getScale();
+				objectShape = new Cube(rigidbody->getScale());
+			}
+			else {
+				objectShape = new Cube(Vector3D(2,1,2));
+			}
+			objectShape->init();
+			shapeRegistry.insert({ physicObject, objectShape });
+			objectShape->draw();
+		}
 	}
 }
 
@@ -228,17 +235,17 @@ void initPhysicObject()
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), 10);
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(5, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-5, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), Vector3D(2,1,2));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(7, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(-7, 0, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
 
 	float rest_length = 3;
 	float spring_constant = 1;
 
-	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[1], spring_constant, rest_length, Vector3D(1, 0, 0), Vector3D(-1, 0, 0));
-	RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], spring_constant, rest_length, Vector3D(-1, 0, 0), Vector3D(1, 0, 0));
+	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[1], spring_constant, rest_length, Vector3D(2, 0, 0), Vector3D(-1, 0, 0));
+	RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], spring_constant, rest_length, Vector3D(-2, 0, 0), Vector3D(1, 0, 0));
 
 
 	

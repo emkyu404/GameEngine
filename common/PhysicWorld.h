@@ -62,6 +62,7 @@ public:
 
 	void addRigidBody();
 	void addRigidBody(Vector3D _initialPosition);
+	void addRigidBody(Vector3D _initialPosition, Vector3D _scale);
 	void addRigidBody(Vector3D _initialPosition, float _mass);
 
 	void removePhysicObject(PhysicObject* _target);

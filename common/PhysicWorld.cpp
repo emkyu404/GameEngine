@@ -135,6 +135,12 @@ void PhysicWorld::addRigidBody(Vector3D _initialPosition) {
 	physicObjects.push_back(_newRigidBody);
 }
 
+void PhysicWorld::addRigidBody(Vector3D _initialPosition, Vector3D _scale) {
+	RigidBody* _newRigidBody = new RigidBody(_initialPosition, _scale);
+	_newRigidBody->setMass(1);
+	physicObjects.push_back(_newRigidBody);
+}
+
 
 void PhysicWorld::addRigidBody(Vector3D _initialPosition, float _mass) {
 	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
