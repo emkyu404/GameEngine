@@ -2,6 +2,7 @@
 
 #include "Vector3D.hpp"
 #include "RigidBody.h"
+#include <vector>
 
 using namespace std;
 
@@ -12,8 +13,8 @@ private:
 	// Values for axis x, y, z
 	Vector3D center; 
 	int key; 
-	int hasChild; 
-	RigidBody* listObjects; 
+	Node* childs[8]; 
+	vector<RigidBody*> listObjects; 
 
 public:
 
