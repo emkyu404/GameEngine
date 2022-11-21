@@ -183,6 +183,9 @@
     <ClCompile Include="common\forces\SimpleForceGenerator.cpp">
       <Filter>Fichiers sources\common\contacts\forces</Filter>
     </ClCompile>
+    <ClCompile Include="utilities\Node.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="common\forces\SimpleForceGenerator.h">
       <Filter>Fichiers d%27en-tête\common\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\Node.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
