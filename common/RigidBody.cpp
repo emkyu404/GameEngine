@@ -71,6 +71,7 @@ void RigidBody::reset() {
 	orientation = Quaternion();
 	rotation = Vector3D();
 	angularAcceleration = Vector3D();
+	calculateDerivedData();
 }
 
 void RigidBody::addForce(Vector3D _newForce) {

@@ -235,7 +235,7 @@ void initPhysicObject()
 		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
 	}*/
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0), Vector3D(2,1,2));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(-0.3f,0,0), Vector3D(2,1,2));
 	PhysicWorld::getInstance()->addRigidBody(Vector3D(7, 0, 0));
 	PhysicWorld::getInstance()->addRigidBody(Vector3D(-7, 0, 0));
 
@@ -251,7 +251,8 @@ void initPhysicObject()
 	
 	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg1);
 	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg2);
-
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], gravity);
+	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], drag);
 }
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {
