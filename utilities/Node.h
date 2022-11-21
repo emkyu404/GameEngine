@@ -11,8 +11,8 @@ class Node {
 private:
 
 	// Values for axis x, y, z
-	Vector3D center; 
-	int key; 
+	Vector3D center;	
+	float halfWidth; 
 	Node* childs[8]; 
 	vector<RigidBody*> listObjects; 
 
