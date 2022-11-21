@@ -40,3 +40,10 @@ If it's not working
 
 ![image](https://user-images.githubusercontent.com/58985300/197421682-68e2c9ee-c746-476a-acd5-a45e87f72b2f.png)
 
+# Phase 3 - Guide
++ User is able to influence physic objects position with sliders (X, Y and Z axis)
++ Camera is locked by default. To move the camera please press space bar
++ The demo scene has been setup in code. SpringForces for rigidbodies cannot be added otherwise for now
++ The demo sccene include 3 rigidbodies. Only the first one has forces applicated to it. You shall see one rigidbody rotating around the axis X. 
++ The forces used are : 2 spring forces, anchored at the side of the rigidbody. Grabity and drag forces are also used
++ Collisions have been disabled
