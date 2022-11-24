@@ -6,21 +6,22 @@ class Octree
 {
 private :
 
-	vector<Node> listNodes;
+	vector<Node*> listNodes;
 
 public :
 
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Octree();
-	Octree(vector<Node> _listNodes);
+	Octree(vector<Node*> _listNodes);
 
 	/*-------------- GETTERS --------------*/
 
-	vector<Node> getNodes();
+	vector<Node*> getNodes();
 
 	/*-------------- METHODS --------------*/
 
-	Node* createOctree(Vector3D center, float halfWidth, int stopDepth);
+	Node* createOctree(Vector3D _center, float _halfWidth, int _stopDepth);
+	void insertRb(Node* _pTree, RigidBody* _rigidBody);
 };
 
