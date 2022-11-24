@@ -105,8 +105,8 @@ bool Node::getObjectInIt()
 
 void Node::createChilds()
 {
-	if (!getObjectInIt)
-		return; 
+	//if (!getObjectInIt)
+		//return; 
 
 	//int iChild = 0; 
 	//for (Node* childNode : childs)

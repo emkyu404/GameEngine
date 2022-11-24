@@ -15,9 +15,9 @@ private:
 	Vector3D center;
 	float halfWidth;
 	Node* childs[8];
-	bool hasObjects; 
-	
-	vector<RigidBody*> listStudiedRigibodies; 
+	bool hasObjects;
+
+	vector<RigidBody*> listStudiedRigibodies;
 	vector<RigidBody*> listConsideredRigidBodies;
 
 public:
@@ -26,14 +26,14 @@ public:
 
 	Node();
 	Node(float halfWidth);
-	Node(Node* parent, Vector3D center); 
+	Node(Node* parent, Vector3D center);
 
 	/*-------------- GETTERS --------------*/
 
 	Vector3D getCenter();
 	float getHalfWidth();
 	Node** getChilds();
-	bool hasObjectsInIt(); 
+	bool hasObjectsInIt();
 
 	vector<RigidBody*> getListStudiedRigidbodies();
 	vector<RigidBody*> getListConsideredRigidbodies();
@@ -48,5 +48,5 @@ public:
 	/*-------------- METHODS --------------*/
 
 	bool getObjectInIt();
-	void createChilds(); 
-}
+	void createChilds();
+};
