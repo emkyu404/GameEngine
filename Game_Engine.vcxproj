@@ -165,7 +165,6 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Octree.cpp" />
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
     <ClCompile Include="shapes\Line.cpp" />
@@ -174,6 +173,7 @@
     <ClCompile Include="utilities\IBO.cpp" />
     <ClCompile Include="utilities\LoadShader.cpp" />
     <ClCompile Include="utilities\Node.cpp" />
+    <ClCompile Include="utilities\Octree.cpp" />
     <ClCompile Include="utilities\Shader.cpp" />
     <ClCompile Include="utilities\VAO.cpp" />
     <ClCompile Include="utilities\VBO.cpp" />
@@ -213,7 +213,6 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="Octree.h" />
     <ClInclude Include="shapes\Cube.h" />
     <ClInclude Include="shapes\Grid.h" />
     <ClInclude Include="shapes\Line.h" />
@@ -223,6 +222,7 @@
     <ClInclude Include="utilities\IBO.h" />
     <ClInclude Include="utilities\LoadShader.h" />
     <ClInclude Include="utilities\Node.h" />
+    <ClInclude Include="utilities\Octree.h" />
     <ClInclude Include="utilities\Shader.h" />
     <ClInclude Include="utilities\VAO.h" />
     <ClInclude Include="utilities\VBO.h" />

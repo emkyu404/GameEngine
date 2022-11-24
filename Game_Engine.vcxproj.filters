@@ -186,7 +186,7 @@
     <ClCompile Include="utilities\Node.cpp">
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Octree.cpp">
+    <ClCompile Include="utilities\Octree.cpp">
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,7 +332,7 @@
     <ClInclude Include="utilities\Node.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Octree.h">
+    <ClInclude Include="utilities\Octree.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
