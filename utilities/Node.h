@@ -11,10 +11,10 @@ class Node {
 private:
 
 	// Values for axis x, y, z
-	Vector3D center;	
-	float halfWidth; 
-	Node* childs[8]; 
-	vector<RigidBody*> listObjects; 
+	Vector3D center;
+	float halfWidth;
+	Node* childs[8];
+	vector<RigidBody*> listObjects;
 
 public:
 
@@ -23,3 +23,4 @@ public:
 	Node();
 
 	/*-------------- GETTERS --------------*/
+};

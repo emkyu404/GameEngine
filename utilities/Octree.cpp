@@ -1,11 +1,11 @@
 #include "Octree.h"
 
 Octree::Octree() {
-	listNodes = vector<Node*>();
+	//listNodes = vector<Node*>();
 }
 
 Octree::Octree(vector<Node*> _listNodes) {
-	listNodes = _listNodes;
+	//listNodes = _listNodes;
 }
 
 vector<Node*> Octree::getNodes() {
@@ -16,7 +16,7 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 	if (_stopDepth < 0) return NULL;
 
 	else {
-		Node* ptrNode = new Node();
+		//Node* ptrNode = new Node();
 		//ptrNode.setCenter(_center);
 		//ptrNode.setHalfWidth(_halfWidth);
 		//ptrNode.setListObjects(vector<RigidBody*>(NULL));
@@ -47,6 +47,8 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 
 			//ptrNode->childs[i] = createOctree(_center + offset, step, _stopDepth - 1);
 		}
-		return ptrNode;
+		//return ptrNode;
+		return NULL;
 	}
+	
 }
