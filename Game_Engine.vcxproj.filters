@@ -186,6 +186,9 @@
     <ClCompile Include="utilities\Node.cpp">
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -327,6 +330,9 @@
       <Filter>Fichiers d%27en-tête\common\forces</Filter>
     </ClInclude>
     <ClInclude Include="utilities\Node.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
