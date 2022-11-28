@@ -1,12 +1,16 @@
 #include "Octree.h"
 
+/*-------------- CONSTRUCTORS --------------*/
+
 Octree::Octree() {
-	//listNodes = vector<Node*>();
+	listNodes = vector<Node*>();
 }
 
 Octree::Octree(vector<Node*> _listNodes) {
-	//listNodes = _listNodes;
+	listNodes = _listNodes;
 }
+
+/*-------------- GETTERS --------------*/
 
 vector<Node*> Octree::getNodes() {
 	return listNodes;
@@ -16,10 +20,10 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 	if (_stopDepth < 0) return NULL;
 
 	else {
-		//Node* ptrNode = new Node();
-		//ptrNode.setCenter(_center);
-		//ptrNode.setHalfWidth(_halfWidth);
-		//ptrNode.setListObjects(vector<RigidBody*>(NULL));
+		Node* ptrNode = new Node();
+		ptrNode->setCenter(_center);
+		ptrNode->setHalfWidth(_halfWidth);
+		ptrNode->setListStudiedRigidbodies(vector<RigidBody*>(NULL));
 
 		// Recursivly construct child
 		Vector3D offset = Vector3D();
@@ -45,10 +49,9 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 				offset.setZ(-step);
 			}
 
-			//ptrNode->childs[i] = createOctree(_center + offset, step, _stopDepth - 1);
+			//ptrNode->getChilds().i = createOctree(_center + offset, step, _stopDepth - 1);
 		}
-		//return ptrNode;
-		return NULL;
+		return ptrNode;
 	}
 	
 }

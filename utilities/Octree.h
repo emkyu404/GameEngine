@@ -25,5 +25,8 @@ public :
 
 	Node* createOctree(Vector3D _center, float _halfWidth, int _stopDepth);
 	void insertRb(Node* _pTree, RigidBody* _rigidBody);
+
+	void addNode(Node* _node);
+	void removeNode(Node _node);
 };
 
