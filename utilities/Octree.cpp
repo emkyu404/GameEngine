@@ -49,9 +49,10 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 				offset.setZ(-step);
 			}
 
-			while (ptrNode->getObjectInIt()) {
-				//ptrNode->getChilds().i = createOctree(_center + offset, step, _stopDepth - 1);
-			};
+			if (ptrNode->getObjectInIt()) {
+				ptrNode->createChilds();
+			}
+			else listNodes.push_back(ptrNode);
 		}
 		return ptrNode;
 	}
