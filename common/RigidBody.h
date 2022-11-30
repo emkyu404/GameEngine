@@ -6,7 +6,7 @@
 #include "Matrix33.h"
 
 
-#define DEFAULT_VALUE_WEIGHT 1.0f
+#define DEFAULT_VALUE_WEIGHT 100.0f
 #define DEFAULT_VALUE_DAMPING 1.0f
 #define DEFAULT_VALUE_ANGULARDAMPING 1.0f;
 
