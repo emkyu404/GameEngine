@@ -105,19 +105,28 @@ bool Node::getObjectInIt()
 
 void Node::createChilds()
 {
-	//if (!getObjectInIt)
-		//return; 
+	if (!getObjectInIt)
+		return; 
 
-	//int iChild = 0; 
-	//for (Node* childNode : childs)
-	//{
-	//	float xChild = center.getX() + halfWidth; 
+	int iChild = 0; 
+	for (Node* childNode : childs)
+	{
+		float xChild = center.getX() + halfWidth; 
 
-	//	if (iChild > 4)
-	//		xChild = center.getX() - halfWidth;
+		if (iChild > 4)
+			xChild = center.getX() - halfWidth;
 
-	//	
+		float yChild = center.getY() + halfWidth; 
 
-	//	childNode = &Node(this, centerChild); 
-	//}
+		if (iChild == 2 || iChild == 3 || iChild == 6 || iChild == 7)
+			yChild = center.getY() - halfWidth; 
+
+		float zChild = center.getZ() + halfWidth; 
+
+		if (iChild % 2 == 0)
+			zChild = center.getZ() - halfWidth; 
+
+		Vector3D centerChild = Vector3D(xChild, yChild, zChild); 
+		childNode = &Node(this, centerChild); 
+	}
 }
