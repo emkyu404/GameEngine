@@ -20,6 +20,7 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 	if (_stopDepth < 0) return NULL;
 
 	else {
+		// root
 		Node* ptrNode = new Node();
 		ptrNode->setCenter(_center);
 		ptrNode->setHalfWidth(_halfWidth);
@@ -50,6 +51,7 @@ Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
 			}
 
 			if (ptrNode->getObjectInIt()) {
+				ptrNode = createOctree(_center + offset, step, _stopDepth - 1);
 				ptrNode->createChilds();
 			}
 			else listNodes.push_back(ptrNode);
