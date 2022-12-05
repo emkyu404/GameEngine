@@ -241,6 +241,10 @@ void initPhysicObject()
 	RigidBody* plane = new RigidBody(Vector3D(0, -10, 0), Vector3D(10, 0, 10));
 	Plane* planePrimitive = new Plane(plane, Vector3D(0, 1, 0), -10);
 	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(3, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(-3, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(6, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(-6, 0, 0));
 	PhysicWorld::getInstance()->addRigidBody(plane, planePrimitive); // plane
 
 

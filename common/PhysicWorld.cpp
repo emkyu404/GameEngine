@@ -6,6 +6,7 @@
 #include "ParticleRod.h"
 #include "ParticleCable.h"
 #include "Box.h"
+#include "Octree.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 
@@ -54,7 +55,10 @@ void PhysicWorld::integrate(float _duration) {
 
 vector<CollisionData> PhysicWorld::generateContacts() {
 	//Broad phase
-	//TODO
+	Octree octree = Octree();
+	octree.createOctree(Vector3D(0, 0, 0), 10.0f, 4, getRigidBodies());
+	octree.getRigidbodies();
+
 	// Narrow Phase
 	vector<RigidBody*> potentialContacts = getRigidBodies(); // To be changed after broad phase
 	vector<CollisionData> collisions;

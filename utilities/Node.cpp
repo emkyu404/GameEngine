@@ -87,11 +87,11 @@ bool Node::getObjectInIt()
 		float y = positionObject.getY(); 
 		float z = positionObject.getZ(); 
 
-		if (xMin >= x && x <= xMax)
+		if (x >= xMin && x <= xMax)
 		{
-			if (yMin >= y && y <= yMax)
+			if (y >= yMin && y <= yMax)
 			{
-				if (zMin >= z && z <= zMax)
+				if ( z >= zMin && z <= zMax)
 				{
 					listConsideredRigidBodies.push_back(object); 
 				}
