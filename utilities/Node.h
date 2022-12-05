@@ -14,7 +14,9 @@ private:
 
 	Vector3D center;
 	float halfWidth;
-	Node* childs[8];
+
+	vector<Node*> listChilds;
+
 	bool hasObjects;
 
 	vector<RigidBody*> listStudiedRigibodies;
@@ -32,12 +34,11 @@ public:
 
 	Vector3D getCenter();
 	float getHalfWidth();
-	Node** getChilds();
+	vector<Node*> getChilds();
 	bool hasObjectsInIt();
 
 	vector<RigidBody*> getListStudiedRigidbodies();
 	vector<RigidBody*> getListConsideredRigidbodies();
-
 
 	/*-------------- SETTERS --------------*/
 

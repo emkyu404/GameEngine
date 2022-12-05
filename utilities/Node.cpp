@@ -15,7 +15,7 @@ Node::Node(float _halfWidth) {
 // Constructor by parent
 Node::Node(Node* _parent, Vector3D _centerChild)
 {
-	halfWidth = _parent->getHalfWidth() / 2;
+	halfWidth = _parent->getHalfWidth() / 2.0f;
 	listStudiedRigibodies = _parent->getListConsideredRigidbodies(); 
 	center = _centerChild; 
 }
@@ -32,9 +32,9 @@ float Node::getHalfWidth()
 	return this->halfWidth; 
 }
 
-Node** Node::getChilds()
+vector<Node*> Node::getChilds()
 {
-	return this->childs; 
+	return this->listChilds; 
 }
 
 bool Node::hasObjectsInIt()
@@ -105,11 +105,7 @@ bool Node::getObjectInIt()
 
 void Node::createChilds()
 {
-	if (!getObjectInIt)
-		return; 
-
-	int iChild = 0; 
-	for (Node* childNode : childs)
+	for (int iChild = 0; iChild < 8; ++iChild)
 	{
 		float xChild = center.getX() + halfWidth; 
 
@@ -127,6 +123,7 @@ void Node::createChilds()
 			zChild = center.getZ() - halfWidth; 
 
 		Vector3D centerChild = Vector3D(xChild, yChild, zChild); 
-		childNode = &Node(this, centerChild); 
+		Node childNode = Node(this, centerChild); 
+		listChilds.push_back(&childNode); 
 	}
 }

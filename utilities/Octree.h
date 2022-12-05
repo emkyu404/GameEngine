@@ -8,22 +8,22 @@ class Octree {
 
 private :
 
-	vector<Node*> listNodes;
+	vector<vector<RigidBody*>> listRigibodies; 
 
 public :
 
 	/*-------------- CONSTRUCTORS --------------*/
 
 	Octree();
-	Octree(vector<Node*> _listNodes);
 
 	/*-------------- GETTERS --------------*/
 
-	vector<Node*> getNodes();
+	vector<vector<RigidBody*>> getRigidbodies(); 
 
 	/*-------------- METHODS --------------*/
 
-	Node* createOctree(Vector3D _center, float _halfWidth, int _stopDepth);
+	Node* createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies);
+	void iterateThroughOctree(Node* _node, int _stopDepth); 
 	void insertRb(Node* _pTree, RigidBody* _rigidBody);
 
 	void addNode(Node* _node);

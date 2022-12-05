@@ -3,60 +3,56 @@
 /*-------------- CONSTRUCTORS --------------*/
 
 Octree::Octree() {
-	listNodes = vector<Node*>();
-}
-
-Octree::Octree(vector<Node*> _listNodes) {
-	listNodes = _listNodes;
+	listRigibodies = vector<vector<RigidBody*>>();
 }
 
 /*-------------- GETTERS --------------*/
 
-vector<Node*> Octree::getNodes() {
-	return listNodes;
+vector<vector<RigidBody*>> Octree::getRigidbodies() {
+	return listRigibodies;
 }
 
-Node* Octree::createOctree(Vector3D _center, float _halfWidth, int _stopDepth) {
-	if (_stopDepth < 0) return NULL;
+/*-------------- METHODS --------------*/
 
-	else {
-		// root
-		Node* ptrNode = new Node();
-		ptrNode->setCenter(_center);
-		ptrNode->setHalfWidth(_halfWidth);
-		ptrNode->setListStudiedRigidbodies(vector<RigidBody*>(NULL));
+Node* Octree::createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies) {
+	Node* ptrNode = new Node();
+	ptrNode->setCenter(_center);
+	ptrNode->setHalfWidth(_firstHalfWidth);
+	ptrNode->setListStudiedRigidbodies(_allRigidBodies);
 
-		// Recursivly construct child
-		Vector3D offset = Vector3D();
-		float step = _halfWidth * 0.5f;
-		for (int i = 0; i < 8; i++) {
+	iterateThroughOctree(ptrNode, _maximumDepth); 
+}
 
-			if (i & 1) {
-				offset.setX(step);
-			}
-			else {
-				offset.setX(-step);
-			}
-			if (i & 2) {
-				offset.setY(step);
-			}
-			else {
-				offset.setY(-step);
-			}
-			if (i & 4) {
-				offset.setZ(step);
-			}
-			else {
-				offset.setZ(-step);
-			}
+void Octree::iterateThroughOctree(Node* node, int stopDepth)
+{
+	if (node->getObjectInIt())
+	{
+		vector<RigidBody*> consideredRigidbodies = node->getListConsideredRigidbodies(); 
+		int sizeListRigidbodies = consideredRigidbodies.size() > 2; 
 
-			ptrNode = createOctree(_center + offset, step, _stopDepth - 1);
-			if (ptrNode->getObjectInIt()) {
-				ptrNode->createChilds();
-			}
-			else listNodes.push_back(ptrNode);
+		// End parcours
+		if (stopDepth)
+		{
+			listRigibodies.push_back(consideredRigidbodies); 
 		}
-		return ptrNode;
+
+		if (sizeListRigidbodies > 2)
+		{
+			node->createChilds(); 
+			vector<Node*> childs = node->getChilds(); 
+
+			for (int iChild = 0; iChild < 8; ++iChild)
+			{
+				iterateThroughOctree(childs[iChild], stopDepth - 1); 
+			}
+		}
+		else if (sizeListRigidbodies == 2)
+		{
+			listRigibodies.push_back(consideredRigidbodies); 
+		}
+		else
+		{
+			// No object in node or only one object (useless collision detection)
+		}
 	}
-	
 }
