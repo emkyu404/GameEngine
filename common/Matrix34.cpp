@@ -6,6 +6,9 @@ Matrix34::Matrix34() {
 	for (int i = 0; i < 12; i++) {
 		values[i] = 0;
 	}
+	values[0] = 1;
+	values[5] = 1;
+	values[10] = 1;
 }
 
 Matrix34::Matrix34(float _values[12]) {
