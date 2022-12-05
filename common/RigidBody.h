@@ -38,7 +38,7 @@ private:
 	//Accumulated torque, added by Force Generator
 	Vector3D torqueAccumulator;
 
-	//Scale of object - Describe dx, dy and dz for Cuboïd
+	//Scale of object - Describe dx, dy and dz for Cuboï¿½d
 	Vector3D objectScale;
 
 

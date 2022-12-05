@@ -178,6 +178,7 @@
     <ClCompile Include="utilities\IBO.cpp" />
     <ClCompile Include="utilities\LoadShader.cpp" />
     <ClCompile Include="utilities\Node.cpp" />
+    <ClCompile Include="utilities\Octree.cpp" />
     <ClCompile Include="utilities\Shader.cpp" />
     <ClCompile Include="utilities\VAO.cpp" />
     <ClCompile Include="utilities\VBO.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="utilities\IBO.h" />
     <ClInclude Include="utilities\LoadShader.h" />
     <ClInclude Include="utilities\Node.h" />
+    <ClInclude Include="utilities\Octree.h" />
     <ClInclude Include="utilities\Shader.h" />
     <ClInclude Include="utilities\VAO.h" />
     <ClInclude Include="utilities\VBO.h" />

@@ -201,6 +201,9 @@
     <ClCompile Include="shapes\Quad.cpp">
       <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
+    <ClCompile Include="utilities\Octree.cpp">
+      <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="shapes\Quad.h">
       <Filter>Fichiers d%27en-tête\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities\Octree.h">
+      <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
