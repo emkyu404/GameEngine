@@ -14,7 +14,7 @@ vector<vector<RigidBody*>> Octree::getRigidbodies() {
 
 /*-------------- METHODS --------------*/
 
-Node* Octree::createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies) {
+void Octree::createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies) {
 	Node* ptrNode = new Node();
 	ptrNode->setCenter(_center);
 	ptrNode->setHalfWidth(_firstHalfWidth);

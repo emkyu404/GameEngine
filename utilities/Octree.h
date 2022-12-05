@@ -22,7 +22,7 @@ public :
 
 	/*-------------- METHODS --------------*/
 
-	Node* createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies);
+	void createOctree(Vector3D _center, float _firstHalfWidth, int _maximumDepth, vector<RigidBody*> _allRigidBodies);
 	void iterateThroughOctree(Node* _node, int _stopDepth); 
 	void insertRb(Node* _pTree, RigidBody* _rigidBody);
 
