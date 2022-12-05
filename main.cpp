@@ -26,8 +26,11 @@
 
 //Shapes
 #include "Cube.h"
-#include "Grid.h"
-#include "Triangle.h"
+#include "Quad.h"
+
+//Primitives
+#include "Primitive.h"
+#include "Plane.h"
 
 //PhysicWorld
 #include "PhysicWorld.h"
@@ -147,7 +150,7 @@ int main()
 
 	initProjectionMatrix(); // Initialize projection matrix
 
-	initPhysicObject();
+	initPhysicObject(); // Initialize PhysicObject
 
 	mainLoop(); // Main render loop
 
@@ -163,11 +166,6 @@ int main()
 void initGL() {
 	// Chargement des shaders
 	physicObjectShader = new Shader("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
-	VAO* gridVao = new VAO();
-
-
-	grid = new Grid(gridVao);
-	grid->init();
 }
 
 void paintGL() {
@@ -199,8 +197,15 @@ void paintGL() {
 
 		GLint color_location = glGetUniformLocation(physicObjectShader->programID, "my_color");
 		if (dynamic_cast<RigidBody*> (physicObject) != nullptr) {
-			float color[3] = {1.0f, 0.8f, 0.2f};
-			glUniform3fv(color_location, 1, color);
+			RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
+			if (rigidbody->getScale().getX() == 0 || rigidbody->getScale().getY() == 0 || rigidbody->getScale().getZ() == 0) {
+				float color[3] = { 0.0f, 0.8f, 0.0f };
+				glUniform3fv(color_location, 1, color);
+			}
+			else {
+				float color[3] = { 1.0f, 0.8f, 0.2f };
+				glUniform3fv(color_location, 1, color);
+			}
 		}
 		else if(dynamic_cast<Particle*> (physicObject) != nullptr) {
 			float color[3] = { 1.0f, 0.0f, 0.0f };
@@ -230,29 +235,29 @@ void paintGL() {
 void initPhysicObject() 
 {
 	
-	/*for (int i = 0; i < physicObjectCount; ++i)
-	{
-		PhysicWorld::getInstance()->addRigidBody(Vector3D() + Vector3D(3 * i, 0, 0));
-	}*/
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-0.3f,0,0), Vector3D(2,1,2));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(7, 0, 0));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-7, 0, 0));
+	RigidBody* plane = new RigidBody(Vector3D(0, -10, 0), Vector3D(10, 0, 10));
+	Plane* planePrimitive = new Plane(plane, Vector3D(0, 1, 0), -10);
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
+	PhysicWorld::getInstance()->addRigidBody(plane, planePrimitive); // plane
 
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-0.3f,0,0), Vector3D(2,1,2));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(7, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-7, 0, 0));
 
 	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
 
 	float rest_length = 3;
 	float spring_constant = 1;
 
-	RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[1], spring_constant, rest_length, Vector3D(2, 0, 0), Vector3D(-1, 0, 0));
-	RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], spring_constant, rest_length, Vector3D(-2, 0, 0), Vector3D(1, 0, 0));
+	//RigidSpringForceGenerator* rsfg1 = new RigidSpringForceGenerator(rigidbodies[1], spring_constant, rest_length, Vector3D(2, 0, 0), Vector3D(-1, 0, 0));
+	//RigidSpringForceGenerator* rsfg2 = new RigidSpringForceGenerator(rigidbodies[2], spring_constant, rest_length, Vector3D(-2, 0, 0), Vector3D(1, 0, 0));
 
 
 	
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg1);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg2);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], gravity);
-	PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], drag);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg1);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], rsfg2);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], gravity);
+	//PhysicWorld::getInstance()->addForceEntry(rigidbodies[0], drag);
 }
 
 void setupImGUI(GLFWwindow* window, const char* glsl_version) {
@@ -293,7 +298,6 @@ bool VectorOfStringGetter(void* data, int n, const char** out_text)
 	const vector<Vector3D>* particles = (vector<Vector3D>*)data;
 	detectorNumberParticle++; 
 	string text = "Particle " + to_string(detectorNumberParticle);
-	//printf("%s", text); 
 	*out_text = "Particle"; 
 
 	return true;
@@ -389,7 +393,7 @@ void renderImGUIRigidBodiesList()
 	float rigidIndex = 0.0f;
 	int numberRigidbodies = instance->getNumberOfRigidBodies();
 
-	for (PhysicObject* physicObject : PhysicWorld::getInstance()->getRigidBodies())
+	for (RigidBody* physicObject : PhysicWorld::getInstance()->getRigidBodies())
 	{
 		rigidIndex++;
 		ImGui::Text("Rigidbody %.0f", rigidIndex);
@@ -403,13 +407,18 @@ void renderImGUIRigidBodiesList()
 		string text_spring = std::string("Apply Spring##") + std::to_string(rigidIndex);
 		string text_remove = std::string("Remove RigidBody##") + std::to_string(rigidIndex);
 		string text_rigidbodyList = std::string("Rigidbody List##") + std::to_string(rigidIndex);
-		string text_slider_float = std::string("Slider Float##") + std::to_string(rigidIndex);
+		string text_slider_position = std::string("Slider Position##") + std::to_string(rigidIndex);
+		string text_slider_orientation = std::string("Slider Orientation##") + std::to_string(rigidIndex);
 
 		if (ImGui::CollapsingHeader(text_customization_rigidbody.c_str()))
 		{
 			Vector3D position = physicObject->getPosition();
 			Vector3D velocity = physicObject->getVelocity();
 			Vector3D acceleration = physicObject->getAcceleration();
+			Quaternion orientation = physicObject->getOrientation();
+
+			Vector3D torque = physicObject->getTorque();
+			Vector3D angularAcc = physicObject->getAngularAcceleration();
 
 			float x_pos = position.getX();
 			float y_pos = position.getY();
@@ -417,24 +426,23 @@ void renderImGUIRigidBodiesList()
 			float posArr[3] = { x_pos,y_pos,z_pos };
 
 			
-			if (ImGui::SliderFloat3(text_slider_float.c_str(), posArr, -10.0f, 10.0f, "%.1f")) {
+			if (ImGui::SliderFloat3(text_slider_position.c_str(), posArr, -10.0f, 10.0f, "%.01f")) {
 				physicObject->setPosition(Vector3D(posArr[0], posArr[1],posArr[2]));
 			}
+
+			/*
+			if (ImGui::SliderFloat3(text_slider_orientation.c_str(), oriArr, -180.0f, 180.0f, "%.1f")) {
+				physicObject->setOrientation(Vector3D(posArr[0], posArr[1], posArr[2]));
+			}*/
 
 			ImGui::Text("Position : (%.1f, %.1f, %.1f)", position.getX(), position.getY(), position.getZ());
 			ImGui::Text("Velocity : (%.1f, %.1f, %.1f)", velocity.getX(), velocity.getY(), velocity.getZ());
 			ImGui::Text("Acceleration : (%.1f, %.1f, %.1f)", acceleration.getX(), acceleration.getY(), acceleration.getZ());
 
-			if (dynamic_cast<RigidBody*>(physicObject) != nullptr) {
-				RigidBody* rigidbody = dynamic_cast<RigidBody*>(physicObject);
-				Quaternion orientation = rigidbody->getOrientation();
-				Vector3D torque = rigidbody->getTorque();
-				Vector3D angularAcc = rigidbody->getAngularAcceleration();
-				ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
-				ImGui::Text("Torque : (%.1f, %.1f, %.1f)", torque.getX(), torque.getY(), torque.getZ());
-				ImGui::Text("Angular Acceleration : (%.1f, %.1f, %.1f)", angularAcc.getX(), angularAcc.getY(), angularAcc.getZ());
-			}
 
+			ImGui::Text("Orientation : (%.1f, %.1f, %.1f, %.1f)", orientation.getW(), orientation.getI(), orientation.getJ(), orientation.getK());
+			ImGui::Text("Torque : (%.1f, %.1f, %.1f)", torque.getX(), torque.getY(), torque.getZ());
+			ImGui::Text("Angular Acceleration : (%.1f, %.1f, %.1f)", angularAcc.getX(), angularAcc.getY(), angularAcc.getZ());
 
 			//if (ImGui::Button(text_mass.c_str()))
 			//{
@@ -482,6 +490,32 @@ void renderImGUIRigidBodiesList()
 		}
 	}
 
+	ImGui::End();
+}
+void renderImGUIContactsInfo() {
+	PhysicWorld* instance = PhysicWorld::getInstance();
+	int contactIndex = 0;
+	ImGui::Begin("Contacts");
+	for (auto contact : instance->getContacts()) {
+		contactIndex++;
+		Vector3D pointOfContact, normal;
+		float restitution, penetration;
+		pointOfContact = contact.getPoint();
+		normal = contact.getNormal();
+		restitution = contact.getRestitution();
+		penetration = contact.getPenetration();
+
+		string text_contact_info = std::string("Contact ##") + std::to_string(contactIndex);
+
+		if (ImGui::CollapsingHeader(text_contact_info.c_str()))
+		{
+			ImGui::Text("Point of contact : (%.1f, %.1f, %.1f)", pointOfContact.getX(), pointOfContact.getY(), pointOfContact.getZ());
+			ImGui::Text("Normal : (%.4f, %.4f, %.4f)", normal.getX(), normal.getY(), normal.getZ());
+			ImGui::Text("Interpenetration : %.1f", penetration);
+			ImGui::Text("restitution : %.1f",restitution);
+		}
+	}
+	
 	ImGui::End();
 }
 
@@ -572,6 +606,7 @@ void renderImGUIMainFrame() {
 				physicObject->reset();
 			}
 		}
+		instance->Resume();
 	}
 
 	ImGui::End();
@@ -587,6 +622,10 @@ void renderImGUI()
 	renderImGUIParticlesList();
 	renderImGUIRigidBodiesList(); 
 	rendererImGUICamera(); 
+
+	if (PhysicWorld::getInstance()->getContacts().size() > 0) {
+		renderImGUIContactsInfo();
+	}
 	ImGui::Render();
 }
 

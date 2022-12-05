@@ -133,6 +133,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="common\contacts\Box.cpp" />
+    <ClCompile Include="common\contacts\CollisionData.cpp" />
     <ClCompile Include="common\contacts\NaiveParticleContactGenerator.cpp" />
     <ClCompile Include="common\contacts\ParticleCable.cpp" />
     <ClCompile Include="common\contacts\ParticleContact.cpp" />
@@ -140,6 +142,8 @@
     <ClCompile Include="common\contacts\ParticleContactResolver.cpp" />
     <ClCompile Include="common\contacts\ParticleLink.cpp" />
     <ClCompile Include="common\contacts\ParticleRod.cpp" />
+    <ClCompile Include="common\contacts\Plane.cpp" />
+    <ClCompile Include="common\contacts\Primitive.cpp" />
     <ClCompile Include="common\forces\AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="common\forces\BuoyancyForceGenerator.cpp" />
     <ClCompile Include="common\forces\DragForceGenerator.cpp" />
@@ -168,6 +172,7 @@
     <ClCompile Include="shapes\Cube.cpp" />
     <ClCompile Include="shapes\Grid.cpp" />
     <ClCompile Include="shapes\Line.cpp" />
+    <ClCompile Include="shapes\Quad.cpp" />
     <ClCompile Include="shapes\Triangle.cpp" />
     <ClCompile Include="utilities\Camera.cpp" />
     <ClCompile Include="utilities\IBO.cpp" />
@@ -178,6 +183,8 @@
     <ClCompile Include="utilities\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\contacts\Box.h" />
+    <ClInclude Include="common\contacts\CollisionData.h" />
     <ClInclude Include="common\contacts\NaiveParticleContactGenerator.h" />
     <ClInclude Include="common\contacts\ParticleCable.h" />
     <ClInclude Include="common\contacts\ParticleContact.h" />
@@ -185,6 +192,8 @@
     <ClInclude Include="common\contacts\ParticleContactResolver.h" />
     <ClInclude Include="common\contacts\ParticleLink.h" />
     <ClInclude Include="common\contacts\ParticleRod.h" />
+    <ClInclude Include="common\contacts\Plane.h" />
+    <ClInclude Include="common\contacts\Primitive.h" />
     <ClInclude Include="common\forces\AnchoredSpringForceGenerator.h" />
     <ClInclude Include="common\forces\BuoyancyForceGenerator.h" />
     <ClInclude Include="common\forces\DragForceGenerator.h" />
@@ -215,6 +224,7 @@
     <ClInclude Include="shapes\Cube.h" />
     <ClInclude Include="shapes\Grid.h" />
     <ClInclude Include="shapes\Line.h" />
+    <ClInclude Include="shapes\Quad.h" />
     <ClInclude Include="shapes\Shape.h" />
     <ClInclude Include="shapes\Triangle.h" />
     <ClInclude Include="utilities\Camera.h" />

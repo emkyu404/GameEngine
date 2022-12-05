@@ -27,15 +27,17 @@ RigidBody::RigidBody(Vector3D _position, Vector3D _scale, float _inverseMass, fl
 	angularAcceleration = Vector3D();
 	objectScale = _scale;
 
-	// Hardset of inertia tensor of cuboœd, dy = 2 and dz = 2
+	// Half size based on scale
 	float dx, dy, dz;
 	dx = _scale.getX();  dy = _scale.getY(); dz = _scale.getY();
 
-	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy, 2) + pow(dz,2)), 0, 0,
-							0, (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dz,2)), 0,
-							0, 0 , (1.0f / 12.0f) * getMass() * (pow(dx, 2) + pow(dy,2)) };
+	float values[9] = { (1.0f / 12.0f) * getMass() * (pow(dy * 2, 2) + pow(dz * 2,2)), 0, 0,
+							0, (1.0f / 12.0f) * getMass() * (pow(dx * 2, 2) + pow(dz * 2,2)), 0,
+							0, 0 , (1.0f / 12.0f) * getMass() * (pow(dx * 2, 2) + pow(dy * 2,2)) };
 
 	inverseInertiaTensor = Matrix33(values).getInverse();
+
+	calculateDerivedData();
 }
 
 void RigidBody::integrate(float _deltaTime) {
@@ -120,6 +122,30 @@ Vector3D RigidBody::getAngularAcceleration() {
 Vector3D RigidBody::getScale() {
 	return objectScale;
 }
+
+void RigidBody::setOrientation(Vector3D _orientation)
+{
+	float roll = _orientation.getX();
+	float pitch = _orientation.getY();
+	float yaw = _orientation.getZ();
+	// from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+	float cr = cos(roll * 0.5);
+	float sr = sin(roll * 0.5);
+	float cp = cos(pitch * 0.5);
+	float sp = sin(pitch * 0.5);
+	float cy = cos(yaw * 0.5);
+	float sy = sin(yaw * 0.5);
+
+	Quaternion q;
+
+	q.setW(cr * cp * cy + sr * sp * sy);
+	q.setI(sr * cp * cy - cr * sp * sy); 
+	q.setJ(cr * sp * cy + sr * cp * sy); 
+	q.setK(cr * cp * sy - sr * sp * cy);
+	orientation = q;
+}
+
 
 void RigidBody::_calculateTransformMatrix(Matrix34& _transformMatrix, Vector3D& _position, Quaternion& _orientation){
 	_transformMatrix.setOrientationAndPosition(_orientation, _position);

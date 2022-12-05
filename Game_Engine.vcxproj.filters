@@ -43,9 +43,6 @@
     <Filter Include="Fichiers sources\common\contacts">
       <UniqueIdentifier>{a6219421-2c66-4aa6-b3c8-331b754ef1da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers sources\common\contacts\forces">
-      <UniqueIdentifier>{7c616026-bdb6-4f5c-b63a-917658417acd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers sources\shapes">
       <UniqueIdentifier>{31bda780-bcfb-4ed3-b858-9f95d4f54d8e}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Fichiers sources\utilities">
       <UniqueIdentifier>{499153da-3bb3-43df-97c3-26ea4b6fdb79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\common\forces">
+      <UniqueIdentifier>{7c616026-bdb6-4f5c-b63a-917658417acd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,22 +115,22 @@
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\BuoyancyForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\SpringForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ObjectForceRegistry.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\AnchoredSpringForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\GravityForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\DragForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\contacts\ParticleCable.cpp">
       <Filter>Fichiers sources\common\contacts</Filter>
@@ -175,16 +175,31 @@
       <Filter>Fichiers sources\common</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\ParticleSpringForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\RigidSpringForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="common\forces\SimpleForceGenerator.cpp">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClCompile>
     <ClCompile Include="utilities\Node.cpp">
       <Filter>Fichiers sources\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\Box.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\Plane.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\Primitive.cpp">
+      <Filter>Fichiers sources\common\contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="common\contacts\CollisionData.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\Quad.cpp">
+      <Filter>Fichiers sources\shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,13 +336,28 @@
       <Filter>Fichiers d%27en-tête\common\forces</Filter>
     </ClInclude>
     <ClInclude Include="common\forces\RigidSpringForceGenerator.h">
-      <Filter>Fichiers sources\common\contacts\forces</Filter>
+      <Filter>Fichiers sources\common\forces</Filter>
     </ClInclude>
     <ClInclude Include="common\forces\SimpleForceGenerator.h">
       <Filter>Fichiers d%27en-tête\common\forces</Filter>
     </ClInclude>
     <ClInclude Include="utilities\Node.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\CollisionData.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\Primitive.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\Plane.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="common\contacts\Box.h">
+      <Filter>Fichiers d%27en-tête\common\contacts</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\Quad.h">
+      <Filter>Fichiers d%27en-tête\shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -62,6 +62,7 @@ Matrix33 Matrix33::getInverse() {
 	float v5 = values[1] * values[6];
 	float v6 = values[2] * values[6];
 
+	// Calcul du determinant
 	float det = (v1 * values[8] - v2 * values[7] - v3 * values[8] +
 		v4 * values[7] + v5 * values[5] - v6 * values[4]);
 	if (det == 0.0f) return Matrix33();

@@ -3,9 +3,7 @@
 /*-------------- CONSTRUCTORS --------------*/
 
 Matrix34::Matrix34() {
-	for (int i = 0; i < 12; i++) {
-		values[i] = 0;
-	}
+	identity();
 }
 
 Matrix34::Matrix34(float _values[12]) {
@@ -141,6 +139,25 @@ Vector3D Matrix34::transformAll(Vector3D& _vector) {
 	return (*this) * _vector;
 }
 
+//Transform our matrix into identity matrix 34
+void Matrix34::identity()
+{
+	values[0] = 1;
+	values[1] = 0;
+	values[2] = 0;
+	values[3] = 0;
+
+	values[4] = 0;
+	values[5] = 1;
+	values[6] = 0;
+	values[7] = 0;
+
+	values[8] = 0;
+	values[9] = 0;
+	values[10] = 1;
+	values[11] = 0;
+}
+
 // Set this matrix to be the rotation matrix corresponding to the given quaternion
 void Matrix34::setOrientationAndPosition(Quaternion &_quaternion, Vector3D &_vector) {
 	values[0] = 1 - (2 * _quaternion.getJ() * _quaternion.getJ() + 2 * _quaternion.getK() * _quaternion.getK());
@@ -151,7 +168,7 @@ void Matrix34::setOrientationAndPosition(Quaternion &_quaternion, Vector3D &_vec
 	values[4] = 2 * _quaternion.getI() * _quaternion.getJ() - 2 * _quaternion.getK() * _quaternion.getW();
 	values[5] = 1 - (2 * _quaternion.getI() * _quaternion.getI() + 2 * _quaternion.getK() * _quaternion.getK());
 	values[6] = 2 * _quaternion.getJ() * _quaternion.getK() + 2 * _quaternion.getI() * _quaternion.getW();
-	values[7] = _vector.getY();
+ 	values[7] = _vector.getY();
 
 	values[8] = 2 * _quaternion.getI() * _quaternion.getK() + 2 * _quaternion.getJ() * _quaternion.getW();
 	values[9] = 2 * _quaternion.getJ() * _quaternion.getK() - 2 * _quaternion.getI() * _quaternion.getW();

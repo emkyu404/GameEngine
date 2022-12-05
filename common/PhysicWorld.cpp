@@ -5,14 +5,16 @@
 #include "ParticleLink.h"
 #include "ParticleRod.h"
 #include "ParticleCable.h"
+#include "Box.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 
 PhysicWorld::PhysicWorld()
 {
-	const int arraySize = 10;
+	isPaused = false;
+	//const int arraySize = 10;
 	/* hard-code max contacts per frame */
-	maxContacts = arraySize;
+	//maxContacts = arraySize;
 
 	// init NaiveParticleContactGenerator
 	//NaiveParticleContactGenerator* npcg = new NaiveParticleContactGenerator(&particles);
@@ -30,6 +32,7 @@ PhysicWorld* PhysicWorld::getInstance() {
 }
 
 
+/* OLD VERSION WITH PARTICLE - TO BE CHANGED
 unsigned PhysicWorld::generateContacts() {
 	unsigned limit = maxContacts;
 	contacts = vector<ParticleContact*>(); // reset our vector of particle contact
@@ -41,7 +44,7 @@ unsigned PhysicWorld::generateContacts() {
 	}
 	
 	return maxContacts - limit;
-}
+}*/
 
 void PhysicWorld::integrate(float _duration) {
 	for (PhysicObject* physicObject : physicObjects) {
@@ -49,7 +52,39 @@ void PhysicWorld::integrate(float _duration) {
 	}
 }
 
+vector<CollisionData> PhysicWorld::generateContacts() {
+	//Broad phase
+	//TODO
+	// Narrow Phase
+	vector<RigidBody*> potentialContacts = getRigidBodies(); // To be changed after broad phase
+	vector<CollisionData> collisions;
+	for (int i = 0; i < potentialContacts.size() - 1; i++) {
+		if (primitives.count(potentialContacts[i])) {
+			vector<Primitive*> primitives1 = primitives[potentialContacts[i]];
+			for (int j = 1; j < potentialContacts.size(); j++) {
+				if (primitives.count(potentialContacts[j])) {
+					vector<Primitive*> primitives2 = primitives[potentialContacts[j]];
+					//compare all primitives to each other
+					for (int k = 0; k < primitives1.size(); k++) {
+						for (int l = 0; l < primitives2.size(); l++){
+							vector<CollisionData> p_collisions = primitives1[k]->evaluateCollision(primitives2[l]);
+							if (p_collisions.size() > 0) {
+								collisions.insert(collisions.begin(), p_collisions.begin(), p_collisions.end());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return collisions;
+}
+
 void PhysicWorld::runPhysics(float _duration) {
+	if (isPaused) {
+		return;
+	}
+
 	if (physicObjects.size() <= 0) {
 		return;
 	}
@@ -60,6 +95,13 @@ void PhysicWorld::runPhysics(float _duration) {
 	//Then integrate the objects
 	integrate(_duration);
 
+	contacts = generateContacts();
+
+	if (contacts.size() > 0) {
+		Pause(); // will pause run physics
+	}
+
+	/* OLD VERSION WITH PARTICLE
 	// Generate contacts
 	int usedContacts = generateContacts();
 
@@ -68,7 +110,7 @@ void PhysicWorld::runPhysics(float _duration) {
 	if (usedContacts > 0) {
 		contactResolver.setIterations(usedContacts * 2);
 		contactResolver.resolveContacts(&contacts, usedContacts, _duration);
-	}
+	}*/
 }
 
 /*-------------- METHODS PARTICLES --------------*/
@@ -130,22 +172,35 @@ void PhysicWorld::addRigidBody() {
 }
 
 void PhysicWorld::addRigidBody(Vector3D _initialPosition) {
-	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
-	_newRigidBody->setMass(1);
-	physicObjects.push_back(_newRigidBody);
+	addRigidBody(_initialPosition, Vector3D(1, 1, 1));
 }
 
 void PhysicWorld::addRigidBody(Vector3D _initialPosition, Vector3D _scale) {
 	RigidBody* _newRigidBody = new RigidBody(_initialPosition, _scale);
 	_newRigidBody->setMass(1);
 	physicObjects.push_back(_newRigidBody);
+	Box* boxPrimitive = new Box(_newRigidBody, _newRigidBody->getTransformMatrix(), _scale);
+
+	// Add primitive
+	vector<Primitive*> rigidBodyPrimitives;
+	rigidBodyPrimitives.push_back(boxPrimitive);
+	primitives.insert({ _newRigidBody, rigidBodyPrimitives });
 }
 
 
 void PhysicWorld::addRigidBody(Vector3D _initialPosition, float _mass) {
 	RigidBody* _newRigidBody = new RigidBody(_initialPosition);
 	_newRigidBody->setMass(_mass);
+	physicObjects.push_back(_newRigidBody)
+;}
+
+void PhysicWorld::addRigidBody(RigidBody* _newRigidBody, Primitive* primitive) {
 	physicObjects.push_back(_newRigidBody);
+
+	// Add primitive
+	vector<Primitive*> rigidBodyPrimitives;
+	rigidBodyPrimitives.push_back(primitive);
+	primitives.insert({ _newRigidBody, rigidBodyPrimitives });
 }
 
 vector<RigidBody*> PhysicWorld::getRigidBodies()
@@ -196,9 +251,24 @@ void PhysicWorld::removeForceEntry(PhysicObject* _targetPhysicObject, ObjectForc
 	forceRegistry.removeForceEntry(_targetPhysicObject, _targetForceGenerator);
 }
 
+vector<CollisionData> PhysicWorld::getContacts()
+{
+	return contacts;
+}
+
+void PhysicWorld::Resume() {
+	isPaused = false;
+}
+
+void PhysicWorld::Pause() {
+	isPaused = true;
+}
+
 
 
 /*-------------- METHODS CONTACT GENERATOR ---------------*/
+/*
 void PhysicWorld::addContactGenerator(ParticleContactGenerator* _contactGenerator) {
 	contactGenerators.push_back(_contactGenerator);
 }
+*/

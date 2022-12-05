@@ -17,46 +17,6 @@ Cube::Cube(Vector3D _scale) {
 }
 
 void Cube::init() {
-	/*
-	const GLfloat vertices[] = {
-	-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-	-1.0f,-1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f, // triangle 1 : end
-	1.0f, 1.0f,-1.0f, // triangle 2 : begin
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f, // triangle 2 : end
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f
-	};*/
-
 
 	float x_scale = abs(scale.getX());
 	float y_scale = abs(scale.getY());
@@ -71,7 +31,7 @@ void Cube::init() {
 						  1.0f * x_scale,  1.0f * y_scale, -1.0f * z_scale,
 						  1.0f * x_scale, -1.0f * y_scale, -1.0f * z_scale };
 
-	GLuint indices[] = {0, 1 ,2, 2, 3 ,0,
+	GLuint indices[] = { 0, 1 ,2, 2, 3 ,0,
 						 5, 0 ,3, 3, 4 ,5,
 						 6, 5 ,4, 4, 7 ,6,
 						 1, 6 ,7, 7, 2 ,1,

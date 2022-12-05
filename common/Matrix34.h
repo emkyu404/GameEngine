@@ -38,6 +38,8 @@ public:
 	Vector3D transformDirection(Vector3D& _vector);
 	Vector3D transformAll(Vector3D& _vector);
 
+
+	void identity();
 	void setOrientationAndPosition(Quaternion& _quaternion, Vector3D& _vector);
 	void invert();
 	

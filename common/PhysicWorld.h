@@ -1,12 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include "Particle.hpp"
 #include "RigidBody.h"
 #include "ObjectForceRegistry.h"
 #include <ParticleContact.h>
 #include "ParticleContactResolver.h"
 #include "ParticleContactGenerator.h"
+#include "Primitive.h"
 
 using namespace std;
 
@@ -18,14 +20,28 @@ private:
 	
 	vector<PhysicObject*> physicObjects; // list of physicsObject
 	ObjectForceRegistry forceRegistry;
+	map<RigidBody*,vector<Primitive*>> primitives; // list of primitives, updated at rigidbodies creation
+
+	vector<CollisionData> contacts;
+
+	bool isPaused;
 
 
-	ParticleContactResolver contactResolver; // hold resolver of contact
-	vector<ParticleContactGenerator*> contactGenerators;
+	//ParticleContactResolver contactResolver; // hold resolver of contact
+	//vector<ParticleContactGenerator*> contactGenerators;
 
-	vector<ParticleContact*> contacts;
+	//vector<ParticleContact*> contacts;
 
-	unsigned int maxContacts; // maximum of contact possible => size of contact array
+	//unsigned int maxContacts; // maximum of contact possible => size of contact array
+
+protected:
+
+	/*-------------- GENERAL METHOD --------------*/
+
+	void integrate(float _duration);
+	vector<CollisionData> generateContacts();
+	//vector<Node*> broadPhase();
+	//vector<Contact*> narrowPhase();
 
 public:
 
@@ -33,6 +49,9 @@ public:
 
 	PhysicWorld();
 	static PhysicWorld* getInstance();
+
+	/*-------------- METHODS---------------*/
+	void runPhysics(float _duration);
 
 	/*-------------- GETTERS --------------*/
 
@@ -45,12 +64,6 @@ public:
 	int getNumberOfParticles();
 	int getNumberOfRigidBodies();
 	int getNumberOfPhysicObject();
-
-	/*-------------- GENERAL METHOD --------------*/
-
-	void runPhysics(float _duration);
-	void integrate(float _duration);
-	unsigned generateContacts();
 
 	/*-------------- METHODS PARTICLES --------------*/
 	/* Methods */
@@ -65,6 +78,8 @@ public:
 	void addRigidBody(Vector3D _initialPosition, Vector3D _scale);
 	void addRigidBody(Vector3D _initialPosition, float _mass);
 
+	void addRigidBody(RigidBody* rigidBody, Primitive* primitive);
+
 	void removePhysicObject(PhysicObject* _target);
 	void clearPhysicObjects();
 
@@ -76,4 +91,9 @@ public:
 	/*-------------- METHODS CONTACT GENERATOR --------------*/
 
 	void addContactGenerator(ParticleContactGenerator* _contactGenerator);
+	vector<CollisionData> getContacts();
+
+	/*---------------METHODS PAUSE -------------------*/
+	void Resume();
+	void Pause();
 };
