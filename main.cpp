@@ -20,6 +20,7 @@
 //Utilities class
 #include "Shader.h"
 #include "Quaternion.h"
+#include "Octree.h"
 
 // Moteur
 #include <Particle.hpp>
@@ -248,7 +249,15 @@ void initPhysicObject()
 	PhysicWorld::getInstance()->addRigidBody(plane, planePrimitive); // plane
 
 
-	vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
+	//vector<PhysicObject*> rigidbodies = PhysicWorld::getInstance()->getPhysicObjects();
+	vector<RigidBody*> rigidbodies = PhysicWorld::getInstance()->getRigidBodies();
+
+	Octree octree = Octree(); 
+	octree.createOctree(Vector3D(0, 0, 0), 10, 5, rigidbodies); 
+	vector<vector<RigidBody*>> resultRigidbodies = octree.getRigidbodies(); 
+
+	printf("Size global liste : %d\n", resultRigidbodies.size());
+	//printf("Size global liste : %d", resultRigidbodies[0].size());
 
 	float rest_length = 3;
 	float spring_constant = 1;

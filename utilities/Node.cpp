@@ -49,7 +49,7 @@ vector<RigidBody*> Node::getListStudiedRigidbodies()
 
 vector<RigidBody*> Node::getListConsideredRigidbodies()
 {
-	return this->listStudiedRigibodies; 
+	return this->listConsideredRigidBodies;
 }
 
 /*-------------- SETTERS --------------*/

@@ -28,12 +28,13 @@ void Octree::iterateThroughOctree(Node* node, int stopDepth)
 	if (node->getObjectInIt())
 	{
 		vector<RigidBody*> consideredRigidbodies = node->getListConsideredRigidbodies(); 
-		int sizeListRigidbodies = consideredRigidbodies.size() > 2; 
+		int sizeListRigidbodies = consideredRigidbodies.size(); 
 
 		// End parcours
-		if (stopDepth)
+		if (stopDepth <= 0)
 		{
 			listRigibodies.push_back(consideredRigidbodies); 
+			return; 
 		}
 
 		if (sizeListRigidbodies > 2)
