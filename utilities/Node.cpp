@@ -1,5 +1,5 @@
 #include "Node.h"
-#include "../SpherePrimitive.h"
+#include "SpherePrimitive.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 

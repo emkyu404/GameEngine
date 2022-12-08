@@ -133,7 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SpherePrimitive.cpp" />
+    <ClCompile Include="common\contacts\SpherePrimitive.cpp" />
     <ClCompile Include="common\contacts\Box.cpp" />
     <ClCompile Include="common\contacts\CollisionData.cpp" />
     <ClCompile Include="common\contacts\NaiveParticleContactGenerator.cpp" />
@@ -185,7 +185,7 @@
     <ClCompile Include="utilities\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SpherePrimitive.h" />
+    <ClInclude Include="common\contacts\SpherePrimitive.h" />
     <ClInclude Include="common\contacts\Box.h" />
     <ClInclude Include="common\contacts\CollisionData.h" />
     <ClInclude Include="common\contacts\NaiveParticleContactGenerator.h" />

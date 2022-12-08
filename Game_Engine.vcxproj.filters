@@ -204,7 +204,7 @@
     <ClCompile Include="utilities\Octree.cpp">
       <Filter>Fichiers sources\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="SpherePrimitive.cpp">
+    <ClCompile Include="common\contacts\SpherePrimitive.cpp">
       <Filter>Fichiers sources\common\contacts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -368,7 +368,7 @@
     <ClInclude Include="utilities\Octree.h">
       <Filter>Fichiers d%27en-tête\utilities</Filter>
     </ClInclude>
-    <ClInclude Include="SpherePrimitive.h">
+    <ClInclude Include="common\contacts\SpherePrimitive.h">
       <Filter>Fichiers d%27en-tête\common\contacts</Filter>
     </ClInclude>
   </ItemGroup>
