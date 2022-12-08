@@ -123,6 +123,17 @@ Vector3D RigidBody::getScale() {
 	return objectScale;
 }
 
+float RigidBody::getMaxDim() {
+	float max = 0;
+	if (objectScale.getX() > max)
+		max = objectScale.getX();
+	if (objectScale.getY() > max)
+		max = objectScale.getY();
+	if (objectScale.getZ() > max)
+		max = objectScale.getZ();
+	return max;
+}
+
 void RigidBody::setOrientation(Vector3D _orientation)
 {
 	float roll = _orientation.getX();

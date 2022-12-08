@@ -66,6 +66,7 @@ public:
 	Vector3D getTorque();
 	Vector3D getAngularAcceleration();
 	Vector3D getScale();
+	float getMaxDim();
 
 	void setOrientation(Vector3D _orientation);
 

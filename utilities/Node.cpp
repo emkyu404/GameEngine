@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "../SpherePrimitive.h"
 
 /*-------------- CONSTRUCTORS --------------*/
 
@@ -82,16 +83,18 @@ bool Node::getObjectInIt()
 
 	for (RigidBody* object : listStudiedRigibodies)
 	{
-		Vector3D positionObject = object->getPosition(); 
+		SpherePrimitive *sp = new SpherePrimitive(object);
+
+		/*Vector3D positionObject = object->getPosition(); 
 		float x = positionObject.getX(); 
 		float y = positionObject.getY(); 
-		float z = positionObject.getZ(); 
+		float z = positionObject.getZ(); */
 
-		if (x >= xMin && x <= xMax)
+		if (sp->getDim()[0] >= xMin || sp->getDim()[1] <= xMax)
 		{
-			if (y >= yMin && y <= yMax)
+			if (sp->getDim()[2] >= yMin || sp->getDim()[3] <= yMax)
 			{
-				if ( z >= zMin && z <= zMax)
+				if (sp->getDim()[4] >= zMin || sp->getDim()[5] <= zMax)
 				{
 					listConsideredRigidBodies.push_back(object); 
 				}
@@ -105,6 +108,7 @@ bool Node::getObjectInIt()
 
 void Node::createChilds()
 {
+	halfWidth /= 2.0f;
 	for (int iChild = 0; iChild < 8; ++iChild)
 	{
 		float xChild = center.getX() + halfWidth; 
