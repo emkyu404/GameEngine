@@ -108,7 +108,6 @@ bool Node::getObjectInIt()
 
 void Node::createChilds()
 {
-	halfWidth /= 2.0f;
 	for (int iChild = 0; iChild < 8; ++iChild)
 	{
 		float xChild = center.getX() + halfWidth; 
