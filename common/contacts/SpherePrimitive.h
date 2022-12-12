@@ -9,6 +9,7 @@ protected :
 public :
 	SpherePrimitive(RigidBody* _rigidBody);
 	float* getDim();
+	float getRadius(); 
 	vector<CollisionData> evaluateCollision(Primitive* _other) override;
 };
 

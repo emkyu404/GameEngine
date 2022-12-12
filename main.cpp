@@ -241,11 +241,19 @@ void initPhysicObject()
 	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-7, 0, 0));
 	RigidBody* plane = new RigidBody(Vector3D(0, -10, 0), Vector3D(10, 0, 10));
 	Plane* planePrimitive = new Plane(plane, Vector3D(0, 1, 0), -10);
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(0,0,0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(3, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-3, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(6, 0, 0));
-	PhysicWorld::getInstance()->addRigidBody(Vector3D(-6, 0, 0));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(2.1, 5.1,0.1));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(2.2, 4.9, 0.2));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(2.3, 5.3, 0.6));
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(0.1, 0.2, -12));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-15.1, -15.1, -15.1));
+
+	PhysicWorld::getInstance()->addRigidBody(Vector3D(20.1, 5.1, 0.1));
+
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-100.2, -99.9, 100.1));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-100.1, -99.9, 100.2));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-3, 0, 0));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(6, 0, 0));
+	//PhysicWorld::getInstance()->addRigidBody(Vector3D(-6, 0, 0));
 	PhysicWorld::getInstance()->addRigidBody(plane, planePrimitive); // plane
 
 
@@ -253,10 +261,16 @@ void initPhysicObject()
 	vector<RigidBody*> rigidbodies = PhysicWorld::getInstance()->getRigidBodies();
 
 	Octree octree = Octree(); 
-	octree.createOctree(Vector3D(0, 0, 0), 10, 5, rigidbodies); 
+	octree.createOctree(Vector3D(0, 0, 0), 100, 5, rigidbodies); 
 	vector<vector<RigidBody*>> resultRigidbodies = octree.getRigidbodies(); 
 
-	printf("Size global liste : %d\n", resultRigidbodies.size());
+	printf("START - List octree size: %d\n", resultRigidbodies.size());
+
+	for (int i = 0; i < resultRigidbodies.size(); ++i)
+	{
+		printf("START - Size elements of index %d : %d\n", i, resultRigidbodies[i].size()); 
+	}
+
 	//printf("Size global liste : %d", resultRigidbodies[0].size());
 
 	float rest_length = 3;

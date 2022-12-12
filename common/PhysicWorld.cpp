@@ -57,23 +57,28 @@ vector<CollisionData> PhysicWorld::generateContacts() {
 	//Broad phase
 	Octree octree = Octree();
 	octree.createOctree(Vector3D(0, 0, 0), 10.0f, 4, getRigidBodies());
-	octree.getRigidbodies();
+	vector<vector<RigidBody*>> rigidbodies = octree.getRigidbodies();
 
 	// Narrow Phase
-	vector<RigidBody*> potentialContacts = getRigidBodies(); // To be changed after broad phase
 	vector<CollisionData> collisions;
-	for (int i = 0; i < potentialContacts.size() - 1; i++) {
-		if (primitives.count(potentialContacts[i])) {
-			vector<Primitive*> primitives1 = primitives[potentialContacts[i]];
-			for (int j = 1; j < potentialContacts.size(); j++) {
-				if (primitives.count(potentialContacts[j])) {
-					vector<Primitive*> primitives2 = primitives[potentialContacts[j]];
-					//compare all primitives to each other
-					for (int k = 0; k < primitives1.size(); k++) {
-						for (int l = 0; l < primitives2.size(); l++){
-							vector<CollisionData> p_collisions = primitives1[k]->evaluateCollision(primitives2[l]);
-							if (p_collisions.size() > 0) {
-								collisions.insert(collisions.begin(), p_collisions.begin(), p_collisions.end());
+
+	for (int iRigid = 0; iRigid < rigidbodies.size(); iRigid++)
+	{
+		vector<RigidBody*> potentialContacts = rigidbodies[iRigid]; // To be changed after broad phase
+
+		for (int i = 0; i < potentialContacts.size() - 1; i++) {
+			if (primitives.count(potentialContacts[i])) {
+				vector<Primitive*> primitives1 = primitives[potentialContacts[i]];
+				for (int j = 1; j < potentialContacts.size(); j++) {
+					if (primitives.count(potentialContacts[j])) {
+						vector<Primitive*> primitives2 = primitives[potentialContacts[j]];
+						//compare all primitives to each other
+						for (int k = 0; k < primitives1.size(); k++) {
+							for (int l = 0; l < primitives2.size(); l++) {
+								vector<CollisionData> p_collisions = primitives1[k]->evaluateCollision(primitives2[l]);
+								if (p_collisions.size() > 0) {
+									collisions.insert(collisions.begin(), p_collisions.begin(), p_collisions.end());
+								}
 							}
 						}
 					}
@@ -81,6 +86,17 @@ vector<CollisionData> PhysicWorld::generateContacts() {
 			}
 		}
 	}
+
+	if (collisions.size() > 0)
+	{
+		printf("CONTACT - List octree size %d\n", rigidbodies.size()); 
+
+		for (int i = 0; i < rigidbodies.size(); i++)
+		{
+			printf("CONTACT - Size list collision %d\n", rigidbodies[i].size());
+		}
+	}
+
 	return collisions;
 }
 

@@ -18,6 +18,10 @@ float* SpherePrimitive::getDim() {
 	return dim;
 }
 
+float SpherePrimitive::getRadius() {
+	return radius;
+}
+
 vector<CollisionData> SpherePrimitive::evaluateCollision(Primitive* _other)
 {
 	return vector<CollisionData>();

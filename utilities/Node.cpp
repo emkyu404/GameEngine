@@ -85,21 +85,61 @@ bool Node::getObjectInIt()
 	{
 		SpherePrimitive *sp = new SpherePrimitive(object);
 
-		/*Vector3D positionObject = object->getPosition(); 
+		Vector3D positionObject = object->getPosition(); 
 		float x = positionObject.getX(); 
 		float y = positionObject.getY(); 
-		float z = positionObject.getZ(); */
+		float z = positionObject.getZ(); 
 
-		if (sp->getDim()[0] >= xMin || sp->getDim()[1] <= xMax)
+		float radius = sp->getRadius(); 
+
+		// Center examination 
+		if (x >= xMin && x <= xMax)
 		{
-			if (sp->getDim()[2] >= yMin || sp->getDim()[3] <= yMax)
+			if (y >= yMin && y <= yMax)
 			{
-				if (sp->getDim()[4] >= zMin || sp->getDim()[5] <= zMax)
+				if (z >= zMin && z <= zMax)
 				{
-					listConsideredRigidBodies.push_back(object); 
+					listConsideredRigidBodies.push_back(object);
+					continue; 
 				}
 			}
-		}	
+		}
+
+		if ((Vector3D(xMax, y, z) - positionObject).norm() - radius < 0
+			&& ((Vector3D(x, yMax, z) - positionObject).norm() - radius < 0)
+			&& ((Vector3D(x, y, zMax) - positionObject).norm() - radius < 0))
+		{
+			listConsideredRigidBodies.push_back(object);
+			continue; 
+		}
+		else if ((Vector3D(xMin, y, z) - positionObject).norm() - radius < 0
+			&& (Vector3D(x, yMin, z) - positionObject).norm() - radius < 0
+			&& (Vector3D(x, y, zMin) - positionObject).norm() - radius < 0)
+		{
+			listConsideredRigidBodies.push_back(object);
+			continue; 
+		}
+
+		/*else if ((Vector3D(x, yMax, z) - positionObject).norm() - radius > 0)
+		{
+			listConsideredRigidBodies.push_back(object);
+		}
+		else if ((Vector3D(x, y, zMax) - positionObject).norm() - radius > 0)
+		{
+			listConsideredRigidBodies.push_back(object);
+		}*/
+		//else if ((Vector3D(xMin, y, z) - positionObject).norm() - radius > 0)
+		//{
+		//	listConsideredRigidBodies.push_back(object);
+		//}
+		//else if ((Vector3D(x, yMin, z) - positionObject).norm() - radius > 0)
+		//{
+		//	listConsideredRigidBodies.push_back(object);
+		//}
+		//else if ((Vector3D(x, y, zMin) - positionObject).norm() - radius > 0)
+		//{
+		//	listConsideredRigidBodies.push_back(object);
+		//}
 	}
 
 	hasObjects = listConsideredRigidBodies.size() > 0;
