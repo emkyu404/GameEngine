@@ -439,12 +439,19 @@ void renderImGUIRigidBodiesList()
 			float posArr[3] = { x_pos,y_pos,z_pos };
 
 			
-			if (ImGui::SliderFloat3(text_slider_position.c_str(), posArr, -10.0f, 10.0f, "%.01f")) {
+			if (ImGui::SliderFloat3(text_slider_position.c_str(), posArr, -10.0f, 10.0f, "%.2f")) {
 				physicObject->setPosition(Vector3D(posArr[0], posArr[1],posArr[2]));
 			}
 
-			/*
-			if (ImGui::SliderFloat3(text_slider_orientation.c_str(), oriArr, -180.0f, 180.0f, "%.1f")) {
+			/* Doesn't work 
+			Vector3D orientationEuleur = orientation.getEulersAngles();
+
+			float x_ori = orientationEuleur.getX();
+			float y_ori = orientationEuleur.getY();
+			float z_ori = orientationEuleur.getZ();
+			float oriArr[3] = { x_ori, y_ori,z_ori };
+
+			if (ImGui::SliderFloat3(text_slider_orientation.c_str(), oriArr, -180.0f, 180.0f, "%.2f")) {
 				physicObject->setOrientation(Vector3D(posArr[0], posArr[1], posArr[2]));
 			}*/
 
@@ -522,10 +529,10 @@ void renderImGUIContactsInfo() {
 
 		if (ImGui::CollapsingHeader(text_contact_info.c_str()))
 		{
-			ImGui::Text("Point of contact : (%.1f, %.1f, %.1f)", pointOfContact.getX(), pointOfContact.getY(), pointOfContact.getZ());
+			ImGui::Text("Point of contact : (%.2f, %.2f, %.2f)", pointOfContact.getX(), pointOfContact.getY(), pointOfContact.getZ());
 			ImGui::Text("Normal : (%.4f, %.4f, %.4f)", normal.getX(), normal.getY(), normal.getZ());
-			ImGui::Text("Interpenetration : %.1f", penetration);
-			ImGui::Text("restitution : %.1f",restitution);
+			ImGui::Text("Interpenetration : %.4f", penetration);
+			ImGui::Text("restitution : %.4f",restitution);
 		}
 	}
 	
@@ -550,6 +557,7 @@ void renderImGUIMainFrame() {
 		instance->addRigidBody(offsetPhysicObject * instance->getNumberOfPhysicObject());
 	}
 
+	/*
 	if (ImGui::Button("Apply Gravity"))
 	{
 		for (PhysicObject* particle : instance->getPhysicObjects())

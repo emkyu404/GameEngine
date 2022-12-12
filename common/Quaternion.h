@@ -46,6 +46,8 @@ public:
 
 	/*-------------- METHODS --------------*/
 
+	Vector3D getEulersAngles();
+	void setQuaternion(Vector3D euleurAngles);
 	float getNorm(); 
 	void normalized(); 
 	void rotateByVector(const Vector3D& vector); 
