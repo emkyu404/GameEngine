@@ -1,5 +1,5 @@
 #include "Quaternion.h"
-
+#include <cmath>
 /*-------------- CONSTRUCTORS --------------*/
 
 Quaternion::Quaternion()
@@ -117,6 +117,58 @@ Quaternion Quaternion::operator*(const float scalar)
 }
 
 /*-------------- METHODS --------------*/
+
+Vector3D Quaternion::getEulersAngles() {
+	Vector3D angles = Vector3D();
+	// from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+	// roll (x-axis rotation)
+	double w, i, j, k;
+	w = this->getW();
+	i = this->getI();
+	j = this->getJ();
+	k = this->getK();
+
+	double sinr_cosp = 2 * (w* i + j * k);
+	double cosr_cosp = 1 - 2 * (i * i + j * j);
+	angles.setX(std::atan2(sinr_cosp, cosr_cosp));
+
+	// pitch (y-axis rotation)
+	double sinp = 2 * (w * j - k * i);
+	if (std::abs(sinp) >= 1)
+		angles.setY(std::copysign(90 / 2, sinp)); // use 90 degrees if out of range
+	else
+		angles.setY(std::asin(sinp));
+
+	// yaw (z-axis rotation)
+	double siny_cosp = 2 * (w * k + i * j);
+	double cosy_cosp = 1 - 2 * (j * j + k * k);
+	angles.setZ(std::atan2(siny_cosp, cosy_cosp));
+
+	return angles;
+}
+
+void Quaternion::setQuaternion(Vector3D euleurAngles) {
+	// from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+	float roll, pitch, yaw;
+	roll = euleurAngles.getX();
+	pitch = euleurAngles.getY();
+	yaw = euleurAngles.getZ();
+
+	Quaternion q = Quaternion();
+	float cr = cos(roll * 0.5);
+	float sr = sin(roll * 0.5);
+	float cp = cos(pitch * 0.5);
+	float sp = sin(pitch * 0.5);
+	float cy = cos(yaw * 0.5);
+	float sy = sin(yaw * 0.5);
+
+	q.setW(cr * cp * cy + sr * sp * sy);
+	q.setI(sr * cp * cy - cr * sp * sy);
+	q.setJ(cr * sp * cy + sr * cp * sy);
+	q.setK(cr * cp * sy - sr * sp * cy);
+
+	*this = q;
+}
 
 float Quaternion::getNorm()
 {

@@ -136,25 +136,7 @@ float RigidBody::getMaxDim() {
 
 void RigidBody::setOrientation(Vector3D _orientation)
 {
-	float roll = _orientation.getX();
-	float pitch = _orientation.getY();
-	float yaw = _orientation.getZ();
-	// from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-
-	float cr = cos(roll * 0.5);
-	float sr = sin(roll * 0.5);
-	float cp = cos(pitch * 0.5);
-	float sp = sin(pitch * 0.5);
-	float cy = cos(yaw * 0.5);
-	float sy = sin(yaw * 0.5);
-
-	Quaternion q;
-
-	q.setW(cr * cp * cy + sr * sp * sy);
-	q.setI(sr * cp * cy - cr * sp * sy); 
-	q.setJ(cr * sp * cy + sr * cp * sy); 
-	q.setK(cr * cp * sy - sr * sp * cy);
-	orientation = q;
+	orientation.setQuaternion(_orientation);
 }
 
 
