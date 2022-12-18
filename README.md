@@ -47,3 +47,8 @@ If it's not working
 + The demo sccene include 3 rigidbodies. Only the first one has forces applicated to it. You shall see one rigidbody rotating around the axis X. 
 + The forces used are : 2 spring forces, anchored at the side of the rigidbody. Grabity and drag forces are also used
 + Collisions have been disabled
+
+# Phase 4 - Guide
++ User is able to apply gravity on rigidbodies
++ The demo has been setup to show the collision between the rigidbody and the plane
++ The demon scene include a pause to see the system variable at the instant of the collision
