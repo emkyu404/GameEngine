@@ -52,3 +52,4 @@ If it's not working
 + User is able to apply gravity on rigidbodies
 + The demo has been setup to show the collision between the rigidbody and the plane
 + The demon scene include a pause to see the system variable at the instant of the collision
++ On the console we can see the number of elements in the octree
